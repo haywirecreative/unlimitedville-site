@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Unlimitedville - Wireless Home Internet</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; overflow-x: hidden; }
+  button { font-family: inherit; cursor: pointer; }
+  a { text-decoration: none; }
+  input, select { font-family: inherit; }
+  ::selection { background: #55b68540; color: #fff; }
+  ::-webkit-scrollbar { width: 0; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scaleIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+  @keyframes ringPulse { 0% { transform: scale(1); opacity: 0.18; } 100% { transform: scale(1.2); opacity: 0; } }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+  .fade-up { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards; opacity: 0; }
+  .fade-up-d1 { animation-delay: 0.1s; }
+  .fade-up-d2 { animation-delay: 0.2s; }
+  .fade-up-d3 { animation-delay: 0.3s; }
+  .fade-up-d4 { animation-delay: 0.4s; }
+  .fade-up-d5 { animation-delay: 0.5s; }
+  .fade-up-d6 { animation-delay: 0.6s; }
+  .fade-up-d7 { animation-delay: 0.7s; }
+  .fade-up-d8 { animation-delay: 0.8s; }
+  .scale-in { animation: scaleIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards; opacity: 0; }
+
+  .btn-primary { transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 40px #55b68550, 0 8px 30px rgba(0,0,0,0.3) !important; }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-secondary { transition: border-color 0.2s ease, background 0.2s ease; }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.2) !important; background: rgba(255,255,255,0.06) !important; }
+  input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
+  .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; }
+  .card-hover:hover { transform: translateY(-3px); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; opacity: 0; }
+  .faq-answer.open { max-height: 300px; opacity: 1; }
+
+  /* Image placeholder shimmer */
+  .img-placeholder {
+    background: linear-gradient(110deg, #1a1a1f 0%, #2a2a30 40%, #1a1a1f 60%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+  .img-placeholder-light {
+    background: linear-gradient(110deg, #f0f0f2 0%, #e0e0e4 40%, #f0f0f2 60%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+
+  /* Mobile frame */
+  @media (min-width: 500px) {
+    body { display: flex; justify-content: center; padding: 20px 0; background: #000; }
+    #root { max-width: 390px; width: 390px; border-radius: 20px; overflow: hidden; box-shadow: 0 0 100px rgba(85,182,133,0.06), 0 0 0 1px rgba(255,255,255,0.06); }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, createContext, useContext } = React;
+
+/* ═══════════════════════════════════════
+   TOKENS
+   ═══════════════════════════════════════ */
+const T = {
+  green: "#55b685", greenText: "#3d8c63", greenDark: "#3d9e6e", greenGlow: "#55b68540", greenSubtle: "#55b68508",
+  black: "#0a0a0a", dark: "#111113", darkCard: "#18181b", darkBorder: "#27272a",
+  g900: "#18181b", g800: "#27272a", g700: "#3f3f46", g600: "#52525b",
+  g500: "#71717a", g400: "#a1a1aa", g300: "#d4d4d8", g200: "#e4e4e7",
+  g100: "#f4f4f5", g50: "#fafafa", white: "#fff",
+};
+// Radius tokens
+const R = { sm:10, md:14, lg:20, full:99 };
+
+/* ═══════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════ */
+const PLANS = [
+  { id:"4g-lite", name:"4G Lite", tier:"Fast", speed:"Fast", monthly:69, activation:0, activationOrig:299, discount:"Waived", maxSpeed:"60 Mbps", latency:"40-80 ms", bestFor:"Browsing, email & casual streaming", audience:"1-2 people, light use", features:["Up to 60 Mbps speeds","Unlimited data, zero caps","4G LTE dual-band router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:T.g400, speedDots:1 },
+  { id:"4g-plus", name:"4G Plus", tier:"Faster", speed:"Faster", monthly:99, activation:99, activationOrig:299, discount:"67% off", maxSpeed:"250 Mbps", latency:"30-60 ms", bestFor:"Streaming, video calls & gaming", audience:"Households, multi-device", features:["Up to 250 Mbps speeds","Unlimited data, zero caps","4.5G Cat12 dual-band router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:T.green, speedDots:2 },
+  { id:"5g-ultra", name:"5G Ultra", tier:"Fastest", speed:"Fastest", monthly:109, popular:true, activation:199, activationOrig:299, discount:"33% off", maxSpeed:"500 Mbps", latency:"20-40 ms", bestFor:"4K streaming, gaming & remote work", audience:"Large families, power users", features:["Up to 500 Mbps speeds","Unlimited data, zero caps","Premium 5G router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:"#a78bfa", speedDots:3 },
+];
+
+const USE_CASES = [
+  { icon: "signal", label: "Rural Homes", slug: "rural", desc: "Fast internet where cable and fiber don't reach", img:"Rural cabin with WiFi router" },
+  { icon: "globe", label: "RV & Travel", slug: "rv", desc: "Stay connected on the road, anywhere you park", img:"RV parked at scenic overlook" },
+  { icon: "zap", label: "Commercial Transportation", slug: "transportation", desc: "Reliable internet for fleets, long-haul, and mobile operations", img:"Commercial vehicle on highway" },
+  { icon: "signal", label: "Rental & Vacation Homes", slug: "rental", desc: "Provide guests with fast, reliable WiFi at your property", img:"Vacation rental cabin interior" },
+  { icon: "globe", label: "Mobile Business", slug: "mobile-biz", desc: "Pop-up shops, food trucks, and businesses on the move", img:"Mobile business setup with WiFi" },
+  { icon: "signal", label: "Urban & Suburban Homes", slug: "urban", desc: "A better alternative to overpriced cable and DSL", img:"Modern home office setup" },
+  { icon: "zap", label: "Failover Backup", slug: "failover", desc: "Automatic backup internet when your primary goes down", img:"Network equipment with backup connection" },
+  { icon: "zap", label: "Construction Sites", slug: "construction", desc: "Temporary high-speed internet for remote job sites", img:"Construction site with portable office" },
+];
+
+const REVIEWS = [
+  { name:"Mike", rating:5, verified:true, text:"We moved further out into the country where wired internet was not available. Unlimitedville has been a game changer for our family.", plan:"4G Plus" },
+  { name:"Timothy R.", rating:5, verified:true, text:"This was my last option where I live and I'm glad I got it. Best speeds I've ever seen here.", plan:"5G Ultra" },
+  { name:"Krystal P.", rating:5, verified:true, text:"The internet is AMAZING! It's so fast, and in my home we have multiple devices connected with no lag.", plan:"4G Plus" },
+  { name:"Jamiel R.", rating:5, verified:true, text:"What a game changer! At first I was a little skeptical about the unlimited 4G but now I'm a believer.", plan:"4G Plus" },
+];
+
+const BLOG = [
+  { title:"5G vs 4G for Rural Internet: What Actually Matters", cat:"Guides", time:"5 min" },
+  { title:"How We Deliver 500 Mbps Without a Single Cable", cat:"Technology", time:"4 min" },
+  { title:"The Full-Timer's Guide to RV Internet in 2026", cat:"RV Life", time:"7 min" },
+];
+
+const FAQ = [
+  { q:"How does it work?", a:"We ship you a pre-configured cellular router. Plug it into any outlet, connect your devices to WiFi, and you're online. No technician visits. Setup takes under 5 minutes." },
+  { q:"What's the activation fee?", a:"The one-time activation fee covers provisioning your cellular router and setting up your account. The router is provided for your use throughout your service -- it's not sold separately. The 4G Lite activation fee is fully waived." },
+  { q:"Do I own the router?", a:"The router is provided as part of your service for as long as you're a member. If you cancel, you return the device. Think of it like a cable company's modem -- included with service, not purchased." },
+  { q:"What if it doesn't work at my location?", a:"Every plan includes a 21-day money-back guarantee. Test the service risk-free. If it doesn't perform well, return the router within 21 days for a full refund." },
+  { q:"Are there contracts?", a:"Never. All plans are month-to-month. Cancel anytime -- no penalties, no fees." },
+];
+
+/* ═══════════════════════════════════════
+   ICONS (inline SVG)
+   ═══════════════════════════════════════ */
+const I = {
+  menu: (s=20,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>,
+  x: (s=20,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>,
+  phone: (s=14,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
+  arrow: (s=14,c="#fff") => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>,
+  check: (s=14,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>,
+  shield: (s=13,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+  star: (s=12) => <svg width={s} height={s} viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  chevDown: (s=14,c=T.g400) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg>,
+  chevRight: (s=14,c=T.g500) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>,
+  chevUp: (s=14,c=T.g400) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg>,
+  pin: (s=16,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+  signal: (s=16,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>,
+  zap: (s=18,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+  globe: (s=18,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>,
+  cart: (s=16,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>,
+  lock: (s=14,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>,
+  book: (s=18,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>,
+  msg: (s=14,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>,
+  minus: (s=16,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14"/></svg>,
+  plus: (s=16,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>,
+  back: (s=18,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>,
+  play: (s=18,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill={c} stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
+  wifi: (s=20,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>,
+  router: (s=20,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6.01 18H6M10.01 18H10M12 2v8M8 6l4-4 4 4"/></svg>,
+  user: (s=16,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+};
+
+/* Logomark SVG */
+function Logomark({h=32}) {
+  return <svg height={h} viewBox="0 0 70 103" width={h*70/103}><g fill="none" fillRule="evenodd"><path d="m7.6 11.5s8.9-9.5 27.1-9.5 26.9 9.6 26.9 9.6m-45.1 8.1s5.8-6.4 18.1-6.4c12.1 0 17.9 6.5 17.9 6.5m-27.5 8.4s3.9-3.3 9.5-3.3 9.4 3.3 9.4 3.3" stroke={T.white} strokeLinecap="round" strokeWidth="3.8" opacity="0.45"/><path d="m0 23.5s11.2 0 11.2 13.1v29.3s-.7 26.6 23 26.6 23.6-26.6 23.6-26.6 0-17.4 0-29.1c0-12.7 11.2-13.5 11.2-13.5v42.5s1.1 37-34.8 37-34.2-37-34.2-37z" fill={T.green} fillRule="nonzero"/></g></svg>;
+}
+
+/* Full wordmark SVG */
+function LogoFull({h=26, inverted=true}) {
+  const w = inverted ? T.white : T.dark;
+  return <svg height={h} viewBox="0 0 516 105" width={h*516/105}><g fill="none" fillRule="evenodd" transform="translate(1 2)"><g fill={w}><path d="M101 72.7c7.4 0 12.3-4.5 12.3-13V42.8h-3.3v17.1c0 6.4-3.4 9.7-8.9 9.7-5.6 0-9-3.6-9-9.9V42.8h-3.3v17.1c0 8.3 4.9 12.7 12.2 12.8z"/><path d="M127.8 72.2h3.3V48.1l19 24.1h2.6V42.8h-3.2v23.6l-18.5-23.6h-3.2z"/><path d="M197.6 72.2h3.3V42.8h-3.3z"/><path d="M216.7 72.2h3.2V47.6l10.9 23.3 1.7.1 11-23.6v24.8h3.3V42.8h-5.4l-9.7 21.8-9.9-21.8h-5.1z"/><path d="M262.6 72.2h3.3V42.8h-3.3z"/><path d="M287.4 72.2h3.4V45.9h9.8v-3.1h-23.1v3.1h9.9z"/><path d="M345.3 72.2h10.2c9.2 0 15.6-6.4 15.6-14.7v-.1c0-8.3-6.4-14.6-15.6-14.6h-10.2zm10.2-26.3c7.4 0 12.2 5.1 12.2 11.6v.1c0 6.5-4.7 11.6-12.2 11.6h-6.9V45.9z"/><path d="M313.3 72.2h19.5v-3h-16.2V58.7h14.8v-3h-14.8v-9.8h15.3v-3.1h-18.6z"/><path d="M168.6 72.2h16.9v-3h-13.5V42.8h-3.4z"/></g><path d="M392.1 72.5h3.2l11.5-29.5-3.5-.2-9.5 24.6-9.3-24.6-3.7.2z" fill={T.green}/><path d="M418.3 72.2h3.3V42.8h-3.3z" fill={T.green}/><path d="M466 72.2h16.9v-3h-13.6V42.8H466z" fill={T.green}/><path d="M494.7 72.2h19.4v-3h-16.1V58.7h14.8v-3h-14.8v-9.8h15.3v-3.1h-18.6z" fill={T.green}/><path d="M437 72.2h16.9v-3H440.3V42.8H437z" fill={T.green}/><path d="M7.7 9.6s9-9.6 27.4-9.6 27.2 9.7 27.2 9.7M16.3 17.8s5.9-6.5 18.3-6.5c12.3 0 18.1 6.5 18.1 6.5M25.1 26.4s4-3.3 9.7-3.3 9.5 3.4 9.5 3.4" stroke={w} strokeLinecap="round" strokeWidth="3.86"/><path d="M0 21.8s11.3 0 11.3 13.2v29.7s-.7 26.9 23.3 26.9 23.9-26.9 23.9-26.9 0-17.6 0-29.5c0-12.9 11.4-13.6 11.4-13.6v43.1s1.1 37.5-35.2 37.5S0 64.7 0 64.7z" fill={T.green}/></g></svg>;
+}
+
+/* ═══════════════════════════════════════
+   IMAGE PLACEHOLDER COMPONENT
+   Apple/Tesla-style large image blocks
+   ═══════════════════════════════════════ */
+const SITE_IMG = "assets/images/hero.jpg";
+
+function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:sx }) {
+  return (
+    <div style={{ position:"relative", width:"100%", aspectRatio:aspect, borderRadius:0, overflow:"hidden", ...sx }}>
+      <img src={SITE_IMG} alt={label||""} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
+      {overlay && <div style={{ position:"absolute", inset:0, background:overlay }} />}
+      {!overlay && dark && <div style={{ position:"absolute", inset:0, background:"rgba(10,10,10,0.45)" }} />}
+      <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:20, zIndex:1 }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   ROUTING CONTEXT
+   ═══════════════════════════════════════ */
+const AppContext = createContext();
+function useApp() { return useContext(AppContext); }
+
+/* ═══════════════════════════════════════
+   NAV - Frosted glass
+   ═══════════════════════════════════════ */
+function Nav() {
+  const { navigate, cart, page } = useApp();
+  const [open, setOpen] = useState(false);
+  const [ucOpen, setUcOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isHome = page === "home";
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  const go = (p) => { navigate(p); setOpen(false); setUcOpen(false); };
+
+  const bg = open ? "linear-gradient(180deg, rgba(25,65,45,0.92) 0%, rgba(17,17,19,0.96) 30%)"
+    : scrolled ? "linear-gradient(180deg, rgba(20,48,34,0.85) 0%, rgba(17,35,26,0.82) 100%)"
+    : "linear-gradient(180deg, rgba(25,60,42,0.2) 0%, rgba(20,45,32,0.1) 100%)";
+
+  return (
+    <nav style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, backdropFilter:"blur(24px) saturate(150%)", WebkitBackdropFilter:"blur(24px) saturate(150%)", background:bg, borderBottom: (scrolled||open) ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent", transition:"background 0.4s ease, border-color 0.4s ease" }}>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"14px 20px" }}>
+        <div onClick={()=>go("home")} style={{ cursor:"pointer" }}><LogoFull h={30} /></div>
+        <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+          {cart && (
+            <button onClick={()=>go("cart")} style={{ position:"relative", background:"none", border:"none", padding:6 }}>
+              {I.cart(18, T.white)}
+              <span style={{ position:"absolute", top:2, right:2, width:10, height:10, borderRadius:5, background:T.green, boxShadow:"0 0 8px rgba(85,182,133,0.4)" }} />
+            </button>
+          )}
+          <a href="tel:+18884222907" style={{ color:T.white, fontSize:13, fontWeight:600, padding:"8px 14px", borderRadius:99, border:"1px solid rgba(255,255,255,0.15)", background:"rgba(255,255,255,0.1)", display:"flex", alignItems:"center", gap:5, backdropFilter:"blur(8px)" }}>
+            {I.phone(13,T.white)} Call
+          </a>
+          <button onClick={()=>{setOpen(!open);setUcOpen(false)}} style={{ background:"none", border:"none", padding:6 }}>
+            {open ? I.x(26,T.white) : I.menu(26,T.white)}
+          </button>
+        </div>
+      </div>
+      {open && (
+        <div style={{ padding:"4px 0 16px", borderTop:`1px solid ${T.darkBorder}` }}>
+          {[{l:"Plans & Pricing",p:"plans"},{l:"Solutions",p:"solutions"},{l:"Reviews",p:"reviews"},{l:"Support",p:"support"}].map((item,i) => (
+            <button key={i} onClick={()=>go(item.p)} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", width:"100%", padding:"15px 20px", background:"none", border:"none", color:T.white, fontSize:15, fontWeight:500, textAlign:"left" }}>
+              {item.l} {I.chevRight(14,T.g600)}
+            </button>
+          ))}
+          {/* Account login */}
+          <div style={{ margin:"10px 20px 0", paddingTop:10, borderTop:`1px solid ${T.darkBorder}` }}>
+            <button onClick={()=>go("login")} style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"12px 0", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left" }}>
+              {I.user(16,T.g400)} Account Login
+            </button>
+          </div>
+          {/* Phone */}
+          <div style={{ margin:"6px 20px 0", padding:"12px 14px", borderRadius:12, background:`${T.green}06`, border:`1px solid ${T.green}10` }}>
+            <a href="tel:+18884222907" style={{ color:T.g300, fontSize:13, display:"flex", alignItems:"center", gap:8 }}>
+              {I.phone(13,T.greenText)} <span style={{color:T.white, fontWeight:600}}>888.422.2907</span>
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+/* ═══════════════════════════════════════
+   STICKY BAR
+   ═══════════════════════════════════════ */
+function StickyBar() {
+  const { navigate, page } = useApp();
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const fn = () => setShow(window.scrollY > 400);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+  if (!show || page !== "home") return null;
+  return (
+    <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:99, backdropFilter:"blur(20px) saturate(140%)", WebkitBackdropFilter:"blur(20px) saturate(140%)", background:"rgba(15,15,18,0.92)", borderTop:`1px solid rgba(85,182,133,0.15)`, padding:"12px 16px", display:"flex", alignItems:"center", gap:12, boxShadow:"0 -4px 30px rgba(0,0,0,0.3)" }}>
+      <div style={{ flex:1 }}>
+        <span style={{ fontSize:12, color:T.g500, display:"block", lineHeight:1.2 }}>Plans from</span>
+        <span style={{ fontSize:26, fontWeight:900, color:T.white, letterSpacing:-1 }}>$69<span style={{ fontSize:13, fontWeight:500, color:T.g400 }}>/mo</span></span>
+      </div>
+      <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", gap:6, boxShadow:`0 2px 20px ${T.greenGlow}` }}>
+        View Plans {I.arrow(14)}
+      </button>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   HOME PAGE -- Tesla/Apple-inspired
+   ═══════════════════════════════════════ */
+function HomePage() {
+  const { navigate, setCart, address, setAddress, addressChecked, setAddressChecked, addressResult, setAddressResult } = useApp();
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizAns, setQuizAns] = useState({});
+  const [quizResult, setQuizResult] = useState(null);
+  const [faqOpen, setFaqOpen] = useState(null);
+
+  const quizQs = [
+    { q:"How many people in your household?", opts:[{l:"1-2",v:1},{l:"3-4",v:2},{l:"5+",v:3}] },
+    { q:"Primary internet use?", opts:[{l:"Browsing & email",v:1},{l:"Streaming & calls",v:2},{l:"Gaming & 4K",v:3}] },
+    { q:"Speed priority?", opts:[{l:"Just reliable",v:1},{l:"Fast",v:2},{l:"Maximum speed",v:3}] },
+  ];
+
+  function quizPick(qi, v) {
+    const a = {...quizAns, [qi]:v};
+    setQuizAns(a);
+    if (qi < quizQs.length-1) setQuizStep(qi+1);
+    else { const t = Object.values(a).reduce((x,y)=>x+y,0); setQuizResult(t<=4?PLANS[0]:t<=6?PLANS[1]:PLANS[2]); }
+  }
+
+  function selectPlan(plan) { setCart(plan); navigate("cart"); }
+
+  return (
+    <div>
+      {/* ═══════════════════════════════════
+          HERO -- Full-bleed, dramatic
+          Tesla-style: image fills screen, text overlaid
+          ═══════════════════════════════════ */}
+      <section style={{ minHeight:"92svh", display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:T.dark }}>
+        <img src={SITE_IMG} alt="Rural landscape" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
+
+        <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"flex-end", position:"relative", zIndex:1, padding:"0 24px 48px", paddingTop:0 }}>
+          <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, marginBottom:20 }}>
+            <div style={{ display:"flex", gap:1 }}>{[1,2,3,4,5].map(i=><span key={i}>{I.star(12)}</span>)}</div>
+            <span style={{ fontSize:13, fontWeight:700, color:T.white }}>4.5</span>
+            <span style={{ fontSize:12, color:T.g400 }}>from 213+ reviews</span>
+          </div>
+
+          <h1 className="fade-up fade-up-d3" style={{ fontSize:48, fontWeight:900, lineHeight:1.02, color:T.white, letterSpacing:-2, marginBottom:20 }}>
+            Home internet<br/>that goes<br/><span style={{ color:T.green }}>where you do.</span>
+          </h1>
+          <p className="fade-up fade-up-d4" style={{ fontSize:16, lineHeight:1.55, color:T.g300, marginBottom:32, maxWidth:300 }}>
+            We ship it. You plug it in. Use it at home, on the road, or anywhere with a cell signal. No contracts, no credit checks.
+          </p>
+
+          <div className="fade-up fade-up-d5" style={{ maxWidth:300 }}>
+            <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)` }}>
+              View Plans {I.arrow(16)}
+            </button>
+          </div>
+
+          <div className="fade-up fade-up-d7" style={{ display:"flex", gap:14, marginTop:20, flexWrap:"wrap" }}>
+            {["21-day guarantee","No contracts","Ships in 24hrs"].map((l,i) => (
+              <span key={i} style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:4 }}>{I.check(12,T.green)} {l}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* ═══════════════════════════════════
+          AS SEEN ON -- Uniform press strip
+          ═══════════════════════════════════ */}
+      <section style={{ padding:"28px 24px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+        <p style={{ fontSize:12, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", textAlign:"center", marginBottom:20 }}>As seen on</p>
+        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"10px 12px" }}>
+          {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist","Internet Access Guide"].map((name,i,arr) => (
+            <React.Fragment key={i}>
+              <span style={{ fontSize:13, fontWeight:500, color:T.g500, letterSpacing:0.3, whiteSpace:"nowrap" }}>{name}</span>
+              {i < arr.length-1 && <span style={{ color:T.g700, fontSize:13 }}>|</span>}
+            </React.Fragment>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════
+          COVERAGE CHECK
+          ═══════════════════════════════════ */}
+      <section style={{ padding:"32px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+        <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
+          <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
+          <div>
+            <h3 style={{ fontSize:16, fontWeight:700, color:T.white, lineHeight:1.1 }}>Check Your Coverage</h3>
+            <p style={{ fontSize:13, color:T.g500 }}>Enter your address to see available networks</p>
+          </div>
+        </div>
+        {!addressChecked ? (
+          <div style={{ display:"flex", gap:8 }}>
+            <input type="text" placeholder="Enter your address..." value={address} onChange={e=>setAddress(e.target.value)}
+              style={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:15, outline:"none" }} />
+            <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"14px 22px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:14, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
+          </div>
+        ) : addressResult==="verify" ? (
+          <div style={{ padding:"14px 16px", borderRadius:12, background:"rgba(250,204,21,0.06)", border:"1px solid rgba(250,204,21,0.15)" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
+              {I.phone(14,"#facc15")}
+              <span style={{ fontSize:14, fontWeight:700, color:"#a16207" }}>Coverage varies at this location</span>
+            </div>
+            <p style={{ fontSize:12, color:T.g500, lineHeight:1.4, marginLeft:32 }}>Call us to verify service availability: <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a></p>
+          </div>
+        ) : (
+          <div style={{ padding:"14px 16px", borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}18` }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
+              <div style={{ width:22, height:22, borderRadius:11, background:T.green, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.check(12,T.white)}</div>
+              <span style={{ fontSize:14, fontWeight:700, color:T.greenText }}>Coverage available</span>
+            </div>
+            <p style={{ fontSize:12, color:T.g400, lineHeight:1.4, marginLeft:32 }}>Multiple carriers serve your area. 21-day guarantee included.</p>
+          </div>
+        )}
+        <p style={{ fontSize:12, color:T.g600, marginTop:10, display:"flex", alignItems:"center", gap:4 }}>
+          {I.phone(12,T.g600)} Need help? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
+        </p>
+      </section>
+
+      {/* ═══════════════════════════════════
+          HOW IT WORKS -- Apple-style: big type, generous space
+          ═══════════════════════════════════ */}
+      <section style={{ padding:"56px 24px 56px", background:T.white }}>
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>How it works</p>
+        <h2 style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:12, textAlign:"center", lineHeight:1.05 }}>Online in minutes,<br/>not days.</h2>
+        <p style={{ fontSize:15, color:T.g500, textAlign:"center", marginBottom:36, maxWidth:280, marginLeft:"auto", marginRight:"auto", lineHeight:1.5 }}>Three steps. No technicians. No wait.</p>
+
+        {[
+          { n:"01", t:"Choose your plan", d:"Pick the speed tier that fits your household. No credit checks, no contracts.", icon:I.signal(22,T.greenText) },
+          { n:"02", t:"Unbox & plug in", d:"We ship a pre-configured cellular router. One plug, one cable. That's the entire setup.", icon:I.router(22,T.greenText) },
+          { n:"03", t:"You're connected", d:"Stream, game, video call, and work from anywhere -- on every device you own.", icon:I.wifi(22,T.greenText) },
+        ].map((s,i) => (
+          <div key={i} style={{ marginBottom:i<2?28:0 }}>
+            <div style={{ display:"flex", gap:14, alignItems:"flex-start" }}>
+              <div style={{ minWidth:52, height:52, borderRadius:14, background:`${T.green}06`, border:`1px solid ${T.green}12`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{s.icon}</div>
+              <div>
+                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
+                  <span style={{ fontSize:12, fontWeight:800, color:T.greenText, fontFamily:"monospace" }}>{s.n}</span>
+                  <h3 style={{ fontSize:18, fontWeight:800, color:T.g900, letterSpacing:-0.3 }}>{s.t}</h3>
+                </div>
+                <p style={{ fontSize:15, color:T.g500, lineHeight:1.5 }}>{s.d}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* ═══════════════════════════════════
+          PLANS PREVIEW
+          ═══════════════════════════════════ */}
+      <section style={{ padding:"48px 20px", background:T.g50 }}>
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plans</p>
+        <h2 style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:6, textAlign:"center", lineHeight:1.05 }}>Simple plans.<br/>Honest pricing.</h2>
+        <p style={{ fontSize:15, color:T.g500, marginBottom:8, textAlign:"center" }}>Unlimited data on every plan. No contracts, ever.</p>
+        <div style={{ display:"flex", justifyContent:"center", marginBottom:28 }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"6px 12px", borderRadius:99, background:`${T.green}08` }}>
+            {I.shield(11,T.greenText)}<span style={{ fontSize:12, fontWeight:600, color:T.greenText }}>Price Lock Guarantee -- your rate never increases</span>
+          </div>
+        </div>
+
+        {/* Compact plan preview cards */}
+        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+          {PLANS.map(plan => {
+            const isDark = plan.popular;
+            const bg = isDark ? T.dark : T.white;
+            const txt = isDark ? T.white : T.g900;
+            const sub = isDark ? T.g400 : T.g500;
+            const bdr = isDark ? T.darkBorder : T.g200;
+
+            return (
+              <div key={plan.id} className="card-hover" style={{ borderRadius:20, overflow:"hidden", background:bg, border:isDark?`1.5px solid ${T.green}35`:`1px solid ${bdr}`, borderLeft:`4px solid ${plan.color}`, position:"relative", boxShadow:isDark?`0 0 60px ${T.green}0A, 0 16px 60px rgba(0,0,0,0.25)`:"0 1px 4px rgba(0,0,0,0.04)", padding:"24px" }}>
+                {plan.popular && <div style={{ marginBottom:12 }}><span style={{ padding:"5px 12px", borderRadius:99, background:T.green, color:T.white, fontSize:12, fontWeight:700, letterSpacing:1 }}>POPULAR</span></div>}
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
+                  <div>
+                    <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:plan.color, textTransform:"uppercase", marginBottom:2 }}>{plan.tier}</p>
+                    <h3 style={{ fontSize:22, fontWeight:800, color:txt, letterSpacing:-0.3 }}>{plan.name}</h3>
+                  </div>
+                  <div style={{ textAlign:"right", flexShrink:0, marginLeft:16 }}>
+                    <span style={{ fontSize:36, fontWeight:900, color:txt, letterSpacing:-1.5, lineHeight:1 }}>${plan.monthly}</span>
+                    <span style={{ fontSize:14, color:sub, fontWeight:500 }}>/mo</span>
+                  </div>
+                </div>
+                <p style={{ fontSize:14, color:sub, marginBottom:18, lineHeight:1.5 }}>Up to {plan.maxSpeed}. {plan.bestFor}.</p>
+                <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", padding:"16px", background:isDark?T.green:T.g900, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:isDark?`0 0 40px ${T.greenGlow}`:"none" }}>
+                  View Details {I.arrow(14)}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+        <button onClick={()=>navigate("plans")} style={{ width:"100%", marginTop:20, padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+          Compare all plans side-by-side {I.arrow(14,T.g700)}
+        </button>
+      </section>
+
+            {/* ═══════════════════════════════════
+          QUIZ
+          ═══════════════════════════════════ */}
+      <section id="quiz" style={{ padding:"48px 24px", background:T.dark }}>
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plan finder</p>
+        <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.08 }}>Not sure which<br/>plan fits?</h2>
+        <p style={{ fontSize:15, color:T.g500, marginBottom:36, textAlign:"center" }}>Three questions. Thirty seconds.</p>
+
+        {!quizResult ? (
+          <>
+            <div style={{ display:"flex", gap:4, marginBottom:28 }}>
+              {quizQs.map((_,i) => <div key={i} style={{ flex:1, height:3, borderRadius:2, background:i<=quizStep?T.green:T.darkBorder, transition:"0.3s", boxShadow:i<=quizStep?`0 0 10px ${T.greenGlow}`:"none" }} />)}
+            </div>
+            <p style={{ fontSize:20, fontWeight:700, color:T.white, marginBottom:20 }}>{quizQs[quizStep].q}</p>
+            {quizQs[quizStep].opts.map((o,i) => (
+              <button key={i} onClick={()=>quizPick(quizStep,o.v)} className="btn-secondary" style={{ display:"block", width:"100%", padding:"18px 20px", marginBottom:10, background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:16, fontWeight:500, color:T.g300, textAlign:"left" }}>{o.l}</button>
+            ))}
+          </>
+        ) : (
+          <div style={{ textAlign:"center" }}>
+            <div style={{ width:72, height:72, borderRadius:36, margin:"0 auto 20px", background:`${T.green}12`, border:`2px solid ${T.green}30`, display:"flex", alignItems:"center", justifyContent:"center" }}>{I.check(32,T.green)}</div>
+            <p style={{ fontSize:14, color:T.g500, marginBottom:6 }}>Your match</p>
+            <h3 style={{ fontSize:36, fontWeight:900, color:T.white, letterSpacing:-1, marginBottom:8, lineHeight:1 }}>{quizResult.name}</h3>
+            <p style={{ fontSize:15, color:T.g400, marginBottom:28 }}>{quizResult.bestFor} -- ${quizResult.monthly}/mo</p>
+            <button onClick={()=>selectPlan(quizResult)} className="btn-primary" style={{ width:"100%", padding:"17px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}` }}>
+              Get {quizResult.name} {I.arrow(15)}
+            </button>
+            <button onClick={()=>{setQuizStep(0);setQuizAns({});setQuizResult(null)}} style={{ marginTop:16, background:"none", border:"none", color:T.g500, fontSize:13 }}>Retake quiz</button>
+          </div>
+        )}
+      </section>
+
+      {/* ═══════════════════════════════════
+          LIFESTYLE BREAK -- Full-bleed image
+          Tesla-style: dramatic image with overlaid text
+          ═══════════════════════════════════ */}
+      <section style={{ position:"relative", overflow:"hidden" }}>
+        <ImageBlock aspect="9/16" style={{ maxHeight:480 }} dark={true} overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
+          <div style={{ position:"absolute", bottom:40, left:24, right:24, textAlign:"left" }}>
+            <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:10 }}>Your home<br/>internet,<br/>everywhere.</h2>
+            <p style={{ fontSize:15, color:T.g300, lineHeight:1.5, marginBottom:20 }}>Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
+            <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 28px", background:T.green, border:"none", borderRadius:14, color:T.white, fontSize:14, fontWeight:700, display:"flex", alignItems:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}` }}>
+              View Plans {I.arrow(13)}
+            </button>
+          </div>
+        </ImageBlock>
+      </section>
+
+      {/* ═══════════════════════════════════
+          USE CASES
+          ═══════════════════════════════════ */}
+      <section style={{ padding:"48px 0", background:T.white }}>
+        <div style={{ padding:"0 24px", marginBottom:32 }}>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Solutions</p>
+          <h2 style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, textAlign:"center", lineHeight:1.05 }}>Built for how<br/>you live.</h2>
+        </div>
+        {/* Vertical stack of full-width feature rows */}
+        <div>
+          {USE_CASES.slice(0,4).map((uc,i) => (
+            <button key={i} onClick={()=>navigate("uc-"+uc.slug)} style={{ width:"100%", position:"relative", overflow:"hidden", marginBottom:i<USE_CASES.length-1?0:0, background:T.white, border:"none", cursor:"pointer", padding:0, textAlign:"left" }}>
+              {/* Full-bleed image with dark overlay */}
+              <div style={{ position:"relative", width:"100%", paddingTop:"56%", overflow:"hidden" }}>
+                <img src={SITE_IMG} alt={uc.label} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
+                <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.85) 100%)" }} />
+
+                {/* Title, description, and arrow -- positioned at bottom */}
+                <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"24px", display:"flex", alignItems:"flex-end", justifyContent:"space-between" }}>
+                  <div>
+                    <h3 style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5, lineHeight:1.1, marginBottom:6 }}>{uc.label}</h3>
+                    <p style={{ fontSize:15, color:T.g200, lineHeight:1.5, maxWidth:260 }}>{uc.desc}</p>
+                  </div>
+                  <div style={{ marginLeft:16, marginBottom:2, flexShrink:0 }}>{I.arrow(18,T.white)}</div>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+        <div style={{ padding:"20px 24px 0" }}>
+          <button onClick={()=>navigate("solutions")} style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+            View all solutions {I.arrow(14,T.g700)}
+          </button>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════
+          REVIEWS
+          ═══════════════════════════════════ */}
+      <section style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+        <div style={{ textAlign:"center", marginBottom:32 }}>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Reviews</p>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:4 }}>
+            <span style={{ fontSize:40, fontWeight:900, color:T.g900, letterSpacing:-1 }}>4.5</span>
+            <div style={{ textAlign:"left" }}>
+              <div style={{ display:"flex", gap:2 }}>{[1,2,3,4,5].map(i=><span key={i}>{I.star(13)}</span>)}</div>
+              <span style={{ fontSize:13, color:T.g500 }}>213+ verified reviews</span>
+            </div>
+          </div>
+        </div>
+        {REVIEWS.map((r,i) => (
+          <div key={i} style={{ padding:"20px", borderRadius:R.lg, background:T.white, border:`1px solid ${T.g200}`, borderLeft:`3px solid ${T.greenText}`, marginBottom:12 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                <div style={{ width:40, height:40, borderRadius:20, background:`${T.green}0A`, border:`1px solid ${T.green}20`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, fontWeight:700, color:T.greenText }}>{r.name[0]}</div>
+                <div>
+                  <span style={{ fontSize:15, fontWeight:600, color:T.g900 }}>{r.name}</span>
+                  {r.verified && <span style={{ marginLeft:6, fontSize:12, fontWeight:700, color:T.greenText, padding:"2px 7px", borderRadius:99, background:`${T.green}0A` }}>VERIFIED</span>}
+                  <p style={{ fontSize:12, color:T.g400, margin:0 }}>{r.plan} member</p>
+                </div>
+              </div>
+              <div style={{ display:"flex", gap:1 }}>{[1,2,3,4,5].map(s=><span key={s}>{I.star(13)}</span>)}</div>
+            </div>
+            <p style={{ fontSize:15, color:T.g700, lineHeight:1.6, fontStyle:"italic" }}>"{r.text}"</p>
+          </div>
+        ))}
+        <button onClick={()=>navigate("reviews")} className="btn-secondary" style={{ width:"100%", padding:"15px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:15, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(14,T.g700)}</button>
+      </section>
+
+      {/* ═══════════════════════════════════
+          FAQ
+          ═══════════════════════════════════ */}
+      <section style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>FAQ</p>
+        <h2 style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:32, textAlign:"center" }}>Common questions</h2>
+        {FAQ.map((item,i) => (
+          <div key={i} style={{ borderRadius:14, overflow:"hidden", background:T.white, border:`1px solid ${faqOpen===i?T.green+"30":T.g200}`, marginBottom:8, transition:"border-color 0.2s" }}>
+            <button onClick={()=>setFaqOpen(faqOpen===i?null:i)} style={{ width:"100%", padding:"18px 20px", background:"none", border:"none", fontSize:15, fontWeight:600, color:T.g900, textAlign:"left", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+              <span style={{ paddingRight:12 }}>{item.q}</span>
+              {faqOpen===i?I.chevUp(14,T.g400):I.chevDown(14,T.g400)}
+            </button>
+            <div className={`faq-answer ${faqOpen===i?"open":""}`}><div style={{ padding:"0 20px 18px", fontSize:15, color:T.g500, lineHeight:1.65 }}>{item.a}</div></div>
+          </div>
+        ))}
+      </section>
+
+      {/* ═══════════════════════════════════
+          FINAL CTA -- Full-bleed image + overlay
+          ═══════════════════════════════════ */}
+      <section style={{ position:"relative", overflow:"hidden" }}>
+        {/* Background image */}
+        <div style={{ position:"absolute", inset:0 }}>
+          <img src={SITE_IMG} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+          <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.92) 100%)" }} />
+        </div>
+        {/* Content -- not absolute, flows naturally */}
+        <div style={{ position:"relative", zIndex:1, padding:"48px 24px", textAlign:"center" }}>
+          <h2 style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Join thousands of<br/>happy members.</h2>
+          <p style={{ fontSize:16, color:T.g300, marginBottom:32, lineHeight:1.5 }}>Setup takes 5 minutes. Ships in 24 hours.<br/>21-day money-back guarantee.</p>
+          <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
+            View Plans {I.arrow(16)}
+          </button>
+          <p style={{ fontSize:13, color:T.g500, marginTop:16 }}>Or call <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a></p>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════
+          FOOTER
+          ═══════════════════════════════════ */}
+      <footer style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+        {/* Logo */}
+        <div style={{ marginBottom:8 }}>
+          <LogoFull h={26} />
+        </div>
+        <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by thousands of members since 2016.</p>
+
+        {/* Nav links -- two even columns, no headers */}
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px 0", marginBottom:28 }}>
+          {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"uc-rural"},{l:"Blog",p:"blog"},{l:"Contact Us",p:"support"}].map((link,i) => (
+            <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:0, textAlign:"left" }}>{link.l}</button>
+          ))}
+        </div>
+
+        {/* Account + Contact row */}
+        <div style={{ display:"flex", gap:10, marginBottom:28 }}>
+          <button onClick={()=>navigate("login")} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
+            {I.user(15,T.green)} My Account
+          </button>
+          <a href="tel:+18884222907" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
+            {I.phone(13,T.green)} 888.422.2907
+          </a>
+        </div>
+
+        {/* Legal */}
+        <div style={{ paddingTop:24, borderTop:`1px solid ${T.darkBorder}` }}>
+          <p style={{ fontSize:13, color:T.g600, lineHeight:1.8 }}>Unlimitedville is a membership-based wireless internet service. All equipment remains property of Unlimitedville for the duration of your membership. Speeds vary by location. 21-day money-back guarantee applies to all plans.</p>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:14 }}>
+            <p style={{ fontSize:12, color:T.g700 }}>2026 Unlimitedville</p>
+            <div style={{ display:"flex", gap:14 }}>
+              <a href="#" style={{ fontSize:12, color:T.g500 }}>Privacy</a>
+              <a href="#" style={{ fontSize:12, color:T.g500 }}>Terms</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   CART PAGE
+   ═══════════════════════════════════════ */
+function CartPage() {
+  const { cart, navigate, setCart } = useApp();
+  if (!cart) { navigate("plans"); return null; }
+  const total = cart.monthly + cart.activation;
+
+  return (
+    <div style={{ minHeight:"100vh", background:T.g50, paddingTop:64, paddingBottom:40 }}>
+      <div style={{ padding:"28px 20px" }}>
+        <button onClick={()=>navigate("plans")} style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:6, color:T.g500, fontSize:14, fontWeight:500, marginBottom:24 }}>{I.back(16,T.g500)} Back to plans</button>
+
+        <h1 style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:28 }}>Your Order</h1>
+
+        <div style={{ background:T.white, borderRadius:20, border:`1px solid ${T.g200}`, padding:"24px", marginBottom:18 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:18 }}>
+            <div>
+              <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:cart.color, textTransform:"uppercase", marginBottom:3 }}>{cart.tier}</p>
+              <h2 style={{ fontSize:24, fontWeight:800, color:T.g900 }}>{cart.name}</h2>
+              <p style={{ fontSize:14, color:T.g500, marginTop:3 }}>{cart.bestFor}</p>
+            </div>
+            <button onClick={()=>navigate("plans")} style={{ background:"none", border:"none", color:T.greenText, fontSize:14, fontWeight:600 }}>Change</button>
+          </div>
+
+          <div style={{ borderTop:`1px solid ${T.g200}`, paddingTop:16 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", padding:"10px 0" }}>
+              <span style={{ fontSize:15, color:T.g700 }}>Monthly service</span>
+              <span style={{ fontSize:15, fontWeight:600, color:T.g900 }}>${cart.monthly}/mo</span>
+            </div>
+            <div style={{ display:"flex", justifyContent:"space-between", padding:"10px 0" }}>
+              <div>
+                <span style={{ fontSize:15, color:T.g700 }}>One-time activation</span>
+                <p style={{ fontSize:12, color:T.g400, margin:0 }}>Router provided for duration of service</p>
+              </div>
+              <div style={{ textAlign:"right" }}>
+                {cart.activation===0
+                  ? <span style={{ fontSize:15, fontWeight:700, color:T.greenText }}>$0</span>
+                  : <>
+                      <span style={{ fontSize:12, color:T.g400, textDecoration:"line-through" }}>${cart.activationOrig} </span>
+                      <span style={{ fontSize:15, fontWeight:700, color:T.g900 }}>${cart.activation}</span>
+                    </>
+                }
+              </div>
+            </div>
+            <div style={{ display:"flex", justifyContent:"space-between", padding:"14px 0", marginTop:10, borderTop:`1px solid ${T.g200}` }}>
+              <span style={{ fontSize:16, fontWeight:700, color:T.g900 }}>Due today</span>
+              <span style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5 }}>${total}</span>
+            </div>
+            <p style={{ fontSize:12, color:T.g400, lineHeight:1.4 }}>Then ${cart.monthly}/mo starting 30 days from activation. Cancel anytime.</p>
+          </div>
+        </div>
+
+        <div style={{ background:T.white, borderRadius:R.lg, border:`1px solid ${T.g200}`, padding:"18px", marginBottom:28 }}>
+          {[
+            {i:I.shield(15,T.greenText), t:"21-Day Money-Back Guarantee", d:"Not satisfied? Full refund, no questions."},
+            {i:I.lock(15,T.greenText), t:"Price Lock Guarantee", d:"Your rate never increases. Ever."},
+            {i:I.check(15,T.greenText), t:"No Contracts", d:"Month-to-month. Cancel anytime."},
+          ].map((g,i) => (
+            <div key={i} style={{ display:"flex", gap:14, padding:"12px 0", borderTop:i?`1px solid ${T.g100}`:"none" }}>
+              <div style={{ minWidth:36, height:36, borderRadius:10, background:`${T.green}08`, display:"flex", alignItems:"center", justifyContent:"center" }}>{g.i}</div>
+              <div>
+                <p style={{ fontSize:14, fontWeight:600, color:T.g900, marginBottom:2 }}>{g.t}</p>
+                <p style={{ fontSize:13, color:T.g500 }}>{g.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button onClick={()=>navigate("checkout")} className="btn-primary" style={{ width:"100%", padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, marginBottom:14 }}>
+          Proceed to Checkout {I.arrow(16)}
+        </button>
+        <p style={{ textAlign:"center", fontSize:12, color:T.g400 }}>Secure checkout. Your information is encrypted.</p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   CHECKOUT PAGE
+   ═══════════════════════════════════════ */
+function CheckoutPage() {
+  const { cart, navigate } = useApp();
+  if (!cart) { navigate("plans"); return null; }
+  const total = cart.monthly + cart.activation;
+
+  const inputStyle = { width:"100%", padding:"16px 18px", borderRadius:14, border:`1px solid ${T.g200}`, fontSize:16, outline:"none", background:T.white, color:T.g900, transition:"border-color 0.2s" };
+  const labelStyle = { fontSize:12, fontWeight:600, color:T.g700, marginBottom:6, display:"block" };
+
+  return (
+    <div style={{ minHeight:"100vh", background:T.g50, paddingTop:64, paddingBottom:40 }}>
+      <div style={{ padding:"28px 20px" }}>
+        <button onClick={()=>navigate("cart")} style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:6, color:T.g500, fontSize:14, fontWeight:500, marginBottom:24 }}>{I.back(16,T.g500)} Back to cart</button>
+
+        <h1 style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:6 }}>Checkout</h1>
+        <p style={{ fontSize:14, color:T.g500, marginBottom:28 }}>{cart.name} -- ${total} due today</p>
+
+        <div style={{ padding:"16px 18px", borderRadius:14, background:`${T.green}06`, border:`1px solid ${T.green}15`, marginBottom:28, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+          <div>
+            <p style={{ fontSize:14, fontWeight:600, color:T.g900 }}>{cart.name}</p>
+            <p style={{ fontSize:12, color:T.g500 }}>${cart.monthly}/mo + ${cart.activation} activation</p>
+          </div>
+          <span style={{ fontSize:24, fontWeight:900, color:T.g900, letterSpacing:-0.5 }}>${total}</span>
+        </div>
+
+        <h2 style={{ fontSize:17, fontWeight:700, color:T.g900, marginBottom:18 }}>Shipping Address</h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
+          <div style={{ display:"flex", gap:12 }}>
+            <div style={{ flex:1 }}><label style={labelStyle}>First Name</label><input style={inputStyle} placeholder="John" /></div>
+            <div style={{ flex:1 }}><label style={labelStyle}>Last Name</label><input style={inputStyle} placeholder="Smith" /></div>
+          </div>
+          <div><label style={labelStyle}>Address</label><input style={inputStyle} placeholder="123 Main St" /></div>
+          <div style={{ display:"flex", gap:12 }}>
+            <div style={{ flex:2 }}><label style={labelStyle}>City</label><input style={inputStyle} placeholder="City" /></div>
+            <div style={{ flex:1 }}><label style={labelStyle}>State</label><input style={inputStyle} placeholder="TN" /></div>
+            <div style={{ flex:1 }}><label style={labelStyle}>ZIP</label><input style={inputStyle} placeholder="37064" /></div>
+          </div>
+          <div><label style={labelStyle}>Email</label><input type="email" style={inputStyle} placeholder="you@email.com" /></div>
+          <div><label style={labelStyle}>Phone</label><input type="tel" style={inputStyle} placeholder="(555) 555-5555" /></div>
+        </div>
+
+        <h2 style={{ fontSize:17, fontWeight:700, color:T.g900, marginBottom:18 }}>Payment</h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
+          <div><label style={labelStyle}>Card Number</label><input style={inputStyle} placeholder="Card number" /></div>
+          <div style={{ display:"flex", gap:12 }}>
+            <div style={{ flex:1 }}><label style={labelStyle}>Expiration</label><input style={inputStyle} placeholder="MM / YY" /></div>
+            <div style={{ flex:1 }}><label style={labelStyle}>CVC</label><input style={inputStyle} placeholder="123" /></div>
+          </div>
+        </div>
+
+        <div style={{ padding:"16px 18px", borderRadius:14, background:T.white, border:`1px solid ${T.g200}`, marginBottom:28 }}>
+          <p style={{ fontSize:13, color:T.g500, lineHeight:1.6 }}>
+            By placing this order, you agree to our Terms of Service. Your service includes a pre-configured router provided for the duration of your membership. Equipment must be returned upon cancellation. Your 21-day money-back guarantee begins upon receipt of your device.
+          </p>
+        </div>
+
+        <button className="btn-primary" style={{ width:"100%", padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, marginBottom:14 }}>
+          {I.lock(18,T.white)} Complete Purchase -- ${total}
+        </button>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, marginBottom:48 }}>
+          {I.shield(12,T.green)}
+          <span style={{ fontSize:13, color:T.g400 }}>256-bit encryption. 21-day money-back guarantee.</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   PLANS PAGE -- Full redesign
+   ═══════════════════════════════════════ */
+function PlansPage() {
+  const { navigate, setCart, address, setAddress, addressChecked, setAddressChecked, addressResult, setAddressResult } = useApp();
+  const [expanded, setExpanded] = useState(null);
+  const [faqOpen, setFaqOpen] = useState(null);
+  const selectPlan = (plan) => { setCart(plan); navigate("cart"); };
+
+  const plansFaq = [
+    { q:"How does Unlimitedville work?", a:"We ship you a pre-configured cellular router. Plug it into any outlet, connect your devices to WiFi, and you're online in under 5 minutes. No technician visits, no installation appointments." },
+    { q:"What's the activation fee?", a:"The one-time activation fee covers provisioning your router and setting up your account on our network. The router is provided for your use throughout your membership -- it's not sold separately. The 4G Lite activation fee is fully waived." },
+    { q:"Do I own the router?", a:"The router is provided as part of your membership for as long as you're an active member. If you cancel, you return the device. Think of it like a cable company's modem -- included with service, not purchased." },
+    { q:"What if it doesn't work at my location?", a:"Every plan includes a 21-day money-back guarantee. Test the service risk-free. If it doesn't perform well, return the router within 21 days for a full refund -- no questions asked." },
+    { q:"Are there any contracts?", a:"Never. All plans are month-to-month. Cancel anytime with zero penalties and zero fees." },
+    { q:"Can I take it with me when I travel?", a:"Yes. Your Unlimitedville router works anywhere there's a cellular signal. Take it from your home to your RV, vacation cabin, or job site. Same plan, same speed, fully portable." },
+  ];
+
+  return (
+    <div style={{ minHeight:"100vh", background:T.g50, paddingTop:64 }}>
+
+      {/* ── HERO HEADER ── */}
+      <div style={{ padding:"40px 24px 48px", background:T.dark, textAlign:"center" }}>
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:12 }}>Plans & Pricing</p>
+        <h1 style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.2, lineHeight:1.05, marginBottom:14 }}>No wires means<br/>no boundaries.</h1>
+        <p style={{ fontSize:16, color:T.g400, lineHeight:1.55, maxWidth:310, margin:"0 auto 28px" }}>Every plan includes unlimited data, a pre-configured router, and our 21-day money-back guarantee.</p>
+
+        {/* Trust badges */}
+        <div style={{ display:"flex", justifyContent:"center", gap:8, flexWrap:"wrap", marginBottom:8 }}>
+          {["No credit checks","No contracts","21-day guarantee"].map((t,i) => (
+            <div key={i} style={{ display:"flex", alignItems:"center", gap:5, padding:"7px 12px", background:`${T.green}08`, border:`1px solid ${T.green}18`, borderRadius:8 }}>
+              {I.check(12,T.green)}<span style={{ fontSize:12, fontWeight:600, color:T.green }}>{t}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* As Seen On */}
+        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"8px 12px", marginTop:20, paddingTop:20, borderTop:`1px solid ${T.darkBorder}` }}>
+          <span style={{ fontSize:12, fontWeight:600, letterSpacing:2, color:T.g600, textTransform:"uppercase", width:"100%", textAlign:"center", marginBottom:4 }}>As seen on</span>
+          {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist","Internet Access Guide"].map((name,i,arr) => (
+            <React.Fragment key={i}>
+              <span style={{ fontSize:12, fontWeight:500, color:T.g500, whiteSpace:"nowrap" }}>{name}</span>
+              {i < arr.length-1 && <span style={{ color:T.g700, fontSize:12 }}>|</span>}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      {/* ── COVERAGE CHECKER ── */}
+        <div style={{ padding:"0 24px 32px", background:T.dark }}>
+          <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
+            <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(20,T.green)}</div>
+            <div>
+              <h3 style={{ fontSize:18, fontWeight:700, color:T.white, lineHeight:1.1 }}>Check Your Coverage</h3>
+              <p style={{ fontSize:13, color:T.g500 }}>Enter your address to check availability</p>
+            </div>
+          </div>
+          {!addressChecked ? (
+            <div style={{ display:"flex", gap:8 }}>
+              <input type="text" placeholder="Enter your address..." value={address} onChange={e=>setAddress(e.target.value)}
+                style={{ flex:1, padding:"15px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:16, outline:"none" }} />
+              <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"15px 24px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
+            </div>
+          ) : addressResult==="verify" ? (
+            <div style={{ padding:"16px", borderRadius:12, background:"rgba(250,204,21,0.06)", border:"1px solid rgba(250,204,21,0.15)" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
+                {I.phone(14,"#facc15")}
+                <span style={{ fontSize:15, fontWeight:700, color:"#a16207" }}>Coverage varies in your area</span>
+              </div>
+              <p style={{ fontSize:13, color:T.g500, lineHeight:1.5, marginLeft:34 }}>Call us to verify service availability: <a href="tel:+18884222907" style={{ color:T.green, fontWeight:600 }}>888.422.2907</a></p>
+            </div>
+          ) : (
+            <div style={{ padding:"16px", borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}18` }}>
+              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
+                <div style={{ width:24, height:24, borderRadius:12, background:T.green, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.check(14,T.white)}</div>
+                <span style={{ fontSize:15, fontWeight:700, color:T.greenText }}>Coverage available</span>
+              </div>
+              <p style={{ fontSize:13, color:T.g400, lineHeight:1.5, marginLeft:34 }}>Multiple carriers serve your area. All plans backed by our 21-day money-back guarantee.</p>
+            </div>
+          )}
+          <p style={{ fontSize:12, color:T.g600, marginTop:12, display:"flex", alignItems:"center", gap:5 }}>
+            {I.phone(12,T.g600)} Need help choosing? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
+          </p>
+        </div>
+
+      {/* ── PLAN CARDS (homepage style) ── */}
+      <div style={{ padding:"24px 20px 0" }}>
+        <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+          {PLANS.map(plan => {
+            const total = plan.monthly + plan.activation;
+            const isDark = plan.popular;
+            const bg = isDark ? T.dark : T.white;
+            const txt = isDark ? T.white : T.g900;
+            const sub = isDark ? T.g400 : T.g500;
+            const bdr = isDark ? T.darkBorder : T.g200;
+            const cbg = isDark ? T.darkCard : T.g50;
+
+            return (
+              <div key={plan.id} className="card-hover" style={{ borderRadius:20, overflow:"hidden", background:bg, border:isDark?`1.5px solid ${T.green}35`:`1px solid ${bdr}`, borderLeft:isDark?"none":`4px solid ${plan.color}`, position:"relative", boxShadow:isDark?`0 0 60px ${T.green}0A, 0 24px 80px rgba(0,0,0,0.3)`:"0 1px 4px rgba(0,0,0,0.04)" }}>
+                {plan.popular && <div style={{ position:"absolute", top:16, right:16, padding:"5px 12px", borderRadius:99, background:T.green, color:T.white, fontSize:12, fontWeight:700, letterSpacing:1 }}>POPULAR</div>}
+                <div style={{ padding:"26px 22px" }}>
+                  <p style={{ fontSize:12, fontWeight:700, letterSpacing:2.5, color:plan.color, textTransform:"uppercase", marginBottom:4 }}>{plan.tier}</p>
+                  <h3 style={{ fontSize:24, fontWeight:800, color:txt, letterSpacing:-0.5, marginBottom:4 }}>{plan.name}</h3>
+                  <p style={{ fontSize:14, color:sub, marginBottom:22 }}>{plan.bestFor}</p>
+
+                  <div style={{ display:"flex", alignItems:"baseline", gap:2, marginBottom:16 }}>
+                    <span style={{ fontSize:48, fontWeight:900, color:txt, letterSpacing:-2.5, lineHeight:1 }}>${plan.monthly}</span>
+                    <span style={{ fontSize:15, color:sub, fontWeight:500 }}>/mo</span>
+                  </div>
+
+                  {/* Pricing breakdown box */}
+                  <div style={{ padding:"14px 16px", borderRadius:14, background:cbg, border:`1px solid ${bdr}`, marginBottom:18 }}>
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+                      <span style={{ fontSize:13, color:sub }}>One-time activation</span>
+                      {plan.activation===0
+                        ? <span style={{ fontSize:15, fontWeight:800, color:T.greenText }}>$0</span>
+                        : <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+                            <span style={{ fontSize:12, color:sub, textDecoration:"line-through" }}>${plan.activationOrig}</span>
+                            <span style={{ fontSize:15, fontWeight:800, color:txt }}>${plan.activation}</span>
+                            <span style={{ fontSize:12, fontWeight:600, color:T.greenText, padding:"2px 7px", borderRadius:99, background:`${T.green}12` }}>{plan.discount}</span>
+                          </div>
+                      }
+                    </div>
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", paddingTop:10, borderTop:`1px solid ${bdr}` }}>
+                      <span style={{ fontSize:14, fontWeight:600, color:sub }}>Due today</span>
+                      <span style={{ fontSize:22, fontWeight:900, color:txt, letterSpacing:-0.5 }}>${total}</span>
+                    </div>
+                    <p style={{ fontSize:12, color:isDark?T.g600:T.g400, marginTop:8, lineHeight:1.4 }}>Router provided for the duration of your membership. Then ${plan.monthly}/mo.</p>
+                  </div>
+
+                  <button onClick={()=>selectPlan(plan)} className="btn-primary" style={{ width:"100%", padding:"17px", background:isDark?T.green:T.g900, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:isDark?`0 0 40px ${T.greenGlow}`:"none" }}>
+                    Get Started {I.arrow(15)}
+                  </button>
+                  <p style={{ textAlign:"center", fontSize:12, color:T.g500, marginTop:12, display:"flex", alignItems:"center", justifyContent:"center", gap:8 }}>
+                    {I.shield(12,T.green)} 21-day guarantee {I.zap(12,T.green)} Ships in 24hrs
+                  </p>
+
+                  {/* Top 3 features always visible */}
+                  <div style={{ marginTop:14, paddingTop:14, borderTop:`1px solid ${bdr}` }}>
+                    {plan.features.slice(0,3).map((f,i) => <div key={i} style={{ display:"flex", alignItems:"center", gap:8, padding:"6px 0" }}>{I.check(13,T.green)}<span style={{ fontSize:14, color:isDark?T.g300:T.g700 }}>{f}</span></div>)}
+                  </div>
+                  {plan.features.length > 3 && (
+                    <>
+                      <button onClick={()=>setExpanded(expanded===plan.id?null:plan.id)} style={{ width:"100%", paddingTop:10, background:"none", border:"none", color:T.green, fontSize:13, fontWeight:600, display:"flex", alignItems:"center", justifyContent:"center", gap:4 }}>
+                        {expanded===plan.id?"Less":"+"+(plan.features.length-3)+" more features"} {expanded===plan.id?I.chevUp(12,T.green):I.chevDown(12,T.green)}
+                      </button>
+                      {expanded===plan.id && (
+                        <div style={{ paddingTop:4 }}>
+                          {plan.features.slice(3).map((f,i) => <div key={i} style={{ display:"flex", alignItems:"center", gap:8, padding:"6px 0" }}>{I.check(13,T.green)}<span style={{ fontSize:14, color:isDark?T.g300:T.g700 }}>{f}</span></div>)}
+                          <div style={{ marginTop:12, padding:"12px 14px", background:cbg, borderRadius:10, fontSize:12, color:sub, lineHeight:1.6, fontFamily:"monospace" }}>
+                            Max: {plan.maxSpeed} | Latency: {plan.latency}{plan.id==="5g-ultra"?" | IP65 Weatherproof":""}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p style={{ textAlign:"center", fontSize:12, color:T.g500, padding:"16px 0 0", lineHeight:1.5 }}>
+          All plans month-to-month. Router provided for the duration of your membership.
+        </p>
+      </div>
+
+      {/* ── COMPARE PLANS TABLE ── */}
+      <div style={{ padding:"48px 20px 40px" }}>
+        <h2 style={{ fontSize:24, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.5 }}>Compare Plans</h2>
+        <p style={{ fontSize:14, color:T.g500, marginBottom:24, textAlign:"center" }}>Side-by-side, no fine print.</p>
+
+        {/* Column headers */}
+        <div style={{ display:"flex", marginBottom:0 }}>
+          <div style={{ flex:1.2 }} />
+          {PLANS.map((p,i) => (
+            <div key={i} style={{ flex:1, textAlign:"center", padding:"14px 4px", background:i===2?`${T.green}08`:"transparent", borderRadius:i===2?"12px 12px 0 0":"0" }}>
+              <p style={{ fontSize:i===2?13:12, fontWeight:700, color:i===2?T.green:T.g500, letterSpacing:0.5, textTransform:i===2?"uppercase":"none" }}>{p.name}</p>
+              <p style={{ fontSize:18, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginTop:4 }}>${p.monthly}<span style={{ fontSize:12, fontWeight:500, color:T.g500 }}>/mo</span></p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderRadius:16, overflow:"hidden", border:`1px solid ${T.g200}` }}>
+          {[
+            {label:"Max Speed", vals:["60 Mbps","250 Mbps","500 Mbps"]},
+            {label:"Latency", vals:["40-80ms","30-60ms","20-40ms"]},
+            {label:"Data Cap", vals:["Unlimited","Unlimited","Unlimited"]},
+            {label:"Router", vals:["4G LTE","Cat12 AC","5G Premium"]},
+            {label:"Activation", vals:["FREE","$99","$199"]},
+            {label:"Weatherproof", vals:["--","--","IP65"]},
+            {label:"Best For", vals:["Browsing","Streaming","4K / Gaming"]},
+          ].map((row,i) => (
+            <div key={i} style={{ display:"flex", alignItems:"center", borderTop:i?`1px solid ${T.g200}`:"none", background:i%2===0?T.white:T.g50 }}>
+              <div style={{ flex:1.2, padding:"14px 14px", fontSize:13, fontWeight:600, color:T.g700 }}>{row.label}</div>
+              {row.vals.map((v,j) => (
+                <div key={j} style={{ flex:1, padding:"14px 6px", fontSize:13, color:j===2?T.g900:T.g600, textAlign:"center", fontWeight:j===2?800:400, background:j===2?`${T.green}06`:"transparent" }}>{v}</div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* CTA below table */}
+        <div style={{ display:"flex", gap:8, marginTop:20 }}>
+          {PLANS.map((p,i) => (
+            <button key={i} onClick={()=>selectPlan(p)} className="btn-primary" style={{ flex:1, padding:"13px 8px", background:i===2?T.green:T.g900, color:T.white, border:"none", borderRadius:12, fontSize:13, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:4, boxShadow:i===2?`0 0 40px ${T.greenGlow}`:"none" }}>
+              Get {p.name.split(" ")[0]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+            <div style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+        <h2 style={{ fontSize:24, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.5 }}>Included with every plan</h2>
+        <p style={{ fontSize:14, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
+          {[
+            { t:"Unlimited Data", d:"No caps, no throttling", icon:I.signal(20,T.green) },
+            { t:"5-Minute Setup", d:"Plug in and connect", icon:I.zap(20,T.green) },
+            { t:"24/7 USA Support", d:"Real humans, always", icon:I.phone(20,T.green) },
+            { t:"Fully Portable", d:"Use it anywhere", icon:I.globe(20,T.green) },
+            { t:"Router Included", d:"Pre-configured, ready to go", icon:I.router(20,T.green) },
+            { t:"Built-In Security", d:"All devices protected", icon:I.shield(20,T.green) },
+          ].map((item,i) => (
+            <div key={i} style={{ padding:"18px 16px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}` }}>
+              <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, border:`1px solid ${T.green}18`, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:12 }}>{item.icon}</div>
+              <p style={{ fontSize:14, fontWeight:700, color:T.white, marginBottom:3 }}>{item.t}</p>
+              <p style={{ fontSize:13, color:T.g500, lineHeight:1.4 }}>{item.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── GUARANTEES ── */}
+      <div style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Why Unlimitedville</p>
+        <h2 style={{ fontSize:28, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.5, lineHeight:1.1 }}>Sounds too good<br/>to be true?</h2>
+        <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center", lineHeight:1.5 }}>We get it. Here's why thousands of members trust us.</p>
+        <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+          {[
+            { icon:I.shield(20,T.green), title:"21-Day Money-Back Guarantee", desc:"Try it completely risk-free. If you're not satisfied, return the router within 21 days for a full refund. No questions, no hassle." },
+            { icon:I.lock(20,T.green), title:"Price Lock For Life", desc:"Your monthly rate is locked in the day you sign up. No price hikes after 6 months. No introductory rate games. Ever." },
+            { icon:I.check(20,T.green), title:"No Contracts, No Credit Checks", desc:"Month-to-month from day one. Cancel anytime with zero penalties. We don't run your credit either." },
+            { icon:I.phone(20,T.green), title:"USA-Based Support, 24/7", desc:"Real people who actually know our product. Not a script-reading call center overseas." },
+          ].map((g,i) => (
+            <div key={i} style={{ display:"flex", gap:16, padding:"20px", background:T.white, borderRadius:20, border:`1px solid ${T.g200}`, boxShadow:"0 1px 4px rgba(0,0,0,0.04)" }}>
+              <div style={{ minWidth:48, height:48, borderRadius:14, background:`${T.green}08`, border:`1px solid ${T.green}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{g.icon}</div>
+              <div>
+                <p style={{ fontSize:15, fontWeight:700, color:T.g900, marginBottom:5 }}>{g.title}</p>
+                <p style={{ fontSize:14, color:T.g500, lineHeight:1.55 }}>{g.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── SOCIAL PROOF STRIP ── */}
+      <div style={{ padding:"40px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>What members say</p>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:20 }}>
+          <div style={{ display:"flex", gap:2 }}>{[1,2,3,4,5].map(i=><span key={i}>{I.star(14)}</span>)}</div>
+          <span style={{ fontSize:16, fontWeight:800, color:T.white }}>4.5</span>
+          <span style={{ fontSize:13, color:T.g500 }}>from 213+ reviews</span>
+        </div>
+        {[
+          { name:"Timothy R.", text:"Best speeds I've ever seen here. I can play games online and stream in 4K.", plan:"5G Ultra" },
+          { name:"Elizabeth A.", text:"We could not be happier! Streaming works perfectly and setup was a breeze.", plan:"4G Plus" },
+        ].map((r,i) => (
+          <div key={i} style={{ padding:"16px", borderRadius:14, background:T.darkCard, border:`1px solid ${T.darkBorder}`, marginBottom:i===0?10:0 }}>
+            <p style={{ fontSize:14, color:T.g300, lineHeight:1.6, fontStyle:"italic", marginBottom:10 }}>"{r.text}"</p>
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              <div style={{ width:28, height:28, borderRadius:14, background:`${T.green}12`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, color:T.greenText }}>{r.name[0]}</div>
+              <span style={{ fontSize:13, fontWeight:600, color:T.g400 }}>{r.name}</span>
+              <span style={{ fontSize:12, color:T.g600 }}>{r.plan}</span>
+            </div>
+          </div>
+        ))}
+        <button onClick={()=>navigate("reviews")} style={{ width:"100%", marginTop:16, padding:"14px", background:"none", border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g400, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(13,T.g400)}</button>
+      </div>
+
+      {/* ── FAQ ── */}
+      <div style={{ padding:"48px 20px", background:T.white, borderTop:`1px solid ${T.g200}` }}>
+        <h2 style={{ fontSize:22, fontWeight:900, color:T.g900, letterSpacing:-0.3, marginBottom:24, textAlign:"center" }}>Common questions</h2>
+        {plansFaq.map((item,i) => (
+          <div key={i} style={{ borderRadius:14, overflow:"hidden", background:T.g50, border:`1px solid ${faqOpen===i?T.green+"30":T.g200}`, marginBottom:8, transition:"border-color 0.2s" }}>
+            <button onClick={()=>setFaqOpen(faqOpen===i?null:i)} style={{ width:"100%", padding:"18px 20px", background:"none", border:"none", fontSize:15, fontWeight:600, color:T.g900, textAlign:"left", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+              <span style={{ paddingRight:12 }}>{item.q}</span>
+              {faqOpen===i?I.chevUp(14,T.g400):I.chevDown(14,T.g400)}
+            </button>
+            <div className={`faq-answer ${faqOpen===i?"open":""}`}><div style={{ padding:"0 20px 18px", fontSize:15, color:T.g500, lineHeight:1.65 }}>{item.a}</div></div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── BOTTOM CTA ── */}
+      <div style={{ position:"relative", overflow:"hidden" }}>
+        <div style={{ position:"absolute", inset:0 }}>
+          <img src={SITE_IMG} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+          <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.92) 100%)" }} />
+        </div>
+        <div style={{ position:"relative", zIndex:1, padding:"56px 24px 48px", textAlign:"center" }}>
+          <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:14 }}>Ready to get<br/>connected?</h2>
+          <p style={{ fontSize:15, color:T.g300, marginBottom:28, lineHeight:1.5 }}>Setup takes 5 minutes. No technicians,<br/>no contracts, no risk.</p>
+          <button onClick={()=>window.scrollTo({top:0,behavior:"smooth"})} className="btn-primary" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
+            Choose Your Plan {I.arrow(16)}
+          </button>
+          <p style={{ fontSize:13, color:T.g500, marginTop:16 }}>Or call <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a></p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   PLACEHOLDER PAGE
+   ═══════════════════════════════════════ */
+function PlaceholderPage({ title, subtitle }) {
+  const { navigate } = useApp();
+  return (
+    <div style={{ minHeight:"100vh", background:T.dark, paddingTop:64, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center", padding:"64px 24px" }}>
+      <Logomark h={64} />
+      <h1 style={{ fontSize:32, fontWeight:900, color:T.white, marginTop:28, letterSpacing:-0.8 }}>{title}</h1>
+      <p style={{ fontSize:15, color:T.g500, marginTop:10, lineHeight:1.5, maxWidth:280 }}>{subtitle || "This page is coming soon."}</p>
+      <button onClick={()=>navigate("home")} className="btn-secondary" style={{ marginTop:28, padding:"14px 28px", background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, color:T.g300, fontSize:15, fontWeight:500 }}>
+        Back to Home
+      </button>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   APP ROUTER
+   ═══════════════════════════════════════ */
+function App() {
+  const [page, setPage] = useState("home");
+  const [cart, setCart] = useState(null);
+  const [address, setAddress] = useState("");
+  const [addressChecked, setAddressChecked] = useState(false);
+  const [addressResult, setAddressResult] = useState(null);
+
+  function navigate(p) {
+    setPage(p);
+    window.scrollTo({ top:0, behavior:"instant" });
+  }
+
+  const ctx = { page, navigate, cart, setCart, address, setAddress, addressChecked, setAddressChecked, addressResult, setAddressResult };
+
+  function renderPage() {
+    switch(page) {
+      case "home": return <HomePage />;
+      case "plans": return <PlansPage />;
+      case "cart": return <CartPage />;
+      case "checkout": return <CheckoutPage />;
+      case "reviews": return <PlaceholderPage title="Reviews" subtitle="213+ verified member reviews. Read what real members are saying about Unlimitedville." />;
+      case "blog": return <PlaceholderPage title="Blog" subtitle="Guides, tips, and news about wireless internet, rural connectivity, and life off the grid." />;
+      case "support": return <PlaceholderPage title="Support & FAQs" subtitle="Get help with your service, find answers, or talk to a real person at 888.422.2907." />;
+      case "solutions": return <PlaceholderPage title="Solutions" subtitle="Internet solutions for every lifestyle. Rural homes, RV travel, businesses, and more." />;
+      case "login": return <PlaceholderPage title="Member Login" subtitle="Access your account, manage your plan, and track your usage." />;
+      default:
+        if (page.startsWith("uc-")) {
+          const uc = USE_CASES.find(u => "uc-"+u.slug === page);
+          return <PlaceholderPage title={uc ? `Internet for ${uc.label}` : "Use Case"} subtitle={uc?.desc} />;
+        }
+        return <PlaceholderPage title="Page Not Found" />;
+    }
+  }
+
+  return (
+    <AppContext.Provider value={ctx}>
+      <Nav />
+      {renderPage()}
+      <StickyBar />
+    </AppContext.Provider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
