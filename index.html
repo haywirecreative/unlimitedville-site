@@ -9,13 +9,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 <script>
 (function(){
-  // Google Places Autocomplete - replace YOUR_API_KEY with a real key for production
   var k = window.GOOGLE_MAPS_KEY || "AIzaSyDbbIgPwOXyZQq9ByDgfsj76I6nd-BODFU";
-  if(k !== "YOUR_API_KEY"){
+  if(k && k !== "YOUR_API_KEY"){
     var s = document.createElement("script");
-    s.src = "https://maps.googleapis.com/maps/api/js?key="+k+"&libraries=places&callback=__initPlaces";
+    s.src = "https://maps.googleapis.com/maps/api/js?key="+k+"&libraries=places&loading=async";
     s.async = true; s.defer = true;
-    window.__initPlaces = function(){ window.__placesReady = true; };
     document.head.appendChild(s);
   }
 })();
@@ -55,7 +53,11 @@
   .btn-secondary { transition: border-color 0.2s ease, background 0.2s ease; }
   .btn-secondary:hover { border-color: rgba(255,255,255,0.2) !important; background: rgba(255,255,255,0.06) !important; }
   input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
-  /* Google Places Autocomplete dropdown styling */
+  /* Google Places Autocomplete (new PlaceAutocompleteElement) */
+  gmp-placeautocomplete { width:100% !important; --gmpac-color-surface-container-highest:#18181b; --gmpac-color-on-surface:#fff; --gmpac-color-on-surface-variant:#a1a1aa; --gmpac-color-outline-variant:#27272a; --gmpac-color-primary:#55b685; }
+  gmp-placeautocomplete input { background:#18181b !important; color:#fff !important; border:1px solid #27272a !important; border-radius:12px !important; padding:14px 16px !important; font-size:15px !important; font-family:'Inter',sans-serif !important; outline:none !important; width:100% !important; }
+  gmp-placeautocomplete input:focus { border-color:#55b685 !important; box-shadow:0 0 0 3px rgba(85,182,133,0.1) !important; }
+  /* Fallback for old pac-container if it appears */
   .pac-container { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
   .pac-item { border-top:1px solid #27272a !important; padding:10px 14px !important; color:#d4d4d8 !important; font-size:14px !important; cursor:pointer !important; }
   .pac-item:first-child { border-top:none !important; }
@@ -213,51 +215,66 @@ function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:
    Falls back to plain input if API key not set
    ═══════════════════════════════════════ */
 function AddressInput({ value, onChange, onSubmit, inputStyle }) {
-  const inputRef = useRef(null);
-  const acRef = useRef(null);
+  const containerRef = useRef(null);
   const cbRef = useRef({ onChange, onSubmit });
   cbRef.current = { onChange, onSubmit };
+  const [useFallback, setUseFallback] = useState(false);
 
   useEffect(() => {
-    const el = inputRef.current;
-    if (!el) return;
-    let iv;
-    function attach() {
-      if (acRef.current || !el) return;
+    const container = containerRef.current;
+    if (!container) return;
+    let iv, mounted = true;
+
+    async function attach() {
       try {
-        const ac = new window.google.maps.places.Autocomplete(el, {
-          types: ["address"],
+        await google.maps.importLibrary("places");
+        if (!mounted) return;
+        const pac = new google.maps.places.PlaceAutocompleteElement({
           componentRestrictions: { country: "us" },
-          fields: ["formatted_address"]
+          types: ["address"]
         });
-        ac.addListener("place_changed", () => {
-          const place = ac.getPlace();
-          if (place && place.formatted_address) {
-            cbRef.current.onChange(place.formatted_address);
-            setTimeout(() => cbRef.current.onSubmit && cbRef.current.onSubmit(place.formatted_address), 100);
-          }
+        // Style the inner input to match our design
+        pac.style.cssText = "width:100%;";
+        pac.addEventListener("gmp-select", async (e) => {
+          const place = e.placePrediction.toPlace();
+          await place.fetchFields({ fields: ["formattedAddress"] });
+          const addr = place.formattedAddress || "";
+          cbRef.current.onChange(addr);
+          setTimeout(() => cbRef.current.onSubmit && cbRef.current.onSubmit(addr), 100);
         });
-        acRef.current = ac;
-      } catch(e) {}
+        container.innerHTML = "";
+        container.appendChild(pac);
+      } catch(e) {
+        if (mounted) setUseFallback(true);
+      }
     }
-    if (window.google && window.google.maps && window.google.maps.places) { attach(); }
+
+    if (window.google && window.google.maps) { attach(); }
     else {
       let tries = 0;
       iv = setInterval(() => {
-        if (window.google && window.google.maps && window.google.maps.places) { clearInterval(iv); attach(); }
-        else if (++tries > 50) clearInterval(iv);
-      }, 200);
+        if (window.google && window.google.maps) { clearInterval(iv); attach(); }
+        else if (++tries > 40) { clearInterval(iv); if (mounted) setUseFallback(true); }
+      }, 250);
     }
-    return () => { iv && clearInterval(iv); if (acRef.current && window.google) { window.google.maps.event.clearInstanceListeners(acRef.current); acRef.current = null; } };
+    return () => { mounted = false; iv && clearInterval(iv); };
   }, []);
 
-  return (
-    <input ref={inputRef} type="text" placeholder="Enter your address..."
-      defaultValue={value}
+  if (useFallback) {
+    return (
+      <input type="text" placeholder="Enter your address..." defaultValue={value}
+        onChange={e => cbRef.current.onChange(e.target.value)}
+        onKeyDown={e => { if(e.key==="Enter" && e.target.value.length>=5) cbRef.current.onSubmit && cbRef.current.onSubmit(e.target.value); }}
+        style={inputStyle} />
+    );
+  }
+
+  return <div ref={containerRef} style={{ flex:1 }}>
+    <input type="text" placeholder="Enter your address..." defaultValue={value}
       onChange={e => cbRef.current.onChange(e.target.value)}
       onKeyDown={e => { if(e.key==="Enter" && e.target.value.length>=5) cbRef.current.onSubmit && cbRef.current.onSubmit(e.target.value); }}
       style={inputStyle} />
-  );
+  </div>;
 }
 
 /* ═══════════════════════════════════════
