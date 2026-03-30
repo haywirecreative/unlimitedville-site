@@ -7,19 +7,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
-<script>
-(function(){
-  // Google Places Autocomplete - replace YOUR_API_KEY with a real key for production
-  var k = window.GOOGLE_MAPS_KEY || "YOUR_API_KEY";
-  if(k !== "YOUR_API_KEY"){
-    var s = document.createElement("script");
-    s.src = "https://maps.googleapis.com/maps/api/js?key="+k+"&libraries=places&callback=__initPlaces";
-    s.async = true; s.defer = true;
-    window.__initPlaces = function(){ window.__placesReady = true; };
-    document.head.appendChild(s);
-  }
-})();
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -55,14 +42,6 @@
   .btn-secondary { transition: border-color 0.2s ease, background 0.2s ease; }
   .btn-secondary:hover { border-color: rgba(255,255,255,0.2) !important; background: rgba(255,255,255,0.06) !important; }
   input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
-  /* Google Places Autocomplete dropdown styling */
-  .pac-container { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; }
-  .pac-item { border-top:1px solid #27272a !important; padding:10px 14px !important; color:#d4d4d8 !important; font-size:14px !important; cursor:pointer !important; }
-  .pac-item:first-child { border-top:none !important; }
-  .pac-item:hover, .pac-item-selected { background:#27272a !important; }
-  .pac-item-query { color:#fff !important; font-weight:600 !important; }
-  .pac-icon { display:none !important; }
-  .pac-matched { color:#55b685 !important; }
   .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; }
   .card-hover:hover { transform: translateY(-3px); }
   .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; opacity: 0; }
@@ -205,42 +184,6 @@ function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:
         {children}
       </div>
     </div>
-  );
-}
-
-/* ═══════════════════════════════════════
-   ADDRESS INPUT w/ GOOGLE PLACES AUTOCOMPLETE
-   Falls back to plain input if API key not set
-   ═══════════════════════════════════════ */
-function AddressInput({ value, onChange, onSubmit, inputStyle }) {
-  const inputRef = useRef(null);
-  const acRef = useRef(null);
-
-  useEffect(() => {
-    if (!window.__placesReady || !inputRef.current || acRef.current) return;
-    try {
-      const ac = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ["address"],
-        componentRestrictions: { country: "us" },
-        fields: ["formatted_address"]
-      });
-      ac.addListener("place_changed", () => {
-        const place = ac.getPlace();
-        if (place && place.formatted_address) {
-          onChange(place.formatted_address);
-          setTimeout(() => onSubmit && onSubmit(place.formatted_address), 50);
-        }
-      });
-      acRef.current = ac;
-    } catch(e) { /* Places API not available, fall back to plain input */ }
-    return () => { if (acRef.current) window.google.maps.event.clearInstanceListeners(acRef.current); };
-  }, []);
-
-  return (
-    <input ref={inputRef} type="text" placeholder="Enter your address..." value={value}
-      onChange={e => onChange(e.target.value)}
-      onKeyDown={e => { if(e.key==="Enter" && value.length>=5) onSubmit && onSubmit(value); }}
-      style={inputStyle} />
   );
 }
 
@@ -433,9 +376,8 @@ function HomePage() {
         </div>
         {!addressChecked ? (
           <div style={{ display:"flex", gap:8 }}>
-            <AddressInput value={address} onChange={setAddress}
-              onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
-              inputStyle={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:15, outline:"none" }} />
+            <input type="text" placeholder="Enter your address..." value={address} onChange={e=>setAddress(e.target.value)}
+              style={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:15, outline:"none" }} />
             <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"14px 22px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:14, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
           </div>
         ) : addressResult==="verify" ? (
@@ -512,13 +454,11 @@ function HomePage() {
 
             return (
               <div key={plan.id} className="card-hover" style={{ borderRadius:20, overflow:"hidden", background:bg, border:isDark?`1.5px solid ${T.green}35`:`1px solid ${bdr}`, borderLeft:`4px solid ${plan.color}`, position:"relative", boxShadow:isDark?`0 0 60px ${T.green}0A, 0 16px 60px rgba(0,0,0,0.25)`:"0 1px 4px rgba(0,0,0,0.04)", padding:"24px" }}>
+                {plan.popular && <div style={{ marginBottom:12 }}><span style={{ padding:"5px 12px", borderRadius:99, background:T.green, color:T.white, fontSize:12, fontWeight:700, letterSpacing:1 }}>POPULAR</span></div>}
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
                   <div>
                     <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:plan.color, textTransform:"uppercase", marginBottom:2 }}>{plan.tier}</p>
-                    <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                      <h3 style={{ fontSize:22, fontWeight:800, color:txt, letterSpacing:-0.3 }}>{plan.name}</h3>
-                      {plan.popular && <span style={{ padding:"3px 8px", borderRadius:99, background:T.green, color:T.white, fontSize:10, fontWeight:700, letterSpacing:0.5 }}>POPULAR</span>}
-                    </div>
+                    <h3 style={{ fontSize:22, fontWeight:800, color:txt, letterSpacing:-0.3 }}>{plan.name}</h3>
                   </div>
                   <div style={{ textAlign:"right", flexShrink:0, marginLeft:16 }}>
                     <span style={{ fontSize:36, fontWeight:900, color:txt, letterSpacing:-1.5, lineHeight:1 }}>${plan.monthly}</span>
@@ -683,7 +623,7 @@ function HomePage() {
         </div>
         {/* Content -- not absolute, flows naturally */}
         <div style={{ position:"relative", zIndex:1, padding:"48px 24px", textAlign:"center" }}>
-          <h2 style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Join thousands of<br/>happy members.</h2>
+          <h2 style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Join 37,000+<br/>happy subscribers.</h2>
           <p style={{ fontSize:16, color:T.g300, marginBottom:32, lineHeight:1.5 }}>Setup takes 5 minutes. Ships in 24 hours.<br/>21-day money-back guarantee.</p>
           <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
             View Plans {I.arrow(16)}
@@ -700,7 +640,7 @@ function HomePage() {
         <div style={{ marginBottom:8 }}>
           <LogoFull h={26} />
         </div>
-        <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by thousands of members since 2016.</p>
+        <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by 37,000+ subscribers since 2016.</p>
 
         {/* Nav links -- two even columns, no headers */}
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px 0", marginBottom:28 }}>
@@ -940,14 +880,13 @@ function PlansPage() {
               <p style={{ fontSize:13, color:T.g500 }}>Enter your address to check availability</p>
             </div>
           </div>
-          {!addressChecked ? (
+          {!zipChecked ? (
             <div style={{ display:"flex", gap:8 }}>
-              <AddressInput value={address} onChange={setAddress}
-                onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
-                inputStyle={{ flex:1, padding:"15px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:16, outline:"none" }} />
-              <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"15px 24px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
+              <input type="text" placeholder="Enter ZIP code" value={zip} onChange={e=>setZip(e.target.value.replace(/\D/g,""))} maxLength={5}
+                style={{ flex:1, padding:"15px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:16, outline:"none" }} />
+              <button onClick={()=>{if(zip.length===5){setZipChecked(true);const startsWithSpecial=zip.startsWith("00")||zip.startsWith("96")||zip.startsWith("99");setZipResult(startsWithSpecial?"verify":"available");}}} className="btn-primary" style={{ padding:"15px 24px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, opacity:zip.length===5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
             </div>
-          ) : addressResult==="verify" ? (
+          ) : zipResult==="verify" ? (
             <div style={{ padding:"16px", borderRadius:12, background:"rgba(250,204,21,0.06)", border:"1px solid rgba(250,204,21,0.15)" }}>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
                 {I.phone(14,"#facc15")}
@@ -959,7 +898,7 @@ function PlansPage() {
             <div style={{ padding:"16px", borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}18` }}>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
                 <div style={{ width:24, height:24, borderRadius:12, background:T.green, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.check(14,T.white)}</div>
-                <span style={{ fontSize:15, fontWeight:700, color:T.greenText }}>Coverage available</span>
+                <span style={{ fontSize:15, fontWeight:700, color:T.greenText }}>Coverage available in your area</span>
               </div>
               <p style={{ fontSize:13, color:T.g400, lineHeight:1.5, marginLeft:34 }}>Multiple carriers serve your area. All plans backed by our 21-day money-back guarantee.</p>
             </div>
@@ -983,12 +922,10 @@ function PlansPage() {
 
             return (
               <div key={plan.id} className="card-hover" style={{ borderRadius:20, overflow:"hidden", background:bg, border:isDark?`1.5px solid ${T.green}35`:`1px solid ${bdr}`, borderLeft:isDark?"none":`4px solid ${plan.color}`, position:"relative", boxShadow:isDark?`0 0 60px ${T.green}0A, 0 24px 80px rgba(0,0,0,0.3)`:"0 1px 4px rgba(0,0,0,0.04)" }}>
+                {plan.popular && <div style={{ position:"absolute", top:16, right:16, padding:"5px 12px", borderRadius:99, background:T.green, color:T.white, fontSize:12, fontWeight:700, letterSpacing:1 }}>POPULAR</div>}
                 <div style={{ padding:"26px 22px" }}>
                   <p style={{ fontSize:12, fontWeight:700, letterSpacing:2.5, color:plan.color, textTransform:"uppercase", marginBottom:4 }}>{plan.tier}</p>
-                  <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4 }}>
-                    <h3 style={{ fontSize:24, fontWeight:800, color:txt, letterSpacing:-0.5 }}>{plan.name}</h3>
-                    {plan.popular && <span style={{ padding:"4px 10px", borderRadius:99, background:T.green, color:T.white, fontSize:11, fontWeight:700, letterSpacing:0.5 }}>POPULAR</span>}
-                  </div>
+                  <h3 style={{ fontSize:24, fontWeight:800, color:txt, letterSpacing:-0.5, marginBottom:4 }}>{plan.name}</h3>
                   <p style={{ fontSize:14, color:sub, marginBottom:22 }}>{plan.bestFor}</p>
 
                   <div style={{ display:"flex", alignItems:"baseline", gap:2, marginBottom:16 }}>
@@ -1097,21 +1034,21 @@ function PlansPage() {
         </div>
       </div>
 
-            <div style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
-        <h2 style={{ fontSize:24, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.5 }}>Included with every plan</h2>
-        <p style={{ fontSize:14, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
+      {/* ── WHAT'S INCLUDED ── */}
+      <div style={{ padding:"40px 20px", background:T.white, borderTop:`1px solid ${T.g200}` }}>
+        <h2 style={{ fontSize:22, fontWeight:900, color:T.g900, marginBottom:24, textAlign:"center", letterSpacing:-0.3 }}>Included with every plan</h2>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
           {[
-            { t:"Unlimited Data", d:"No caps, no throttling", icon:I.signal(20,T.green) },
-            { t:"5-Minute Setup", d:"Plug in and connect", icon:I.zap(20,T.green) },
-            { t:"24/7 USA Support", d:"Real humans, always", icon:I.phone(20,T.green) },
-            { t:"Fully Portable", d:"Use it anywhere", icon:I.globe(20,T.green) },
-            { t:"Router Included", d:"Pre-configured, ready to go", icon:I.router(20,T.green) },
-            { t:"Built-In Security", d:"All devices protected", icon:I.shield(20,T.green) },
+            { t:"Unlimited data", d:"No overages, no throttling, ever", icon:I.signal(18,T.greenText) },
+            { t:"No installation", d:"Plug in and connect in minutes", icon:I.zap(18,T.greenText) },
+            { t:"USA-based support", d:"Real humans, available 24/7", icon:I.phone(18,T.greenText) },
+            { t:"Travel-friendly", d:"Works at home, on the road, anywhere", icon:I.globe(18,T.greenText) },
+            { t:"Advanced security", d:"Built-in protection for all devices", icon:I.shield(18,T.greenText) },
+            { t:"Router included", d:"Pre-configured and ready to go", icon:I.router(18,T.greenText) },
           ].map((item,i) => (
-            <div key={i} style={{ padding:"18px 16px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}` }}>
-              <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, border:`1px solid ${T.green}18`, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:12 }}>{item.icon}</div>
-              <p style={{ fontSize:14, fontWeight:700, color:T.white, marginBottom:3 }}>{item.t}</p>
+            <div key={i} style={{ padding:"16px", borderRadius:14, background:T.g50, border:`1px solid ${T.g100}` }}>
+              <div style={{ marginBottom:10 }}>{item.icon}</div>
+              <p style={{ fontSize:14, fontWeight:700, color:T.g900, marginBottom:4 }}>{item.t}</p>
               <p style={{ fontSize:13, color:T.g500, lineHeight:1.4 }}>{item.d}</p>
             </div>
           ))}
@@ -1119,22 +1056,20 @@ function PlansPage() {
       </div>
 
       {/* ── GUARANTEES ── */}
-      <div style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Why Unlimitedville</p>
-        <h2 style={{ fontSize:28, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.5, lineHeight:1.1 }}>Sounds too good<br/>to be true?</h2>
-        <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center", lineHeight:1.5 }}>We get it. Here's why thousands of members trust us.</p>
-        <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+      <div style={{ padding:"40px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+        <h2 style={{ fontSize:22, fontWeight:900, color:T.g900, marginBottom:24, textAlign:"center", letterSpacing:-0.3 }}>Why Unlimitedville?</h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
           {[
-            { icon:I.shield(20,T.green), title:"21-Day Money-Back Guarantee", desc:"Try it completely risk-free. If you're not satisfied, return the router within 21 days for a full refund. No questions, no hassle." },
-            { icon:I.lock(20,T.green), title:"Price Lock For Life", desc:"Your monthly rate is locked in the day you sign up. No price hikes after 6 months. No introductory rate games. Ever." },
-            { icon:I.check(20,T.green), title:"No Contracts, No Credit Checks", desc:"Month-to-month from day one. Cancel anytime with zero penalties. We don't run your credit either." },
-            { icon:I.phone(20,T.green), title:"USA-Based Support, 24/7", desc:"Real people who actually know our product. Not a script-reading call center overseas." },
+            { emoji:"21 days", title:"Money-Back Guarantee", desc:"Try risk-free -- return within 21 days for a full refund, no questions asked" },
+            { emoji:"Locked", title:"Price Lock Guarantee", desc:"Your rate stays locked for life. No hikes, no surprises, ever" },
+            { emoji:"$0", title:"No Contracts", desc:"Month-to-month. Cancel anytime with zero penalties or fees" },
+            { emoji:"24/7", title:"USA-Based Support", desc:"Real people ready to help whenever you need us" },
           ].map((g,i) => (
-            <div key={i} style={{ display:"flex", gap:16, padding:"20px", background:T.white, borderRadius:20, border:`1px solid ${T.g200}`, boxShadow:"0 1px 4px rgba(0,0,0,0.04)" }}>
-              <div style={{ minWidth:48, height:48, borderRadius:14, background:`${T.green}08`, border:`1px solid ${T.green}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{g.icon}</div>
+            <div key={i} style={{ display:"flex", gap:16, padding:"20px", background:T.white, borderRadius:R.lg, border:`1px solid ${T.g200}` }}>
+              <div style={{ minWidth:48, height:48, borderRadius:14, background:`${T.green}08`, border:`1px solid ${T.green}15`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:800, color:T.greenText, flexShrink:0 }}>{g.emoji}</div>
               <div>
-                <p style={{ fontSize:15, fontWeight:700, color:T.g900, marginBottom:5 }}>{g.title}</p>
-                <p style={{ fontSize:14, color:T.g500, lineHeight:1.55 }}>{g.desc}</p>
+                <p style={{ fontSize:15, fontWeight:700, color:T.g900, marginBottom:4 }}>{g.title}</p>
+                <p style={{ fontSize:13, color:T.g500, lineHeight:1.5 }}>{g.desc}</p>
               </div>
             </div>
           ))}
@@ -1142,8 +1077,7 @@ function PlansPage() {
       </div>
 
       {/* ── SOCIAL PROOF STRIP ── */}
-      <div style={{ padding:"40px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>What members say</p>
+      <div style={{ padding:"32px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:20 }}>
           <div style={{ display:"flex", gap:2 }}>{[1,2,3,4,5].map(i=><span key={i}>{I.star(14)}</span>)}</div>
           <span style={{ fontSize:16, fontWeight:800, color:T.white }}>4.5</span>
