@@ -215,12 +215,17 @@ function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:
 function AddressInput({ value, onChange, onSubmit, inputStyle }) {
   const inputRef = useRef(null);
   const acRef = useRef(null);
+  const cbRef = useRef({ onChange, onSubmit });
+  cbRef.current = { onChange, onSubmit };
 
   useEffect(() => {
-    function initAC() {
-      if (!inputRef.current || acRef.current) return;
+    const el = inputRef.current;
+    if (!el) return;
+    let iv;
+    function attach() {
+      if (acRef.current || !el) return;
       try {
-        const ac = new window.google.maps.places.Autocomplete(inputRef.current, {
+        const ac = new window.google.maps.places.Autocomplete(el, {
           types: ["address"],
           componentRestrictions: { country: "us" },
           fields: ["formatted_address"]
@@ -228,31 +233,29 @@ function AddressInput({ value, onChange, onSubmit, inputStyle }) {
         ac.addListener("place_changed", () => {
           const place = ac.getPlace();
           if (place && place.formatted_address) {
-            onChange(place.formatted_address);
-            setTimeout(() => onSubmit && onSubmit(place.formatted_address), 50);
+            cbRef.current.onChange(place.formatted_address);
+            setTimeout(() => cbRef.current.onSubmit && cbRef.current.onSubmit(place.formatted_address), 100);
           }
         });
         acRef.current = ac;
-      } catch(e) { /* Places API not available */ }
+      } catch(e) {}
     }
-    if (window.__placesReady) { initAC(); }
+    if (window.google && window.google.maps && window.google.maps.places) { attach(); }
     else {
-      // Poll until Google Places is ready (checks every 300ms, up to 10s)
       let tries = 0;
-      const iv = setInterval(() => {
-        tries++;
-        if (window.__placesReady) { clearInterval(iv); initAC(); }
-        else if (tries > 33) { clearInterval(iv); }
-      }, 300);
-      return () => clearInterval(iv);
+      iv = setInterval(() => {
+        if (window.google && window.google.maps && window.google.maps.places) { clearInterval(iv); attach(); }
+        else if (++tries > 50) clearInterval(iv);
+      }, 200);
     }
-    return () => { if (acRef.current) window.google.maps.event.clearInstanceListeners(acRef.current); };
+    return () => { iv && clearInterval(iv); if (acRef.current && window.google) { window.google.maps.event.clearInstanceListeners(acRef.current); acRef.current = null; } };
   }, []);
 
   return (
-    <input ref={inputRef} type="text" placeholder="Enter your address..." value={value}
-      onChange={e => onChange(e.target.value)}
-      onKeyDown={e => { if(e.key==="Enter" && value.length>=5) onSubmit && onSubmit(value); }}
+    <input ref={inputRef} type="text" placeholder="Enter your address..."
+      defaultValue={value}
+      onChange={e => cbRef.current.onChange(e.target.value)}
+      onKeyDown={e => { if(e.key==="Enter" && e.target.value.length>=5) cbRef.current.onSubmit && cbRef.current.onSubmit(e.target.value); }}
       style={inputStyle} />
   );
 }
