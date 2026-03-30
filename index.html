@@ -56,7 +56,7 @@
   .btn-secondary:hover { border-color: rgba(255,255,255,0.2) !important; background: rgba(255,255,255,0.06) !important; }
   input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
   /* Google Places Autocomplete dropdown styling */
-  .pac-container { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; }
+  .pac-container { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
   .pac-item { border-top:1px solid #27272a !important; padding:10px 14px !important; color:#d4d4d8 !important; font-size:14px !important; cursor:pointer !important; }
   .pac-item:first-child { border-top:none !important; }
   .pac-item:hover, .pac-item-selected { background:#27272a !important; }
@@ -217,22 +217,35 @@ function AddressInput({ value, onChange, onSubmit, inputStyle }) {
   const acRef = useRef(null);
 
   useEffect(() => {
-    if (!window.__placesReady || !inputRef.current || acRef.current) return;
-    try {
-      const ac = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ["address"],
-        componentRestrictions: { country: "us" },
-        fields: ["formatted_address"]
-      });
-      ac.addListener("place_changed", () => {
-        const place = ac.getPlace();
-        if (place && place.formatted_address) {
-          onChange(place.formatted_address);
-          setTimeout(() => onSubmit && onSubmit(place.formatted_address), 50);
-        }
-      });
-      acRef.current = ac;
-    } catch(e) { /* Places API not available, fall back to plain input */ }
+    function initAC() {
+      if (!inputRef.current || acRef.current) return;
+      try {
+        const ac = new window.google.maps.places.Autocomplete(inputRef.current, {
+          types: ["address"],
+          componentRestrictions: { country: "us" },
+          fields: ["formatted_address"]
+        });
+        ac.addListener("place_changed", () => {
+          const place = ac.getPlace();
+          if (place && place.formatted_address) {
+            onChange(place.formatted_address);
+            setTimeout(() => onSubmit && onSubmit(place.formatted_address), 50);
+          }
+        });
+        acRef.current = ac;
+      } catch(e) { /* Places API not available */ }
+    }
+    if (window.__placesReady) { initAC(); }
+    else {
+      // Poll until Google Places is ready (checks every 300ms, up to 10s)
+      let tries = 0;
+      const iv = setInterval(() => {
+        tries++;
+        if (window.__placesReady) { clearInterval(iv); initAC(); }
+        else if (tries > 33) { clearInterval(iv); }
+      }, 300);
+      return () => clearInterval(iv);
+    }
     return () => { if (acRef.current) window.google.maps.event.clearInstanceListeners(acRef.current); };
   }, []);
 
