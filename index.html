@@ -1048,34 +1048,35 @@ function PlansPage() {
 
       {/* ── COMPARE PLANS TABLE ── */}
       <div style={{ padding:"48px 20px 40px" }}>
-        <h2 style={{ fontSize:24, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.5 }}>Compare Plans</h2>
-        <p style={{ fontSize:14, color:T.g500, marginBottom:24, textAlign:"center" }}>Side-by-side, no fine print.</p>
+        <h2 style={{ fontSize:24, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.5 }}>Plan Comparison</h2>
+        <p style={{ fontSize:14, color:T.g500, marginBottom:24, textAlign:"center" }}>Your perfect connection -- choose without compromise.</p>
 
-        {/* Column headers */}
-        <div style={{ display:"flex", marginBottom:0 }}>
-          <div style={{ flex:1.2 }} />
-          {PLANS.map((p,i) => (
-            <div key={i} style={{ flex:1, textAlign:"center", padding:"14px 4px", background:i===2?`${T.green}08`:"transparent", borderRadius:i===2?"12px 12px 0 0":"0" }}>
-              <p style={{ fontSize:i===2?13:12, fontWeight:700, color:i===2?T.green:T.g500, letterSpacing:0.5, textTransform:i===2?"uppercase":"none" }}>{p.name}</p>
-              <p style={{ fontSize:18, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginTop:4 }}>${p.monthly}<span style={{ fontSize:12, fontWeight:500, color:T.g500 }}>/mo</span></p>
-            </div>
-          ))}
-        </div>
+        <div style={{ borderRadius:20, overflow:"hidden", boxShadow:"0 8px 40px rgba(85,182,133,0.12)" }}>
+          {/* Header row */}
+          <div style={{ display:"flex", background:"linear-gradient(135deg, #3d9e6e 0%, #55b685 50%, #3d8c63 100%)" }}>
+            <div style={{ flex:1.1, padding:"16px 12px", fontSize:13, fontWeight:700, color:"rgba(255,255,255,0.9)" }}>Features</div>
+            {PLANS.map((p,i) => (
+              <div key={i} style={{ flex:1, textAlign:"center", padding:"16px 4px" }}>
+                <p style={{ fontSize:13, fontWeight:800, color:T.white, letterSpacing:0.3 }}>{p.name}</p>
+              </div>
+            ))}
+          </div>
 
-        <div style={{ borderRadius:16, overflow:"hidden", border:`1px solid ${T.g200}` }}>
+          {/* Data rows */}
           {[
-            {label:"Max Speed", vals:["60 Mbps","250 Mbps","500 Mbps"]},
-            {label:"Latency", vals:["40-80ms","30-60ms","20-40ms"]},
-            {label:"Data Cap", vals:["Unlimited","Unlimited","Unlimited"]},
-            {label:"Router", vals:["4G LTE","Cat12 AC","5G Premium"]},
-            {label:"Activation", vals:["FREE","$99","$199"]},
-            {label:"Weatherproof", vals:["--","--","IP65"]},
-            {label:"Best For", vals:["Browsing","Streaming","4K / Gaming"]},
+            {label:"Monthly Price", icon:I.zap(13,"rgba(255,255,255,0.7)"), vals:[`$${PLANS[0].monthly}`,`$${PLANS[1].monthly}`,`$${PLANS[2].monthly}`]},
+            {label:"Speed Rating", icon:I.signal(13,"rgba(255,255,255,0.7)"), vals:PLANS.map(p=>p.tier)},
+            {label:"Max Speed", icon:I.arrow(13,"rgba(255,255,255,0.7)"), vals:["60 Mbps","250 Mbps","500 Mbps"]},
+            {label:"Latency", icon:I.zap(13,"rgba(255,255,255,0.7)"), vals:["40-80 ms","30-60 ms","20-40 ms"]},
+            {label:"Router Type", icon:I.router(13,"rgba(255,255,255,0.7)"), vals:["Basic","Advanced","Premium"]},
+            {label:"Data Limit", icon:I.globe(13,"rgba(255,255,255,0.7)"), vals:["Unlimited","Unlimited","Unlimited"]},
+            {label:"Weatherproof", icon:I.shield(13,"rgba(255,255,255,0.7)"), vals:["--","--","YES"]},
+            {label:"Best For", icon:I.check(13,"rgba(255,255,255,0.7)"), vals:["Browsing / Email","HD Streaming, Gaming","4K Streaming, Gaming"]},
           ].map((row,i) => (
-            <div key={i} style={{ display:"flex", alignItems:"center", borderTop:i?`1px solid ${T.g200}`:"none", background:i%2===0?T.white:T.g50 }}>
-              <div style={{ flex:1.2, padding:"14px 14px", fontSize:13, fontWeight:600, color:T.g700 }}>{row.label}</div>
+            <div key={i} style={{ display:"flex", alignItems:"center", background:i%2===0?"rgba(85,182,133,0.88)":"rgba(85,182,133,0.78)" }}>
+              <div style={{ flex:1.1, padding:"13px 12px", fontSize:12, fontWeight:700, color:T.white, display:"flex", alignItems:"center", gap:6 }}>{row.icon} {row.label}</div>
               {row.vals.map((v,j) => (
-                <div key={j} style={{ flex:1, padding:"14px 6px", fontSize:13, color:j===2?T.g900:T.g600, textAlign:"center", fontWeight:j===2?800:400, background:j===2?`${T.green}06`:"transparent" }}>{v}</div>
+                <div key={j} style={{ flex:1, padding:"13px 4px", fontSize:12, color:T.white, textAlign:"center", fontWeight:j===2?800:500 }}>{v}</div>
               ))}
             </div>
           ))}
@@ -1089,6 +1090,11 @@ function PlansPage() {
             </button>
           ))}
         </div>
+
+        {/* Starlink comparison */}
+        <button onClick={()=>navigate("starlink-vs")} style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, width:"100%", marginTop:16, padding:"12px", background:"none", border:"none", color:T.greenText, fontSize:14, fontWeight:600 }}>
+          Compare Unlimitedville to Starlink {I.arrow(14,T.greenText)}
+        </button>
       </div>
 
             <div style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
@@ -1096,12 +1102,14 @@ function PlansPage() {
         <p style={{ fontSize:14, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
           {[
-            { t:"Unlimited Data", d:"No caps, no throttling", icon:I.signal(20,T.green) },
-            { t:"5-Minute Setup", d:"Plug in and connect", icon:I.zap(20,T.green) },
-            { t:"24/7 USA Support", d:"Real humans, always", icon:I.phone(20,T.green) },
-            { t:"Fully Portable", d:"Use it anywhere", icon:I.globe(20,T.green) },
-            { t:"Router Included", d:"Pre-configured, ready to go", icon:I.router(20,T.green) },
-            { t:"Built-In Security", d:"All devices protected", icon:I.shield(20,T.green) },
+            { t:"21-Day Money-Back", d:"Try risk-free, return if not satisfied", icon:I.back(20,T.green) },
+            { t:"Price Lock Guarantee", d:"Your rate never increases. Ever.", icon:I.lock(20,T.green) },
+            { t:"No Contracts", d:"Month-to-month, no credit checks", icon:I.check(20,T.green) },
+            { t:"Unlimited Data", d:"No caps, no throttling, no overages", icon:I.signal(20,T.green) },
+            { t:"5-Minute Setup", d:"No technician, no appointments", icon:I.zap(20,T.green) },
+            { t:"24/7 USA Support", d:"Real humans, always available", icon:I.phone(20,T.green) },
+            { t:"Fully Portable", d:"Use it at home, on the road, anywhere", icon:I.globe(20,T.green) },
+            { t:"Built-In Security", d:"Advanced protection for all devices", icon:I.shield(20,T.green) },
           ].map((item,i) => (
             <div key={i} style={{ padding:"18px 16px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}` }}>
               <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, border:`1px solid ${T.green}18`, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:12 }}>{item.icon}</div>
