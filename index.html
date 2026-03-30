@@ -725,45 +725,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════
-          FOOTER
-          ═══════════════════════════════════ */}
-      <footer style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
-        {/* Logo */}
-        <div style={{ marginBottom:8 }}>
-          <LogoFull h={26} />
-        </div>
-        <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by thousands of members since 2016.</p>
-
-        {/* Nav links -- two even columns, no headers */}
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px 0", marginBottom:28 }}>
-          {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"uc-rural"},{l:"Blog",p:"blog"},{l:"Contact Us",p:"support"}].map((link,i) => (
-            <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:0, textAlign:"left" }}>{link.l}</button>
-          ))}
-        </div>
-
-        {/* Account + Contact row */}
-        <div style={{ display:"flex", gap:10, marginBottom:28 }}>
-          <button onClick={()=>navigate("login")} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
-            {I.user(15,T.green)} My Account
-          </button>
-          <a href="tel:+18884222907" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
-            {I.phone(13,T.green)} 888.422.2907
-          </a>
-        </div>
-
-        {/* Legal */}
-        <div style={{ paddingTop:24, borderTop:`1px solid ${T.darkBorder}` }}>
-          <p style={{ fontSize:13, color:T.g600, lineHeight:1.8 }}>Unlimitedville is a membership-based wireless internet service. All equipment remains property of Unlimitedville for the duration of your membership. Speeds vary by location. 21-day money-back guarantee applies to all plans.</p>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:14 }}>
-            <p style={{ fontSize:12, color:T.g700 }}>2026 Unlimitedville</p>
-            <div style={{ display:"flex", gap:14 }}>
-              <a href="#" style={{ fontSize:12, color:T.g500 }}>Privacy</a>
-              <a href="#" style={{ fontSize:12, color:T.g500 }}>Terms</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -1249,6 +1210,44 @@ function PlaceholderPage({ title, subtitle }) {
 }
 
 /* ═══════════════════════════════════════
+   FOOTER (shared across all pages)
+   ═══════════════════════════════════════ */
+function Footer() {
+  const { navigate } = useApp();
+  return (
+    <footer style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div style={{ marginBottom:8 }}>
+        <LogoFull h={26} />
+      </div>
+      <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by thousands of members since 2016.</p>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px 0", marginBottom:28 }}>
+        {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"uc-rural"},{l:"Blog",p:"blog"},{l:"Contact Us",p:"support"}].map((link,i) => (
+          <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:0, textAlign:"left" }}>{link.l}</button>
+        ))}
+      </div>
+      <div style={{ display:"flex", gap:10, marginBottom:28 }}>
+        <button onClick={()=>navigate("login")} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
+          {I.user(15,T.green)} My Account
+        </button>
+        <a href="tel:+18884222907" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
+          {I.phone(13,T.green)} 888.422.2907
+        </a>
+      </div>
+      <div style={{ paddingTop:24, borderTop:`1px solid ${T.darkBorder}` }}>
+        <p style={{ fontSize:13, color:T.g600, lineHeight:1.8 }}>Unlimitedville is a membership-based wireless internet service. All equipment remains property of Unlimitedville for the duration of your membership. Speeds vary by location. 21-day money-back guarantee applies to all plans.</p>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:14 }}>
+          <p style={{ fontSize:12, color:T.g700 }}>2026 Unlimitedville</p>
+          <div style={{ display:"flex", gap:14 }}>
+            <a href="#" style={{ fontSize:12, color:T.g500 }}>Privacy</a>
+            <a href="#" style={{ fontSize:12, color:T.g500 }}>Terms</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ═══════════════════════════════════════
    APP ROUTER
    ═══════════════════════════════════════ */
 function App() {
@@ -1289,6 +1288,7 @@ function App() {
     <AppContext.Provider value={ctx}>
       <Nav />
       {renderPage()}
+      <Footer />
       <StickyBar />
     </AppContext.Provider>
   );
