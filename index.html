@@ -1208,7 +1208,7 @@ function PlaceholderPage({ title, subtitle }) {
   const { navigate } = useApp();
   return (
     <div style={{ minHeight:"100vh", background:T.dark, paddingTop:64, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center", padding:"64px 24px" }}>
-      <Logomark h={64} />
+      <div onClick={()=>navigate("home")} style={{ cursor:"pointer" }}><Logomark h={64} /></div>
       <h1 style={{ fontSize:32, fontWeight:900, color:T.white, marginTop:28, letterSpacing:-0.8 }}>{title}</h1>
       <p style={{ fontSize:15, color:T.g500, marginTop:10, lineHeight:1.5, maxWidth:280 }}>{subtitle || "This page is coming soon."}</p>
       <button onClick={()=>navigate("home")} className="btn-secondary" style={{ marginTop:28, padding:"14px 28px", background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, color:T.g300, fontSize:15, fontWeight:500 }}>
@@ -1225,7 +1225,7 @@ function Footer() {
   const { navigate } = useApp();
   return (
     <footer style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
-      <div style={{ marginBottom:8 }}>
+      <div onClick={()=>navigate("home")} style={{ marginBottom:8, cursor:"pointer", display:"inline-block" }}>
         <LogoFull h={26} />
       </div>
       <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by thousands of members since 2016.</p>
