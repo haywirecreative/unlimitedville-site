@@ -386,16 +386,16 @@ function HomePage() {
   const [faqOpen, setFaqOpen] = useState(null);
 
   const quizQs = [
-    { q:"How many people in your household?", opts:[{l:"1-2",v:1},{l:"3-4",v:2},{l:"5+",v:3}] },
-    { q:"Primary internet use?", opts:[{l:"Browsing & email",v:1},{l:"Streaming & calls",v:2},{l:"Gaming & 4K",v:3}] },
-    { q:"Speed priority?", opts:[{l:"Just reliable",v:1},{l:"Fast",v:2},{l:"Maximum speed",v:3}] },
+    { q:"How many devices will connect?", opts:[{l:"1-3 devices",v:1,d:"Phone, laptop, maybe a tablet"},{l:"4-8 devices",v:2,d:"Multiple people streaming"},{l:"9+ devices",v:3,d:"Smart home, cameras, everything"}] },
+    { q:"What will you use it for most?", opts:[{l:"Browsing & email",v:1,d:"News, social media, light use"},{l:"Streaming & video calls",v:2,d:"Netflix, Zoom, YouTube"},{l:"Gaming & 4K streaming",v:3,d:"Low latency, heavy bandwidth"}] },
+    { q:"Where will you use it?", opts:[{l:"One fixed location",v:1,d:"Home, cabin, or office"},{l:"Mostly one spot, sometimes travel",v:2,d:"Home base + occasional trips"},{l:"On the move regularly",v:3,d:"RV, travel, multiple locations"}] },
   ];
 
   function quizPick(qi, v) {
     const a = {...quizAns, [qi]:v};
     setQuizAns(a);
     if (qi < quizQs.length-1) setQuizStep(qi+1);
-    else { const t = Object.values(a).reduce((x,y)=>x+y,0); setQuizResult(t<=4?PLANS[0]:t<=6?PLANS[1]:PLANS[2]); }
+    else { const t = Object.values(a).reduce((x,y)=>x+y,0); setQuizResult(t<=4?PLANS[0]:t<=7?PLANS[1]:PLANS[2]); }
   }
 
   function selectPlan(plan) { setCart(plan); navigate("cart"); }
@@ -585,21 +585,63 @@ function HomePage() {
             <div style={{ display:"flex", gap:4, marginBottom:28 }}>
               {quizQs.map((_,i) => <div key={i} style={{ flex:1, height:3, borderRadius:2, background:i<=quizStep?T.green:T.darkBorder, transition:"0.3s", boxShadow:i<=quizStep?`0 0 10px ${T.greenGlow}`:"none" }} />)}
             </div>
+            <p style={{ fontSize:13, color:T.g500, marginBottom:6 }}>Question {quizStep+1} of {quizQs.length}</p>
             <p style={{ fontSize:20, fontWeight:700, color:T.white, marginBottom:20 }}>{quizQs[quizStep].q}</p>
             {quizQs[quizStep].opts.map((o,i) => (
-              <button key={i} onClick={()=>quizPick(quizStep,o.v)} className="btn-secondary" style={{ display:"block", width:"100%", padding:"18px 20px", marginBottom:10, background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:16, fontWeight:500, color:T.g300, textAlign:"left" }}>{o.l}</button>
+              <button key={i} onClick={()=>quizPick(quizStep,o.v)} className="card-hover" style={{ display:"block", width:"100%", padding:"18px 20px", marginBottom:10, background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, textAlign:"left", cursor:"pointer" }}>
+                <span style={{ fontSize:16, fontWeight:600, color:T.g200, display:"block" }}>{o.l}</span>
+                <span style={{ fontSize:13, color:T.g500, marginTop:3, display:"block" }}>{o.d}</span>
+              </button>
             ))}
           </>
         ) : (
-          <div style={{ textAlign:"center" }}>
-            <div style={{ width:72, height:72, borderRadius:36, margin:"0 auto 20px", background:`${T.green}12`, border:`2px solid ${T.green}30`, display:"flex", alignItems:"center", justifyContent:"center" }}>{I.check(32,T.green)}</div>
-            <p style={{ fontSize:14, color:T.g500, marginBottom:6 }}>Your match</p>
-            <h3 style={{ fontSize:36, fontWeight:900, color:T.white, letterSpacing:-1, marginBottom:8, lineHeight:1 }}>{quizResult.name}</h3>
-            <p style={{ fontSize:15, color:T.g400, marginBottom:28 }}>{quizResult.bestFor} -- ${quizResult.monthly}/mo</p>
-            <button onClick={()=>selectPlan(quizResult)} className="btn-primary" style={{ width:"100%", padding:"17px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}` }}>
+          <div>
+            {/* Result card */}
+            <div style={{ borderRadius:20, overflow:"hidden", background:T.darkCard, border:`1.5px solid ${T.green}30`, boxShadow:`0 0 60px ${T.green}0A` }}>
+              <div style={{ padding:"24px 22px 20px", borderBottom:`1px solid ${T.darkBorder}` }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:14 }}>
+                  <div style={{ width:40, height:40, borderRadius:20, background:`${T.green}12`, border:`2px solid ${T.green}30`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.check(20,T.green)}</div>
+                  <div>
+                    <p style={{ fontSize:12, color:T.g500 }}>We recommend</p>
+                    <p style={{ fontSize:22, fontWeight:900, color:T.white, letterSpacing:-0.5 }}>{quizResult.name}</p>
+                  </div>
+                  <div style={{ marginLeft:"auto", textAlign:"right" }}>
+                    <span style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-1 }}>${quizResult.monthly}</span>
+                    <span style={{ fontSize:13, color:T.g500 }}>/mo</span>
+                  </div>
+                </div>
+                <p style={{ fontSize:14, color:T.g400, lineHeight:1.5 }}>{quizResult.bestFor}. {quizResult.audience}.</p>
+              </div>
+              {/* Key specs */}
+              <div style={{ display:"flex", padding:"16px 22px", gap:0 }}>
+                {[{l:"Max Speed",v:quizResult.maxSpeed},{l:"Latency",v:quizResult.latency},{l:"Data",v:"Unlimited"}].map((s,i) => (
+                  <div key={i} style={{ flex:1, textAlign:"center", borderRight:i<2?`1px solid ${T.darkBorder}`:"none" }}>
+                    <p style={{ fontSize:15, fontWeight:800, color:T.white }}>{s.v}</p>
+                    <p style={{ fontSize:11, color:T.g500, marginTop:2 }}>{s.l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={()=>selectPlan(quizResult)} className="btn-primary" style={{ width:"100%", padding:"17px", marginTop:16, background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}` }}>
               Get {quizResult.name} {I.arrow(15)}
             </button>
-            <button onClick={()=>{setQuizStep(0);setQuizAns({});setQuizResult(null)}} style={{ marginTop:16, background:"none", border:"none", color:T.g500, fontSize:13 }}>Retake quiz</button>
+
+            {/* Upsell nudge -- only show if not already on top plan */}
+            {quizResult.id !== "5g-ultra" && (() => {
+              const next = PLANS[PLANS.indexOf(quizResult)+1];
+              return (
+                <button onClick={()=>{setQuizResult(next)}} style={{ width:"100%", marginTop:10, padding:"14px 16px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:14, display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
+                  <span style={{ fontSize:13, color:T.g400, textAlign:"left", flex:1 }}>Want more speed? <span style={{ color:T.green, fontWeight:600 }}>{next.name}</span> is just ${next.monthly - quizResult.monthly}/mo more</span>
+                  {I.chevRight(14,T.green)}
+                </button>
+              );
+            })()}
+
+            <div style={{ display:"flex", justifyContent:"center", gap:16, marginTop:14 }}>
+              <button onClick={()=>{setQuizStep(0);setQuizAns({});setQuizResult(null)}} style={{ background:"none", border:"none", color:T.g500, fontSize:13 }}>Retake quiz</button>
+              <button onClick={()=>navigate("plans")} style={{ background:"none", border:"none", color:T.g500, fontSize:13 }}>Compare all plans</button>
+            </div>
           </div>
         )}
       </section>
