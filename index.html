@@ -161,6 +161,7 @@ const I = {
   check: (s=14,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>,
   shield: (s=13,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
   star: (s=12) => <svg width={s} height={s} viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  starHalf: (s=12) => <svg width={s} height={s} viewBox="0 0 24 24" strokeWidth="1"><defs><clipPath id="halfStar"><rect x="0" y="0" width="12" height="24"/></clipPath></defs><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#d4d4d8" stroke="#d4d4d8"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#facc15" stroke="#facc15" clipPath="url(#halfStar)"/></svg>,
   chevDown: (s=14,c=T.g400) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg>,
   chevRight: (s=14,c=T.g500) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>,
   chevUp: (s=14,c=T.g400) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg>,
@@ -412,7 +413,7 @@ function HomePage() {
 
         <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"flex-end", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px 48px", textAlign:"center" }}>
           <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, marginBottom:20 }}>
-            <div style={{ display:"flex", gap:1 }}>{[1,2,3,4,5].map(i=><span key={i}>{I.star(12)}</span>)}</div>
+            <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(12)}</span>)}<span>{I.starHalf(12)}</span></div>
             <span style={{ fontSize:13, fontWeight:700, color:T.white }}>4.5</span>
             <span style={{ fontSize:12, color:T.g400 }}>from 213+ reviews</span>
           </div>
@@ -421,7 +422,7 @@ function HomePage() {
             Home internet<br/>that goes<br/><span style={{ color:T.green }}>where you do.</span>
           </h1>
           <p className="fade-up fade-up-d4" style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:28, maxWidth:320 }}>
-            We ship it. You plug it in. Use it anywhere in the country.
+            We ship it. You plug it in. Use it wirelessly anywhere in the country.
           </p>
 
           <div className="fade-up fade-up-d5" style={{ width:"100%", maxWidth:320 }}>
@@ -707,7 +708,7 @@ function HomePage() {
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:4 }}>
             <span style={{ fontSize:40, fontWeight:900, color:T.g900, letterSpacing:-1 }}>4.5</span>
             <div style={{ textAlign:"left" }}>
-              <div style={{ display:"flex", gap:2 }}>{[1,2,3,4,5].map(i=><span key={i}>{I.star(13)}</span>)}</div>
+              <div style={{ display:"flex", gap:2 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(13)}</span>)}<span>{I.starHalf(13)}</span></div>
               <span style={{ fontSize:13, color:T.g500 }}>213+ verified reviews</span>
             </div>
           </div>
@@ -723,7 +724,7 @@ function HomePage() {
                   <p style={{ fontSize:12, color:T.g400, margin:0 }}>{r.plan} member</p>
                 </div>
               </div>
-              <div style={{ display:"flex", gap:1 }}>{[1,2,3,4,5].map(s=><span key={s}>{I.star(13)}</span>)}</div>
+              <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(s=><span key={s}>{I.star(13)}</span>)}<span>{I.starHalf(13)}</span></div>
             </div>
             <p style={{ fontSize:15, color:T.g700, lineHeight:1.6, fontStyle:"italic" }}>"{r.text}"</p>
           </div>
@@ -1190,7 +1191,7 @@ function PlansPage() {
       <div style={{ padding:"40px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>What members say</p>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:20 }}>
-          <div style={{ display:"flex", gap:2 }}>{[1,2,3,4,5].map(i=><span key={i}>{I.star(14)}</span>)}</div>
+          <div style={{ display:"flex", gap:2 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(14)}</span>)}<span>{I.starHalf(14)}</span></div>
           <span style={{ fontSize:16, fontWeight:800, color:T.white }}>4.5</span>
           <span style={{ fontSize:13, color:T.g500 }}>from 213+ reviews</span>
         </div>
