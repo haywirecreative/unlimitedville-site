@@ -211,7 +211,7 @@
     /* How It Works */
     .how-it-works-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; }
     .how-it-works-grid > div { margin-bottom: 0 !important; }
-    .how-it-works-section { padding-top: 64px !important; padding-bottom: 64px !important; }
+    /* how-it-works uses desktop-section class now */
     /* Quiz */
     .quiz-section { max-width: 560px; margin-left: auto; margin-right: auto; }
     /* Lifestyle */
@@ -275,7 +275,7 @@
     .footer-section { padding-top: 64px !important; padding-bottom: 64px !important; }
     .footer-bottom-row { flex-direction: row !important; }
     /* How It Works more breathing room + center cards */
-    .how-it-works-section { padding-top: 80px !important; padding-bottom: 80px !important; }
+    /* how-it-works uses desktop-section class now */
     .how-it-works-grid > div { text-align: center !important; }
     .how-it-works-grid .step-row { flex-direction: column !important; align-items: center !important; gap: 16px !important; }
     .how-it-works-grid .step-icon { width: 64px !important; height: 64px !important; border-radius: 18px !important; }
@@ -327,7 +327,7 @@
     .section-heading { font-size: 48px !important; letter-spacing: -2px !important; }
     .plans-hero-title { font-size: 64px !important; }
     .plans-hero { max-width: 880px; }
-    .how-it-works-section { padding-top: 96px !important; padding-bottom: 96px !important; }
+    /* how-it-works uses desktop-section class now */
     .desktop-section { padding-top: 96px !important; padding-bottom: 96px !important; }
     .desktop-section-sm { padding-top: 56px !important; padding-bottom: 56px !important; }
     .footer-grid { grid-template-columns: repeat(4, 1fr) !important; }
@@ -369,10 +369,10 @@ const PLANS = [
 ];
 
 const USE_CASES = [
-  { icon: "signal", label: "Rural Homes", slug: "rural", desc: "Fast internet where cable and fiber don't reach", img:"Rural cabin with WiFi router" },
+  { icon: "signal", label: "Rural & Remote", slug: "rural", desc: "Fast internet where cable and fiber don't reach", img:"Rural cabin with WiFi router" },
   { icon: "globe", label: "RV & Travel", slug: "rv", desc: "Stay connected on the road, anywhere you park", img:"RV parked at scenic overlook" },
-  { icon: "zap", label: "Commercial Transportation", slug: "transportation", desc: "Reliable internet for fleets, long-haul, and mobile operations", img:"Commercial vehicle on highway" },
-  { icon: "signal", label: "Rental & Vacation Homes", slug: "rental", desc: "Provide guests with fast, reliable WiFi at your property", img:"Vacation rental cabin interior" },
+  { icon: "zap", label: "Fleets & Transit", slug: "transportation", desc: "Reliable internet for fleets, long-haul, and mobile operations", img:"Commercial vehicle on highway" },
+  { icon: "signal", label: "Rental Properties", slug: "rental", desc: "Provide guests with fast, reliable WiFi at your property", img:"Vacation rental cabin interior" },
   { icon: "globe", label: "Mobile Business", slug: "mobile-biz", desc: "Pop-up shops, food trucks, and businesses on the move", img:"Mobile business setup with WiFi" },
   { icon: "signal", label: "Urban & Suburban Homes", slug: "urban", desc: "A better alternative to overpriced cable and DSL", img:"Modern home office setup" },
   { icon: "zap", label: "Failover Backup", slug: "failover", desc: "Automatic backup internet when your primary goes down", img:"Network equipment with backup connection" },
@@ -555,9 +555,9 @@ function Nav() {
 
   const go = (p) => { navigate(p); setOpen(false); setUcOpen(false); };
 
-  const bg = open ? "linear-gradient(180deg, rgba(18,18,20,0.96) 0%, rgba(14,14,16,0.98) 30%)"
-    : scrolled ? "linear-gradient(180deg, rgba(18,18,20,0.92) 0%, rgba(14,14,16,0.90) 100%)"
-    : "linear-gradient(180deg, rgba(18,18,20,0.4) 0%, rgba(14,14,16,0.2) 100%)";
+  const bg = open ? "linear-gradient(180deg, rgba(18,18,20,0.92) 0%, rgba(14,14,16,0.94) 30%)"
+    : scrolled ? "linear-gradient(180deg, rgba(18,18,20,0.78) 0%, rgba(14,14,16,0.75) 100%)"
+    : "linear-gradient(180deg, rgba(18,18,20,0.3) 0%, rgba(14,14,16,0.15) 100%)";
 
   return (
     <nav role="navigation" aria-label="Main navigation" style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, backdropFilter:"blur(24px) saturate(150%)", WebkitBackdropFilter:"blur(24px) saturate(150%)", background:bg, borderBottom: (scrolled||open) ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent", transition:"background 0.4s ease, border-color 0.4s ease" }}>
@@ -710,7 +710,7 @@ function HomePage() {
           Tesla-style: image fills screen, text overlaid
           ═══════════════════════════════════ */}
       <section className="hero-section" style={{ minHeight:"92svh", display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:T.dark }}>
-        <img src={SITE_IMG} alt="Scenic rural landscape with open sky representing wireless internet coverage anywhere" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
+        <img src={SITE_IMG} alt="Wireless home internet by Unlimitedville - works anywhere with cellular coverage" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
         <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
 
         <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"flex-end", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px 48px", textAlign:"center" }}>
@@ -721,20 +721,20 @@ function HomePage() {
           </div>
 
           <h1 className="fade-up fade-up-d3 hero-title" style={{ fontSize:44, fontWeight:900, lineHeight:1.05, color:T.white, letterSpacing:-2, marginBottom:18 }}>
-            Home internet<br/>that goes<br/><span style={{ color:T.green }}>where you do.</span>
+            Wireless internet<br/>that goes<br/><span style={{ color:T.green }}>where you do.</span>
           </h1>
-          <p className="fade-up fade-up-d4 hero-subtitle" style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:28, maxWidth:320 }}>
-            We ship it. You plug it in. Use it wirelessly anywhere in the country.
+          <p className="fade-up fade-up-d4 hero-subtitle" style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:28, maxWidth:340 }}>
+            Unlimited data. No contracts. Plug in anywhere and get online in 5 minutes -- plans from $69/mo.
           </p>
 
           <div className="fade-up fade-up-d5">
             <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)`, margin:"0 auto" }}>
-              View Plans {I.arrow(16)}
+              See Plans & Pricing {I.arrow(16)}
             </button>
           </div>
 
           <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, marginTop:20, justifyContent:"center" }}>
-            {["21-day guarantee","No contracts","Ships in 24hrs"].map((l,i) => (
+            {["21-day money-back guarantee","No contracts ever","Ships in 24 hours"].map((l,i) => (
               <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
             ))}
           </div>
@@ -745,7 +745,7 @@ function HomePage() {
       {/* ═══════════════════════════════════
           AS SEEN ON -- Uniform press strip
           ═══════════════════════════════════ */}
-      <section style={{ padding:"28px 24px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+      <section style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
         <div className="section-inner">
         <p className="press-label" style={{ fontSize:12, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", textAlign:"center", marginBottom:20 }}>As seen on</p>
         <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"10px 16px" }}>
@@ -762,7 +762,7 @@ function HomePage() {
       {/* ═══════════════════════════════════
           COVERAGE CHECK
           ═══════════════════════════════════ */}
-      <section style={{ padding:"32px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+      <section style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
         <div className="section-wide coverage-check" style={{ display:"flex", flexDirection:"column" }}>
         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
           <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
@@ -804,7 +804,7 @@ function HomePage() {
       {/* ═══════════════════════════════════
           HOW IT WORKS -- Apple-style: big type, generous space
           ═══════════════════════════════════ */}
-      <section className="how-it-works-section" style={{ padding:"56px 24px 56px", background:T.white }}>
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.white }}>
         <div className="section-inner">
         <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>How it works</p>
         <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:12, textAlign:"center", lineHeight:1.05 }}>Online in minutes,<br/>not days.</h2>
@@ -890,7 +890,7 @@ function HomePage() {
             {/* ═══════════════════════════════════
           QUIZ
           ═══════════════════════════════════ */}
-      <section id="quiz" className="desktop-section" style={{ padding:"48px 24px", background:T.dark }}>
+      <section id="quiz" className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
         <div className="quiz-section">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plan finder</p>
         <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.08 }}>Not sure which<br/>plan fits?</h2>
@@ -1082,7 +1082,7 @@ function HomePage() {
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.92) 100%)" }} />
         </div>
         {/* Content -- not absolute, flows naturally */}
-        <div className="section-inner cta-section desktop-section" style={{ position:"relative", zIndex:1, paddingTop:56, paddingBottom:56, textAlign:"center" }}>
+        <div className="section-inner cta-section desktop-section" style={{ position:"relative", zIndex:1, paddingTop:48, paddingBottom:48, textAlign:"center" }}>
           <h2 className="section-heading" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Join thousands of<br/>happy members.</h2>
           <p style={{ fontSize:16, color:T.g300, marginBottom:32, lineHeight:1.5 }}>Setup takes 5 minutes. Ships in 24 hours.<br/>21-day money-back guarantee.</p>
           <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
@@ -1345,7 +1345,7 @@ function PlansPage() {
       </div>
 
       {/* ── AS SEEN ON (separate strip) ── */}
-      <div style={{ padding:"28px 24px 32px", background:T.black }}>
+      <div style={{ padding:"28px 20px", background:T.black }}>
         <div className="section-inner" style={{ textAlign:"center" }}>
           <p className="press-strip-label" style={{ fontSize:11, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", marginBottom:18 }}>As seen on</p>
           <div className="press-strip" style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:"12px 32px" }}>
@@ -1357,7 +1357,7 @@ function PlansPage() {
       </div>
 
       {/* ── COVERAGE CHECKER (light bg, visually separated) ── */}
-        <div className="coverage-light" style={{ padding:"32px 24px", background:T.g50 }}>
+        <div className="coverage-light" style={{ padding:"28px 20px", background:T.g50 }}>
           <div className="section-inner">
           <div className="coverage-check" style={{ marginLeft:"auto", marginRight:"auto" }}>
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
@@ -1484,7 +1484,7 @@ function PlansPage() {
       </div>
 
       {/* ── COMPARE PLANS TABLE ── */}
-      <div style={{ padding:"64px 20px 40px", borderTop:`1px solid ${T.g200}`, marginTop:24 }}>
+      <div className="desktop-section" style={{ padding:"48px 20px", borderTop:`1px solid ${T.g200}`, marginTop:24 }}>
         <div className="section-inner">
         <h2 style={{ fontSize:24, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.5 }}>Plan Comparison</h2>
         <p style={{ fontSize:14, color:T.g500, marginBottom:24, textAlign:"center" }}>Your perfect connection -- choose without compromise.</p>
@@ -1525,7 +1525,7 @@ function PlansPage() {
             {PLANS.map((p,i) => (
               <div key={i} style={{ flex:1, padding:"10px 6px", textAlign:"center" }}>
                 <button onClick={()=>selectPlan(p)} className="btn-primary" style={{ padding:"10px 16px", background:i===2?T.green:"rgba(255,255,255,0.15)", color:T.white, border:i===2?"none":"1px solid rgba(255,255,255,0.25)", borderRadius:10, fontSize:12, fontWeight:700, cursor:"pointer", boxShadow:i===2?`0 0 20px ${T.greenGlow}`:"none" }}>
-                  Get {p.name.split(" ")[0]}
+                  Get {p.name}
                 </button>
               </div>
             ))}
@@ -1590,7 +1590,7 @@ function PlansPage() {
       </div>
 
       {/* ── SOCIAL PROOF STRIP ── */}
-      <div className="desktop-section" style={{ padding:"40px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
         <div className="section-wide">
         <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>What members say</p>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:20 }}>
@@ -1639,7 +1639,7 @@ function PlansPage() {
           <img src={SITE_IMG} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.92) 100%)" }} />
         </div>
-        <div style={{ position:"relative", zIndex:1, padding:"56px 24px 48px", textAlign:"center" }}>
+        <div className="desktop-section" style={{ position:"relative", zIndex:1, padding:"48px 20px", textAlign:"center" }}>
           <div className="section-wide">
           <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:14 }}>Ready to get<br/>connected?</h2>
           <p style={{ fontSize:15, color:T.g300, marginBottom:28, lineHeight:1.5 }}>Setup takes 5 minutes. No technicians,<br/>no contracts, no risk.</p>
@@ -1677,7 +1677,7 @@ function PlaceholderPage({ title, subtitle }) {
 function Footer() {
   const { navigate } = useApp();
   return (
-    <footer className="footer-section" style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid rgba(255,255,255,0.06)` }}>
+    <footer className="footer-section" style={{ padding:"48px 20px 140px", background:T.black, borderTop:`1px solid rgba(255,255,255,0.06)` }}>
       <div className="section-inner">
       <div style={{ display:"flex", flexDirection:"column", gap:28, marginBottom:32 }}>
         <div>
