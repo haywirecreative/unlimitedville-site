@@ -143,6 +143,10 @@
     animation: shimmer 2.5s ease-in-out infinite;
   }
 
+  /* ── Base grid defaults (mobile: 2 col) ── */
+  .grid-features { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+
   /* ── RESPONSIVE: Full-width section with contained inner content ── */
   .section-inner { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
   .section-wide { max-width: 960px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
@@ -1011,7 +1015,7 @@ function HomePage() {
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.92) 100%)" }} />
         </div>
         {/* Content -- not absolute, flows naturally */}
-        <div className="section-inner cta-section" style={{ position:"relative", zIndex:1, padding:"56px 24px", textAlign:"center" }}>
+        <div className="section-inner cta-section desktop-section" style={{ position:"relative", zIndex:1, paddingTop:56, paddingBottom:56, textAlign:"center" }}>
           <h2 className="section-heading" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Join thousands of<br/>happy members.</h2>
           <p style={{ fontSize:16, color:T.g300, marginBottom:32, lineHeight:1.5 }}>Setup takes 5 minutes. Ships in 24 hours.<br/>21-day money-back guarantee.</p>
           <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
@@ -1466,7 +1470,7 @@ function PlansPage() {
         <div className="section-inner">
         <h2 className="section-heading" style={{ fontSize:24, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.5 }}>Included with every plan</h2>
         <p style={{ fontSize:14, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
-        <div className="grid-features" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
+        <div className="grid-features" style={{ display:"grid", gap:12 }}>
           {[
             { t:"21-Day Money-Back", d:"Try risk-free, return if not satisfied", icon:I.back(20,T.green) },
             { t:"Price Lock Guarantee", d:"Your rate never increases. Ever.", icon:I.lock(20,T.green) },
@@ -1608,7 +1612,7 @@ function Footer() {
           <p style={{ fontSize:14, color:T.g500, lineHeight:1.5, maxWidth:300 }}>Wireless home internet that goes where you do. Trusted by thousands since 2016.</p>
         </div>
       </div>
-      <div className="footer-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"12px 0", marginBottom:32 }}>
+      <div className="footer-grid" style={{ display:"grid", gap:"12px 0", marginBottom:32 }}>
         {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"solutions"},{l:"Blog",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Contact Us",p:"support"}].map((link,i) => (
           <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:"4px 0", textAlign:"left", transition:"color 0.2s" }}>{link.l}</button>
         ))}
