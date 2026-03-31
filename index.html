@@ -569,6 +569,28 @@ function useApp() { return useContext(AppContext); }
 /* ═══════════════════════════════════════
    NAV - Frosted glass
    ═══════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   PRESS STRIP -- "As seen on" reusable component
+   ═══════════════════════════════════════ */
+const PRESS_NAMES = ["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist"];
+function PressStrip({ border=false }) {
+  const style = border
+    ? { padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }
+    : { padding:"28px 20px", background:T.black };
+  return (
+    <div style={style}>
+      <div className="section-inner" style={{ textAlign:"center" }}>
+        <p className="press-strip-label" style={{ fontSize:11, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", marginBottom:18 }}>As seen on</p>
+        <div className="press-strip" style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:"12px 32px" }}>
+          {PRESS_NAMES.map((name,i) => (
+            <span key={i} className="press-strip-name" style={{ fontSize:16, fontWeight:700, color:T.g600, whiteSpace:"nowrap", letterSpacing:-0.3 }}>{name}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Nav() {
   const { navigate, cart, page } = useApp();
   const [open, setOpen] = useState(false);
@@ -779,21 +801,9 @@ function HomePage() {
 
 
       {/* ═══════════════════════════════════
-          AS SEEN ON -- Uniform press strip
+          AS SEEN ON
           ═══════════════════════════════════ */}
-      <section style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
-        <div className="section-inner">
-        <p className="press-label" style={{ fontSize:12, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", textAlign:"center", marginBottom:20 }}>As seen on</p>
-        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"10px 16px" }}>
-          {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist","Internet Access Guide"].map((name,i,arr) => (
-            <React.Fragment key={i}>
-              <span className="press-name" style={{ fontSize:13, fontWeight:500, color:T.g500, letterSpacing:0.3, whiteSpace:"nowrap" }}>{name}</span>
-              {i < arr.length-1 && <span className="press-divider" style={{ color:T.g700, fontSize:13 }}>|</span>}
-            </React.Fragment>
-          ))}
-        </div>
-        </div>
-      </section>
+      <PressStrip border={true} />
 
       {/* ═══════════════════════════════════
           COVERAGE CHECK
@@ -1380,17 +1390,8 @@ function PlansPage() {
         </div>
       </div>
 
-      {/* ── AS SEEN ON (separate strip) ── */}
-      <div style={{ padding:"28px 20px", background:T.black }}>
-        <div className="section-inner" style={{ textAlign:"center" }}>
-          <p className="press-strip-label" style={{ fontSize:11, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", marginBottom:18 }}>As seen on</p>
-          <div className="press-strip" style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:"12px 32px" }}>
-            {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist"].map((name,i) => (
-              <span key={i} className="press-strip-name" style={{ fontSize:16, fontWeight:700, color:T.g600, whiteSpace:"nowrap", letterSpacing:-0.3 }}>{name}</span>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* ── AS SEEN ON ── */}
+      <PressStrip />
 
       {/* ── COVERAGE CHECKER (light bg, visually separated) ── */}
         <div className="coverage-light" style={{ padding:"28px 20px", background:T.g50 }}>
