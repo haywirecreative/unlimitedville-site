@@ -199,6 +199,7 @@
     .grid-reviews > div { margin-bottom: 0 !important; }
     /* Hero */
     .hero-title { font-size: 56px !important; }
+    .rural-hero-title, .rv-hero-title, .biz-hero-title, .truck-hero-title, .gaming-hero-title, .failover-hero-title { font-size: 36px !important; }
     .hero-subtitle { font-size: 17px !important; max-width: 420px !important; line-height: 1.6 !important; }
     .hero-section { min-height: 80vh !important; }
     /* Nav */
@@ -229,6 +230,7 @@
     .btn-desktop-auto { width: auto !important; min-width: 220px !important; padding-left: 40px !important; padding-right: 40px !important; margin-left: auto !important; margin-right: auto !important; }
     /* Hero bullets scale up */
     .hero-bullet { font-size: 13px !important; gap: 6px !important; }
+    .rural-hero-title, .rv-hero-title, .biz-hero-title, .truck-hero-title, .gaming-hero-title, .failover-hero-title { font-size: 44px !important; }
     /* Footer action buttons constrained */
     .footer-actions { max-width: 480px !important; }
     /* Reviews card hover */
@@ -248,6 +250,7 @@
     .section-wide { padding-left: 48px; padding-right: 48px; }
     /* Hero */
     .hero-title { font-size: 64px !important; letter-spacing: -3px !important; }
+    .rural-hero-title, .rv-hero-title, .biz-hero-title, .truck-hero-title, .gaming-hero-title, .failover-hero-title { font-size: 52px !important; }
     .hero-subtitle { font-size: 18px !important; max-width: 480px !important; line-height: 1.65 !important; }
     .hero-section { min-height: 85vh !important; }
     /* Grids */
@@ -322,6 +325,7 @@
     .section-inner { max-width: 1280px; padding-left: 64px; padding-right: 64px; }
     .section-wide { padding-left: 64px; padding-right: 64px; }
     .hero-title { font-size: 72px !important; letter-spacing: -3.5px !important; }
+    .rural-hero-title, .rv-hero-title, .biz-hero-title, .truck-hero-title, .gaming-hero-title, .failover-hero-title { font-size: 60px !important; }
     .hero-subtitle { font-size: 19px !important; max-width: 520px !important; }
     .grid-plans { gap: 28px !important; }
     .grid-plans .card-hover { padding: 28px !important; }
@@ -397,6 +401,191 @@ const BLOG = [
   { title:"5G vs 4G for Rural Internet: What Actually Matters", cat:"Guides", time:"5 min" },
   { title:"How We Deliver 500 Mbps Without a Single Cable", cat:"Technology", time:"4 min" },
   { title:"The Full-Timer's Guide to RV Internet in 2026", cat:"RV Life", time:"7 min" },
+];
+
+const SOLUTION_PAGES = {
+  "rural": {
+    slug: "rural",
+    title: <>Fast internet for<br/>rural homes.</>,
+    subtitle: "No cable required. Plug in our cellular router and get online in 5 minutes. Unlimited data, no contracts.",
+    heroTitle: "rural-hero-title",
+    metaTitle: "Rural Home Internet | No Cable Required | Unlimitedville",
+    metaDesc: "Get fast wireless internet for your rural home. No cable, no contracts, unlimited data. Plans from $69/mo with 21-day trial.",
+    features: [
+      { icon: "wifi", title: "Stream & Watch TV", desc: "Buffer-free HD and 4K on every device. Replace satellite TV and slow DSL with speeds up to 500 Mbps." },
+      { icon: "signal", title: "Work & Learn From Home", desc: "Video calls, file uploads, and online classes without drops. 20-40 ms latency on our 5G Ultra plan." },
+      { icon: "zap", title: "Game Without Lag", desc: "Competitive gaming with low ping and unlimited data. Download 100 GB updates overnight, no caps." }
+    ],
+    planContext: ["Light browsing and email", "Streaming, video calls, and gaming", "4K streaming, competitive gaming, remote work"],
+    reviews: [
+      { name:"Sarah M.", text:"Living in a rural area, we had zero options until Unlimitedville. Now we stream, work from home, and video call without a single issue.", verified:true },
+      { name:"David L.", text:"Replaced our satellite internet and the difference is night and day. Setup took 5 minutes and we've had zero downtime in 3 months.", verified:true },
+      { name:"Jamiel R.", text:"What a game changer! At first I was a little skeptical about the unlimited 4G but now I'm a believer.", verified:true },
+    ],
+    faq: [
+      { q:"Does Unlimitedville work in rural areas?", a:"Yes. We use 4G and 5G cellular towers to deliver internet where cable and fiber can't reach. If you have cell signal at your address, Unlimitedville can likely serve you." },
+      { q:"How fast is it compared to satellite?", a:"Our 5G Ultra plan delivers up to 500 Mbps with 20-40 ms latency. Satellite internet typically tops out at 100-200 Mbps with 25-75 ms latency and requires outdoor dish installation." },
+      { q:"What if there's no cell coverage at my address?", a:"Start with our 21-day trial. If the service doesn't work at your location, return the router for a full refund. No risk." },
+      { q:"Is there a data cap?", a:"No. All plans include truly unlimited data with no overage fees, no throttling thresholds, and no fine print." },
+      { q:"Do I need a technician to install it?", a:"No. We ship a pre-configured router. Plug it in, connect your devices, and you're online in under 5 minutes." },
+    ]
+  },
+  "rv": {
+    slug: "rv",
+    title: <>Reliable RV internet.<br/>Park anywhere, stay connected.</>,
+    subtitle: "Powered by 12v or 110v, built for 24/7 use. Stream, Zoom, or run your business from the road with no data caps.",
+    heroTitle: "rv-hero-title",
+    metaTitle: "RV Internet | Unlimited WiFi on the Road | Unlimitedville",
+    metaDesc: "Stay connected anywhere you roam. 5G/4G wireless internet for RVs with unlimited data. 12v powered, no contracts. Plans from $69/mo.",
+    features: [
+      { icon: "signal", title: "Remote Work on the Go", desc: "Run Zoom meetings and upload files at up to 500 Mbps while parked at any campground or rest stop." },
+      { icon: "wifi", title: "Stream & Chill Anywhere", desc: "4K movies and gaming without campground WiFi headaches. Your own private network, every stop." },
+      { icon: "zap", title: "Smart RV Life", desc: "Security cams, thermostats, and smart gear stay connected. Powered by 12v or 110v, built for the road." }
+    ],
+    planContext: ["Light browsing while traveling", "Streaming, video calls, and working remotely", "Full-time RV life with heavy usage"],
+    reviews: [
+      { name:"Troy D.", text:"In 2020 we started RVing. Speed ranged from 20 download to 100 on each. Works everywhere we've traveled.", verified:true },
+      { name:"Eli C.", text:"I was seriously shocked at how well it worked while we were in the car. Only had one spot where it dropped.", verified:true },
+      { name:"Jake B.", text:"No better feeling knowing you don't have to worry about overage charges. Customer service is beyond amazing.", verified:true },
+    ],
+    faq: [
+      { q:"Does it work while driving?", a:"The router stays connected to cellular towers as you travel. Speeds may vary by location, but you'll have internet at every stop with coverage." },
+      { q:"Can I power it from my RV's 12v system?", a:"Yes. Our routers work on both 12v DC and 110v AC power, so you can run it directly from your RV's electrical system." },
+      { q:"How does it compare to campground WiFi?", a:"Campground WiFi is shared by hundreds of people, resulting in slow, unreliable connections. Unlimitedville gives you your own private network with dedicated bandwidth." },
+      { q:"Do I need a separate plan for home and travel?", a:"No. One plan works everywhere. Use the same router at your home base and on the road." },
+      { q:"Is there an outdoor antenna?", a:"No exterior hardware required. Our routers have built-in high-gain antennas. For the 5G Ultra plan, the router is IP65 weatherproof for outdoor placement." },
+    ]
+  },
+  "business": {
+    slug: "business",
+    title: <>Business internet.<br/>No installation required.</>,
+    subtitle: "Reliable wireless internet for construction sites, food trucks, vacation rentals, and businesses without wired connections.",
+    heroTitle: "biz-hero-title",
+    metaTitle: "Business Internet No Contract | Portable WiFi | Unlimitedville",
+    metaDesc: "Get wireless business internet with no installation, no contracts. Perfect for food trucks, construction sites, events. Plans from $69/mo.",
+    features: [
+      { icon: "signal", title: "Instant Setup, Zero Downtime", desc: "Skip installation appointments and cable runs. Plug in and your team is online in minutes, not weeks." },
+      { icon: "wifi", title: "Connect 250+ Devices", desc: "POS terminals, security cameras, cloud apps, and your entire team on one reliable network." },
+      { icon: "zap", title: "Take It Anywhere", desc: "Construction site today, pop-up event tomorrow. One portable router, one plan, every location." }
+    ],
+    planContext: ["Kiosks, POS, and light business use", "Video conferencing, cloud apps, multi-device", "Construction sites, fleets, and heavy operations"],
+    reviews: [
+      { name:"Steve", text:"Unlimitedville is a game changer if, like me, you run a business in a rural area without hi-speed service options.", verified:true },
+      { name:"Jessica R.", text:"My husband was able to work from home this morning with no issues. You might have the happiest new customers yet!", verified:false },
+      { name:"Luis", text:"The customer support team is really amazing. I am always blown away by how quick they get back to me.", verified:false },
+    ],
+    faq: [
+      { q:"Can I use this for a food truck or pop-up shop?", a:"Yes. Our routers are fully portable. Plug in anywhere with cellular coverage and run your POS, cloud apps, and guest WiFi." },
+      { q:"How many devices can connect?", a:"Our routers support 250+ simultaneous device connections, covering your team's laptops, tablets, POS systems, and IoT devices." },
+      { q:"Is this suitable for construction sites?", a:"Our 5G Ultra router is IP65 weatherproof and runs on 12v or 110v power. Designed for harsh environments." },
+      { q:"Do you offer multi-location or fleet pricing?", a:"Contact us at 888.422.2907 for multi-device and fleet pricing. We can customize a package for your business." },
+      { q:"What about uptime and reliability?", a:"Cellular networks provide 99.9%+ uptime in covered areas. Unlike wired connections, there are no cables to cut and no weather-related outages from downed lines." },
+    ]
+  },
+  "trucking": {
+    slug: "trucking",
+    title: <>Internet built for<br/>life on the road.</>,
+    subtitle: "Plug in, connect, and stay online from the cab. ELD compliance, dispatch, streaming, and gaming -- all unlimited.",
+    heroTitle: "truck-hero-title",
+    metaTitle: "Internet for Truckers | OTR WiFi | Unlimitedville",
+    metaDesc: "Unlimited 5G/4G internet built for truckers. ELD compliance, streaming, gaming on the road. 12v powered, no contracts. Plans from $69/mo.",
+    features: [
+      { icon: "zap", title: "Lag-Free Streaming & Gaming", desc: "Unlimited data and 20-40 ms ping. Stream movies and game online during resets without buffering." },
+      { icon: "signal", title: "ELD & Compliance", desc: "Automatic logs sync over cellular so you stay compliant, even when the route takes you off the grid." },
+      { icon: "wifi", title: "Dispatch & Navigation", desc: "Real-time load updates and GPS never drop. Saving miles, minutes, and frustration on every route." }
+    ],
+    planContext: ["Basic browsing and email on the road", "Streaming, gaming, and ELD sync", "Heavy usage with competitive gaming and 4K"],
+    reviews: [
+      { name:"Jennifer H.", text:"My husband is an OTR truck driver and enjoys being able to watch any of his streaming services when he's on a reset. Wonderful service.", verified:true },
+      { name:"Talib T.", text:"As a trucker this has really been very instrumental. I'm always in remote areas where my signal is bad but with this service I can use WiFi calling.", verified:true },
+      { name:"Valentine K.", text:"I'm a trucker who goes everywhere in every state. I get 40-250 Mbps download speeds absolutely everywhere.", verified:false },
+    ],
+    faq: [
+      { q:"Does it run on 12v truck power?", a:"Yes. Our routers run on both 12v DC and 110v AC. Plug directly into your truck's power outlet." },
+      { q:"Will it keep my ELD connected?", a:"Yes. The router provides always-on cellular internet for ELD log syncing, even in areas with weak phone signal." },
+      { q:"How does it compare to phone hotspot tethering?", a:"Phone hotspots have strict data caps and carrier throttling. Unlimitedville provides truly unlimited data with no throttling thresholds." },
+      { q:"Does it work in every state?", a:"We use nationwide 4G/5G networks. Coverage is available across all 48 contiguous states. Start with a 21-day trial to test your regular routes." },
+      { q:"Can I stream and game during resets?", a:"Absolutely. With up to 500 Mbps and 20-40 ms latency on our 5G Ultra plan, you can stream 4K, game online, and video call family without issues." },
+    ]
+  },
+  "gaming": {
+    slug: "gaming",
+    title: <>Low-ping unlimited internet.<br/>Game without limits.</>,
+    subtitle: "20-40 ms latency, up to 500 Mbps, and truly unlimited data. Download 100 GB updates. No caps, no throttling.",
+    heroTitle: "gaming-hero-title",
+    metaTitle: "Gaming Internet Unlimited Data | Low Ping | Unlimitedville",
+    metaDesc: "Unlimited gaming internet with 20-40ms latency and speeds up to 500 Mbps. No data caps, no throttling. Plans from $69/mo.",
+    features: [
+      { icon: "zap", title: "20-40 ms Latency", desc: "Low enough for competitive FPS, battle royale, and fighting games. Beats satellite by a mile." },
+      { icon: "wifi", title: "Unlimited Downloads", desc: "100 GB game updates? No problem. Truly unlimited data with no throttling thresholds or overage fees." },
+      { icon: "signal", title: "Stream While You Play", desc: "Twitch, Discord, and game at the same time. Enough bandwidth for your entire setup." }
+    ],
+    planContext: ["Casual gaming and web browsing", "Online gaming, streaming, and downloads", "Competitive gaming, 4K streaming, Twitch"],
+    reviews: [
+      { name:"D.Russ", text:"Able to play online competitive games. Lifesaving service. My whole family has a plan and we work from home on constant meetings.", verified:true },
+      { name:"B.Bosley", text:"Tried Nomad, tried T-Mobile -- always able to update big updates. Better option than anything else I've found.", verified:true },
+      { name:"Craig D.", text:"Relieving to have reliable internet without data caps. Averaging 30-50 Mbps consistently.", verified:false },
+    ],
+    faq: [
+      { q:"Is the latency low enough for competitive gaming?", a:"Our 5G Ultra plan averages 20-40 ms latency, which is suitable for competitive FPS, battle royale, and most online games." },
+      { q:"Will large game downloads be throttled?", a:"No. All plans include truly unlimited data. Download as many 100 GB updates as you need without speed reductions." },
+      { q:"Can I stream on Twitch while gaming?", a:"Yes. With up to 500 Mbps on our 5G Ultra plan, you have enough bandwidth for simultaneous gaming and streaming." },
+      { q:"How does this compare to a phone hotspot?", a:"Phone hotspots throttle after hitting data caps and have higher latency. Unlimitedville provides dedicated, unlimited bandwidth with lower, more consistent ping." },
+      { q:"Which plan is best for gaming?", a:"We recommend the 5G Ultra plan for serious gaming. It offers the lowest latency (20-40 ms) and fastest speeds (up to 500 Mbps)." },
+    ]
+  },
+  "failover": {
+    slug: "failover",
+    title: <>Never lose internet again.<br/>Automatic cellular backup.</>,
+    subtitle: "When your wired connection fails, our router keeps your home and business online. Failover in seconds, not hours.",
+    heroTitle: "failover-hero-title",
+    metaTitle: "Cellular Backup Internet | Automatic Failover | Unlimitedville",
+    metaDesc: "Automatic cellular internet backup for home and business. Failover in seconds when your ISP goes down. Plans from $69/mo.",
+    features: [
+      { icon: "wifi", title: "Home WiFi Backup", desc: "Remote work, e-learning, and smart-home devices stay online during ISP outages. Failover to 5G/4G in seconds." },
+      { icon: "signal", title: "Protect Revenue & Productivity", desc: "POS terminals, cloud apps, and video calls stay live so you never lose a sale or a client when your cable drops." },
+      { icon: "zap", title: "Disaster-Ready Continuity", desc: "Cellular connectivity rides through storms, construction cuts, and outages at a fraction of dedicated backup costs." }
+    ],
+    planContext: ["Light backup for basic connectivity", "Business backup for cloud apps and POS", "Full-speed backup for critical operations"],
+    reviews: [
+      { name:"Ryan O.", text:"Best internet for our needs. When our wired connection goes down, Unlimitedville kicks in and we don't miss a beat.", verified:true },
+      { name:"John K.", text:"Rural mountain area with terrible cable service. This is our lifeline when the primary goes out.", verified:false },
+      { name:"James R.", text:"Best service I've ever had. Worth every penny for the peace of mind alone.", verified:false },
+    ],
+    faq: [
+      { q:"How does the failover work?", a:"Connect our router to your existing network. When your primary ISP goes down, traffic automatically routes through our cellular connection. Most routers support failover configuration." },
+      { q:"How fast does it switch over?", a:"With proper router configuration, failover happens in seconds. Your devices stay connected without manual intervention." },
+      { q:"Can I use it as primary and backup?", a:"Yes. Many members use Unlimitedville as both their primary internet and as backup for a wired connection." },
+      { q:"What's the cost of downtime vs. this service?", a:"The average small business loses $427 per minute of internet downtime. At $69-109/mo, Unlimitedville pays for itself after preventing just one outage." },
+      { q:"Do I need special equipment?", a:"No. Our router works standalone. For automatic failover, connect it to a dual-WAN router or configure your existing router to use it as a backup gateway." },
+    ]
+  }
+};
+
+const STARLINK_COMPARE = {
+  rows: [
+    { label:"Monthly Price", vals:["$69/mo","$99/mo","$109/mo","$165/mo","$120/mo"] },
+    { label:"Hardware Fee", vals:["$0","$99","$199","$599","$599"] },
+    { label:"Price Lock", vals:["Locked","Locked","Locked","No","No"], highlight:[true,true,true,false,false] },
+    { label:"Network", vals:["4G LTE","4G+ LTE","5G","LEO Satellite","LEO Satellite"] },
+    { label:"Typical Speeds", vals:["40-60 Mbps","75-250 Mbps","100-500 Mbps","30-100+ Mbps","50-200+ Mbps"] },
+    { label:"Latency", vals:["30-60 ms","25-50 ms","20-40 ms","25-75 ms","25-75 ms"] },
+    { label:"Data", vals:["Unlimited","Unlimited","Unlimited","Unlimited","Unlimited"] },
+    { label:"Setup", vals:["Plug in","Plug in","Plug in","Dish install","Dish install"], highlight:[true,true,true,false,false] },
+    { label:"Exterior Hardware", vals:["None","None","None","Dish","Dish"], highlight:[true,true,true,false,false] },
+    { label:"Portability", vals:["Home & travel","Home & travel","Home & travel","Mobile only","Fixed address"], highlight:[true,true,true,false,false] },
+    { label:"Weather Dependent", vals:["No","No","No","Yes","Yes"], highlight:[true,true,true,false,false] },
+  ],
+  cols: ["4G Lite","4G Plus","5G Ultra","Starlink Roam","Starlink Residential"]
+};
+
+const STARLINK_FAQ = [
+  { q:"Does Unlimitedville work where Starlink doesn't?", a:"In some areas, yes. Both services use wireless infrastructure, so exact coverage depends on your location. Start a 21-day trial and test Unlimitedville where you'll actually use it. If it doesn't work, return the equipment for a full refund." },
+  { q:"What is the difference between cellular and satellite internet?", a:"Cellular internet runs on the same networks that power smartphone data. Satellite internet runs through Low Earth Orbit satellites. Both can serve rural customers, but cellular offers simpler setup, better portability, and lower hardware costs." },
+  { q:"Is Starlink faster than Unlimitedville?", a:"It depends on the plan. Unlimitedville 5G Ultra reaches up to 500 Mbps, which can exceed Starlink Residential's typical speeds. Starlink may offer faster speeds in areas with minimal cellular coverage." },
+  { q:"Does Unlimitedville require a dish or drilling?", a:"No. Unlimitedville is 100% plug-and-play. No dish, no cables, no drilling, no outdoor hardware of any kind." },
+  { q:"Can I use Unlimitedville in an RV?", a:"Yes. Every Unlimitedville plan works at home and on the road. Starlink Residential is locked to one fixed address. Starlink Roam allows mobility but costs $165/mo." },
+  { q:"How do I choose between Unlimitedville and Starlink?", a:"If you have usable cellular coverage, Unlimitedville is simpler, more portable, and less expensive. If you're in a zero-cell-coverage area, Starlink may be a better fit. Test risk-free for 21 days." },
 ];
 
 const FAQ = [
@@ -642,6 +831,223 @@ function CoverageCheck() {
       <p style={{ fontSize:12, color:T.g600, marginTop:10, display:"flex", alignItems:"center", gap:5 }}>
         {I.phone(12,T.g600)} Need help choosing? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
       </p>
+      </div>
+    </section>
+  );
+}
+
+function ProblemSolution({ features, label="How it helps", title }) {
+  return (
+    <section style={{ padding:"48px 20px", background:T.dark }}>
+      <div className="section-inner">
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>{label}</p>
+        {title && <h2 className="section-heading" style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:32, textAlign:"center", lineHeight:1.1 }}>{title}</h2>}
+        <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+          {features.map((f,i) => (
+            <div key={i} className="card-hover" style={{ padding:"24px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}` }}>
+              <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14 }}>
+                {f.icon==="wifi"?I.wifi(20,T.greenText):f.icon==="signal"?I.signal(20,T.greenText):I.zap(20,T.greenText)}
+              </div>
+              <h3 style={{ fontSize:18, fontWeight:800, color:T.white, marginBottom:8, letterSpacing:-0.3 }}>{f.title}</h3>
+              <p style={{ fontSize:14, color:T.g400, lineHeight:1.6 }}>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SocialProof({ reviews, heading="What members are saying" }) {
+  return (
+    <section style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner">
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:6 }}>
+          <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(14)}</span>)}<span>{I.starHalf(14)}</span></div>
+          <span style={{ fontSize:15, fontWeight:700, color:T.white }}>4.5</span>
+          <span style={{ fontSize:13, color:T.g500 }}>from 213+ reviews</span>
+        </div>
+        <h2 style={{ fontSize:24, fontWeight:900, color:T.white, textAlign:"center", letterSpacing:-0.5, marginBottom:28 }}>{heading}</h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+          {reviews.map((r,i) => (
+            <div key={i} style={{ padding:"20px", borderRadius:14, background:T.darkCard, border:`1px solid ${T.darkBorder}` }}>
+              <div style={{ display:"flex", gap:2, marginBottom:10 }}>{[1,2,3,4,5].map(j=><span key={j}>{I.star(12)}</span>)}</div>
+              <p style={{ fontSize:14, color:T.g300, lineHeight:1.6, marginBottom:12 }}>"{r.text}"</p>
+              <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                <div style={{ width:28, height:28, borderRadius:14, background:T.g800, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, color:T.g400 }}>{r.name[0]}</div>
+                <span style={{ fontSize:13, fontWeight:600, color:T.g400 }}>{r.name}</span>
+                {r.verified && <span style={{ fontSize:11, color:T.greenText, fontWeight:600 }}>Verified</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CompactPlans({ contextLabels, heading="Pick your plan." }) {
+  const { navigate } = useApp();
+  return (
+    <section style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner">
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plans</p>
+        <h2 style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.1 }}>{heading}</h2>
+        <p style={{ fontSize:14, color:T.g500, marginBottom:8, textAlign:"center" }}>Unlimited data on every plan. No contracts, ever.</p>
+        <div style={{ display:"flex", justifyContent:"center", marginBottom:28 }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"6px 12px", borderRadius:99, background:`${T.green}08` }}>
+            {I.shield(11,T.greenText)}<span style={{ fontSize:12, fontWeight:600, color:T.greenText }}>Price Lock Guarantee -- your rate never increases</span>
+          </div>
+        </div>
+        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+          {PLANS.map((plan,idx) => (
+            <div key={plan.id} className="card-hover" style={{ borderRadius:18, background:T.darkCard, border:plan.popular?`1.5px solid ${T.green}35`:`1px solid ${T.darkBorder}`, borderLeft:`4px solid ${plan.color}`, position:"relative", padding:"22px", boxShadow:plan.popular?`0 0 60px ${T.green}0A`:"none" }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
+                <div>
+                  <p style={{ fontSize:11, fontWeight:700, letterSpacing:2, color:plan.color, textTransform:"uppercase", marginBottom:2 }}>{plan.tier}</p>
+                  <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                    <h3 style={{ fontSize:20, fontWeight:800, color:T.white, letterSpacing:-0.3 }}>{plan.name}</h3>
+                    {plan.popular && <span style={{ padding:"3px 8px", borderRadius:99, background:T.green, color:T.white, fontSize:10, fontWeight:700 }}>POPULAR</span>}
+                  </div>
+                </div>
+                <div style={{ textAlign:"right", flexShrink:0 }}>
+                  <span style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1 }}>${plan.monthly}</span>
+                  <span style={{ fontSize:13, color:T.g500 }}>/mo</span>
+                </div>
+              </div>
+              <p style={{ fontSize:13, color:T.g400, marginBottom:4 }}>Up to {plan.maxSpeed} -- {plan.latency} latency</p>
+              <p style={{ fontSize:13, color:T.g500, marginBottom:16 }}>{contextLabels?contextLabels[idx]:plan.bestFor}</p>
+              <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", padding:"15px", background:plan.popular?T.green:"rgba(255,255,255,0.08)", color:T.white, border:plan.popular?"none":`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:plan.popular?`0 0 40px ${T.greenGlow}`:"none" }}>
+                Start 21-Day Trial {I.arrow(13)}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LandingFAQ({ items, heading="Frequently asked questions" }) {
+  const [openIdx, setOpenIdx] = useState(-1);
+  return (
+    <section style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner">
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>FAQ</p>
+        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>{heading}</h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:2 }}>
+          {items.map((item,i) => (
+            <div key={i} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+              <button onClick={()=>setOpenIdx(openIdx===i?-1:i)} style={{ width:"100%", display:"flex", justifyContent:"space-between", alignItems:"center", padding:"18px 4px", background:"none", border:"none", borderBottom:`1px solid ${T.darkBorder}`, cursor:"pointer" }}>
+                <span itemProp="name" style={{ fontSize:15, fontWeight:600, color:T.white, textAlign:"left", flex:1, paddingRight:16 }}>{item.q}</span>
+                {openIdx===i ? I.chevUp(16,T.g500) : I.chevDown(16,T.g500)}
+              </button>
+              {openIdx===i && (
+                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" style={{ padding:"14px 4px 20px", borderBottom:`1px solid ${T.darkBorder}` }}>
+                  <p itemProp="text" style={{ fontSize:14, color:T.g400, lineHeight:1.65 }}>{item.a}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FinalCTA({ heading="Ready to get connected?", subtitle="Start your 21-day risk-free trial today.", ctaText="See Plans & Pricing" }) {
+  const { navigate } = useApp();
+  return (
+    <section style={{ padding:"48px 20px", background:T.dark, textAlign:"center" }}>
+      <div className="section-inner">
+        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:10 }}>{heading}</h2>
+        <p style={{ fontSize:15, color:T.g500, marginBottom:28 }}>{subtitle}</p>
+        <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"18px 36px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
+          {ctaText} {I.arrow(15)}
+        </button>
+        <p style={{ fontSize:13, color:T.g600, marginTop:16, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+          {I.phone(13,T.g600)} Or call an expert: <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function KeyDifferences() {
+  const cards = [
+    { icon:I.router(24,T.greenText), title:"No Dish. No Drilling.", desc:"Plug in your router and get online in minutes, without exterior hardware or wall-mounted installation." },
+    { icon:I.globe(24,T.greenText), title:"One Plan. Home & Road.", desc:"Use the same plan at your home base and while traveling. No plan switching required." },
+    { icon:I.lock(24,T.greenText), title:"Price Lock Guarantee.", desc:"Your monthly price stays locked once you join. Starlink has raised prices multiple times." },
+  ];
+  return (
+    <section style={{ padding:"48px 20px", background:T.dark }}>
+      <div className="section-inner">
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Key differences</p>
+        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center", lineHeight:1.1 }}>Why members choose<br/>Unlimitedville over Starlink</h2>
+        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+          {cards.map((c,i) => (
+            <div key={i} style={{ padding:"24px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}`, display:"flex", gap:16, alignItems:"flex-start" }}>
+              <div style={{ width:48, height:48, borderRadius:14, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{c.icon}</div>
+              <div>
+                <h3 style={{ fontSize:17, fontWeight:800, color:T.white, marginBottom:6, letterSpacing:-0.3 }}>{c.title}</h3>
+                <p style={{ fontSize:14, color:T.g400, lineHeight:1.6 }}>{c.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ComparisonTable() {
+  const [expanded, setExpanded] = useState(false);
+  const visibleRows = expanded ? STARLINK_COMPARE.rows : STARLINK_COMPARE.rows.slice(0,6);
+  return (
+    <section style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner">
+        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Side-by-side</p>
+        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>Full plan comparison</h2>
+        <div style={{ overflowX:"auto", borderRadius:16, border:`1px solid ${T.darkBorder}` }}>
+          <table style={{ width:"100%", minWidth:640, borderCollapse:"collapse", fontSize:13 }}>
+            <thead>
+              <tr style={{ borderBottom:`1px solid ${T.darkBorder}` }}>
+                <th style={{ padding:"14px 16px", textAlign:"left", color:T.g500, fontWeight:600, position:"sticky", left:0, background:T.darkCard, zIndex:2 }}></th>
+                {STARLINK_COMPARE.cols.map((c,i) => (
+                  <th key={i} style={{ padding:"14px 12px", textAlign:"center", color:i<3?T.green:T.g500, fontWeight:700, fontSize:12, letterSpacing:0.5, background:T.darkCard }}>{c}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {visibleRows.map((row,ri) => (
+                <tr key={ri} style={{ borderBottom:`1px solid ${T.darkBorder}`, background:ri%2===0?"transparent":"rgba(255,255,255,0.02)" }}>
+                  <td style={{ padding:"12px 16px", color:T.g300, fontWeight:600, position:"sticky", left:0, background:ri%2===0?T.black:T.darkCard, zIndex:1 }}>{row.label}</td>
+                  {row.vals.map((v,ci) => (
+                    <td key={ci} style={{ padding:"12px", textAlign:"center", color: row.highlight && row.highlight[ci] ? T.greenText : row.highlight && !row.highlight[ci] ? T.g600 : T.g300, fontWeight: row.highlight && row.highlight[ci] ? 700 : 500 }}>{v}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {!expanded && STARLINK_COMPARE.rows.length > 6 && (
+          <div style={{ display:"flex", justifyContent:"center", marginTop:16 }}>
+            <button onClick={()=>setExpanded(true)} style={{ background:"none", border:`1px solid ${T.darkBorder}`, borderRadius:12, padding:"12px 24px", color:T.g400, fontSize:13, fontWeight:600, cursor:"pointer", display:"flex", alignItems:"center", gap:6 }}>
+              Show all rows {I.chevDown(12,T.g500)}
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function UseCaseSection({ title, children }) {
+  return (
+    <section style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner">
+        <h2 style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:20, lineHeight:1.15 }}>{title}</h2>
+        <div style={{ fontSize:15, color:T.g400, lineHeight:1.7 }}>{children}</div>
       </div>
     </section>
   );
@@ -1686,6 +2092,72 @@ function getHashPage() {
   return h || "home";
 }
 
+function SolutionPage({ config }) {
+  const { navigate } = useApp();
+  const c = config;
+  return (
+    <div>
+      <PageHero
+        title={c.title}
+        subtitle={c.subtitle}
+        ctaText="Check Your Coverage"
+        ctaAction={()=>document.querySelector('.coverage-dark')?.scrollIntoView({behavior:'smooth',block:'center'})}
+        bullets={["Ships in 24 hours","Setup takes 5 minutes","21-day money-back guarantee"]}
+        minHeight="72svh"
+        heroTitleClass={c.heroTitle || "hero-title"}
+        imgAlt={c.metaTitle}
+      />
+      <PressStrip border={true} />
+      <CoverageCheck />
+      <ProblemSolution features={c.features} />
+      <SocialProof reviews={c.reviews} />
+      <CompactPlans contextLabels={c.planContext} />
+      <LandingFAQ items={c.faq} />
+      <FinalCTA />
+    </div>
+  );
+}
+
+function VsStarlinkPage() {
+  const { navigate } = useApp();
+  return (
+    <div>
+      <PageHero
+        title={<>Unlimitedville vs. Starlink:<br/>Which is right for you?</>}
+        subtitle="Compare price, portability, setup, and performance side by side. Then try Unlimitedville risk-free for 21 days."
+        ctaText="Try Unlimitedville Risk-Free"
+        ctaAction={()=>navigate("plans")}
+        bullets={["No dish required","No contracts","21-day money-back guarantee"]}
+        minHeight="72svh"
+        heroTitleClass="plans-hero-title"
+        heroSubClass="plans-hero-subtitle"
+        imgAlt="Unlimitedville vs Starlink comparison - wireless internet without a dish"
+      />
+      <PressStrip border={true} />
+      <KeyDifferences />
+      <ComparisonTable />
+      <UseCaseSection title="Unlimitedville vs. Starlink for rural home internet">
+        <p style={{ marginBottom:16 }}>Unlimitedville 5G Ultra reaches up to 500 Mbps -- more than double Starlink Residential's typical ceiling. Every plan includes unlimited data with no usage-based overages.</p>
+        <p style={{ marginBottom:16 }}>Unlimitedville 5G Ultra is $109/mo and 4G Plus is $99/mo. Starlink Roam is $165/mo and Residential is $120/mo. Plus Starlink requires a $599 dish purchase.</p>
+        <p>Unlimitedville uses 4G/5G cellular towers while Starlink uses Low Earth Orbit satellites. If you have usable cell signal, Unlimitedville is simpler to set up and less expensive.</p>
+      </UseCaseSection>
+      <UseCaseSection title="Unlimitedville vs. Starlink for RV and travel">
+        <p style={{ marginBottom:16 }}>Full-time RVers, truckers, and frequent travelers need internet that keeps up. Unlimitedville is simple: power your router and connect your devices. Works on 12v or 110v.</p>
+        <p style={{ marginBottom:16 }}>Satellite dishes need stationary alignment and clear sky visibility. Unlimitedville does not require any exterior hardware or sky access.</p>
+        <p>Every Unlimitedville plan works at home and on the road. Starlink Residential is locked to one address. Starlink Roam allows mobility at $165/mo -- $56/mo more than Unlimitedville 5G Ultra.</p>
+      </UseCaseSection>
+      <CoverageCheck />
+      <SocialProof reviews={[
+        { name:"Amir", text:"I tried satellite and point-to-point microwave and the best I could do was 12 Mbps for $150/mo. Unlimitedville changed everything.", verified:false },
+        { name:"David", text:"Unlimitedville is a godsend. I live out in the middle of nowhere. I've been searching for internet for the last 13 years.", verified:false },
+        { name:"Julia G.", text:"We bought our forever home in a rural area. Unlimitedville saved the day when nothing else worked.", verified:true },
+      ]} heading="Members who made the switch" />
+      <LandingFAQ items={STARLINK_FAQ} />
+      <FinalCTA heading="Put Unlimitedville to the test." subtitle="21-day money-back guarantee. No dish, no contracts, no risk." ctaText="Start Your 21-Day Trial" />
+    </div>
+  );
+}
+
 function App() {
   const [page, setPage] = useState(getHashPage);
   const [cart, setCart] = useState(null);
@@ -1719,9 +2191,20 @@ function App() {
       case "support": return <PlaceholderPage title="Support & FAQs" subtitle="Get help with your service, find answers, or talk to a real person at 888.422.2907." />;
       case "solutions": return <PlaceholderPage title="Solutions" subtitle="Internet solutions for every lifestyle. Rural homes, RV travel, businesses, and more." />;
       case "login": return <PlaceholderPage title="Member Login" subtitle="Access your account, manage your plan, and track your usage." />;
-      case "starlink-compare": return <PlaceholderPage title="Unlimitedville vs Starlink" subtitle="See how Unlimitedville compares to Starlink on price, portability, and reliability." />;
+      case "starlink-compare": return <VsStarlinkPage />;
+      case "rural": return <SolutionPage config={SOLUTION_PAGES["rural"]} />;
+      case "rv": return <SolutionPage config={SOLUTION_PAGES["rv"]} />;
+      case "business": return <SolutionPage config={SOLUTION_PAGES["business"]} />;
+      case "trucking": return <SolutionPage config={SOLUTION_PAGES["trucking"]} />;
+      case "gaming": return <SolutionPage config={SOLUTION_PAGES["gaming"]} />;
+      case "failover": return <SolutionPage config={SOLUTION_PAGES["failover"]} />;
       default:
         if (page.startsWith("uc-")) {
+          const slugMap = { "uc-rural":"rural", "uc-rv":"rv", "uc-transportation":"trucking", "uc-mobile-biz":"business", "uc-failover":"failover", "uc-urban":"rural" };
+          const configKey = slugMap[page];
+          if (configKey && SOLUTION_PAGES[configKey]) {
+            return <SolutionPage config={SOLUTION_PAGES[configKey]} />;
+          }
           const uc = USE_CASES.find(u => "uc-"+u.slug === page);
           return <PlaceholderPage title={uc ? `Internet for ${uc.label}` : "Use Case"} subtitle={uc?.desc} />;
         }
