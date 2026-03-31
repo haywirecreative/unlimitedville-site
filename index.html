@@ -160,8 +160,8 @@
     .grid-plans { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; flex-direction: unset !important; }
     .grid-plans > div { margin-bottom: 0 !important; }
     .grid-features { grid-template-columns: repeat(3, 1fr) !important; }
-    .grid-use-cases { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 2px !important; overflow-x: visible !important; }
-    .grid-use-cases > button { min-width: unset !important; }
+    .grid-use-cases { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; overflow-x: visible !important; }
+    .grid-use-cases > button { min-width: unset !important; border-radius: 16px !important; overflow: hidden !important; }
     .grid-reviews { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
     .grid-reviews > div { margin-bottom: 0 !important; }
     /* Hero */
@@ -194,6 +194,13 @@
     .plans-hero-subtitle { font-size: 17px !important; max-width: 460px !important; margin-left: auto !important; margin-right: auto !important; }
     /* Desktop buttons: never full-width */
     .btn-desktop-auto { width: auto !important; min-width: 220px !important; padding-left: 40px !important; padding-right: 40px !important; margin-left: auto !important; margin-right: auto !important; }
+    /* Hero bullets scale up */
+    .hero-bullet { font-size: 13px !important; gap: 6px !important; }
+    /* Footer action buttons constrained */
+    .footer-actions { max-width: 480px !important; }
+    /* Reviews card hover */
+    .review-card { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease; }
+    .review-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.08) !important; }
     /* Coverage check constrained */
     .coverage-check { max-width: 520px !important; margin-left: auto !important; margin-right: auto !important; }
     /* Section spacing rhythm -- generous vertical breathing on tablet+ */
@@ -211,7 +218,7 @@
     .hero-section { min-height: 85vh !important; }
     /* Grids */
     .grid-features { grid-template-columns: repeat(4, 1fr) !important; gap: 16px !important; }
-    .grid-use-cases { grid-template-columns: repeat(4, 1fr) !important; gap: 2px !important; }
+    .grid-use-cases { grid-template-columns: repeat(4, 1fr) !important; gap: 16px !important; }
     .grid-reviews { grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; }
     .grid-reviews > div { margin-bottom: 0 !important; }
     /* Forms */
@@ -220,6 +227,12 @@
     .plans-hero { max-width: 800px; }
     .plans-hero-title { font-size: 56px !important; letter-spacing: -2px !important; }
     .plans-hero-subtitle { font-size: 18px !important; max-width: 520px !important; line-height: 1.6 !important; }
+    /* Plans page guarantees: 2-col grid on desktop */
+    .guarantees-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+    .guarantees-grid > div { margin-bottom: 0 !important; }
+    /* Plans page mini-reviews: side by side on desktop */
+    .plans-reviews-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+    .plans-reviews-grid > div { margin-bottom: 0 !important; }
     /* Lifestyle */
     .lifestyle-break { max-height: 600px !important; }
     .lifestyle-title { font-size: 48px !important; }
@@ -228,14 +241,24 @@
     .footer-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 12px !important; }
     .footer-section { padding-top: 64px !important; padding-bottom: 64px !important; }
     .footer-bottom-row { flex-direction: row !important; }
-    /* How It Works more breathing room */
+    /* How It Works more breathing room + center cards */
     .how-it-works-section { padding-top: 80px !important; padding-bottom: 80px !important; }
+    .how-it-works-grid > div { text-align: center !important; }
+    .how-it-works-grid .step-row { flex-direction: column !important; align-items: center !important; gap: 16px !important; }
+    .how-it-works-grid .step-icon { width: 64px !important; height: 64px !important; border-radius: 18px !important; }
+    .how-it-works-grid .step-meta { justify-content: center !important; }
+    .how-it-works-grid .step-title { font-size: 20px !important; }
+    .how-it-works-grid .step-desc { font-size: 16px !important; max-width: 280px !important; margin-left: auto !important; margin-right: auto !important; }
     /* Section text sizes bumped for desktop */
     .section-heading { font-size: 42px !important; letter-spacing: -1.5px !important; }
     .section-subheading { font-size: 17px !important; line-height: 1.6 !important; }
     .section-label { font-size: 13px !important; letter-spacing: 3.5px !important; }
     /* Coverage check */
     .coverage-check { max-width: 480px !important; }
+    /* Press strip scales up on desktop */
+    .press-name { font-size: 15px !important; letter-spacing: 0.5px !important; }
+    .press-divider { font-size: 15px !important; }
+    .press-label { font-size: 13px !important; letter-spacing: 3px !important; }
     /* FAQ narrower on desktop */
     .faq-section { max-width: 720px !important; margin-left: auto !important; margin-right: auto !important; }
     /* CTA section -- left aligned on desktop */
@@ -245,6 +268,10 @@
     .cta-section .btn-primary { margin-left: 0 !important; margin-right: auto !important; }
     /* Desktop buttons */
     .btn-desktop-auto { min-width: 260px !important; }
+    /* Hero bullets */
+    .hero-bullet { font-size: 14px !important; gap: 7px !important; }
+    /* Footer actions narrower on desktop */
+    .footer-actions { max-width: 400px !important; }
     /* Section spacing -- generous vertical breathing on desktop */
     .desktop-section { padding-top: 80px !important; padding-bottom: 80px !important; }
   }
@@ -255,8 +282,10 @@
     .section-wide { padding-left: 64px; padding-right: 64px; }
     .hero-title { font-size: 72px !important; letter-spacing: -3.5px !important; }
     .hero-subtitle { font-size: 19px !important; max-width: 520px !important; }
-    .grid-plans { gap: 24px !important; }
+    .grid-plans { gap: 28px !important; }
+    .grid-plans .card-hover { padding: 28px !important; }
     .lifestyle-title { font-size: 56px !important; }
+    .lifestyle-break { max-height: 680px !important; }
     .section-heading { font-size: 48px !important; letter-spacing: -2px !important; }
     .plans-hero-title { font-size: 64px !important; }
     .plans-hero { max-width: 880px; }
@@ -316,6 +345,8 @@ const REVIEWS = [
   { name:"Timothy R.", rating:5, verified:true, text:"This was my last option where I live and I'm glad I got it. Best speeds I've ever seen here.", plan:"5G Ultra" },
   { name:"Krystal P.", rating:5, verified:true, text:"The internet is AMAZING! It's so fast, and in my home we have multiple devices connected with no lag.", plan:"4G Plus" },
   { name:"Jamiel R.", rating:5, verified:true, text:"What a game changer! At first I was a little skeptical about the unlimited 4G but now I'm a believer.", plan:"4G Plus" },
+  { name:"Sarah M.", rating:5, verified:true, text:"Living in a rural area, we had zero options until Unlimitedville. Now we stream, work from home, and video call without a single issue.", plan:"5G Ultra" },
+  { name:"David L.", rating:5, verified:true, text:"Replaced our satellite internet and the difference is night and day. Setup took 5 minutes and we've had zero downtime in 3 months.", plan:"4G Plus" },
 ];
 
 const BLOG = [
@@ -665,7 +696,7 @@ function HomePage() {
 
           <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, marginTop:20, justifyContent:"center" }}>
             {["21-day guarantee","No contracts","Ships in 24hrs"].map((l,i) => (
-              <span key={i} style={{ fontSize:11, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:4 }}>{I.check(11,T.green)} {l}</span>
+              <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
             ))}
           </div>
         </div>
@@ -677,12 +708,12 @@ function HomePage() {
           ═══════════════════════════════════ */}
       <section style={{ padding:"28px 24px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
         <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", textAlign:"center", marginBottom:20 }}>As seen on</p>
-        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"10px 12px" }}>
+        <p className="press-label" style={{ fontSize:12, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", textAlign:"center", marginBottom:20 }}>As seen on</p>
+        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"10px 16px" }}>
           {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist","Internet Access Guide"].map((name,i,arr) => (
             <React.Fragment key={i}>
-              <span style={{ fontSize:13, fontWeight:500, color:T.g500, letterSpacing:0.3, whiteSpace:"nowrap" }}>{name}</span>
-              {i < arr.length-1 && <span style={{ color:T.g700, fontSize:13 }}>|</span>}
+              <span className="press-name" style={{ fontSize:13, fontWeight:500, color:T.g500, letterSpacing:0.3, whiteSpace:"nowrap" }}>{name}</span>
+              {i < arr.length-1 && <span className="press-divider" style={{ color:T.g700, fontSize:13 }}>|</span>}
             </React.Fragment>
           ))}
         </div>
@@ -738,7 +769,7 @@ function HomePage() {
         <div className="section-inner">
         <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>How it works</p>
         <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:12, textAlign:"center", lineHeight:1.05 }}>Online in minutes,<br/>not days.</h2>
-        <p className="section-subheading" style={{ fontSize:15, color:T.g500, textAlign:"center", marginBottom:36, maxWidth:280, marginLeft:"auto", marginRight:"auto", lineHeight:1.5 }}>Three steps. No technicians. No wait.</p>
+        <p className="section-subheading" style={{ fontSize:15, color:T.g500, textAlign:"center", marginBottom:36, maxWidth:380, marginLeft:"auto", marginRight:"auto", lineHeight:1.5 }}>Three steps. No technicians. No wait.</p>
 
         <div className="how-it-works-grid">
         {[
@@ -747,14 +778,14 @@ function HomePage() {
           { n:"03", t:"You're connected", d:"Stream, game, video call, and work from anywhere -- on every device you own.", icon:I.wifi(22,T.greenText) },
         ].map((s,i) => (
           <div key={i} style={{ marginBottom:i<2?28:0 }}>
-            <div style={{ display:"flex", gap:14, alignItems:"flex-start" }}>
-              <div style={{ minWidth:52, height:52, borderRadius:14, background:`${T.green}06`, border:`1px solid ${T.green}12`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{s.icon}</div>
+            <div className="step-row" style={{ display:"flex", gap:14, alignItems:"flex-start" }}>
+              <div className="step-icon" style={{ minWidth:52, height:52, borderRadius:14, background:`${T.green}06`, border:`1px solid ${T.green}12`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{s.icon}</div>
               <div>
-                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
+                <div className="step-meta" style={{ display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
                   <span style={{ fontSize:12, fontWeight:800, color:T.greenText, fontFamily:"monospace" }}>{s.n}</span>
-                  <h3 style={{ fontSize:18, fontWeight:800, color:T.g900, letterSpacing:-0.3 }}>{s.t}</h3>
+                  <h3 className="step-title" style={{ fontSize:18, fontWeight:800, color:T.g900, letterSpacing:-0.3 }}>{s.t}</h3>
                 </div>
-                <p style={{ fontSize:15, color:T.g500, lineHeight:1.5 }}>{s.d}</p>
+                <p className="step-desc" style={{ fontSize:15, color:T.g500, lineHeight:1.5 }}>{s.d}</p>
               </div>
             </div>
           </div>
@@ -802,7 +833,7 @@ function HomePage() {
                   </div>
                 </div>
                 <p style={{ fontSize:14, color:sub, marginBottom:18, lineHeight:1.5 }}>Up to {plan.maxSpeed}. {plan.bestFor}.</p>
-                <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", padding:"16px", background:isDark?T.green:T.g900, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:isDark?`0 0 40px ${T.greenGlow}`:"none" }}>
+                <button onClick={()=>navigate("plans")} className="btn-primary btn-plan-card" style={{ width:"100%", padding:"16px", background:isDark?T.green:T.g900, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:isDark?`0 0 40px ${T.greenGlow}`:"none" }}>
                   View Details {I.arrow(14)}
                 </button>
               </div>
@@ -964,7 +995,7 @@ function HomePage() {
         </div>
         <div className="grid-reviews">
         {REVIEWS.map((r,i) => (
-          <div key={i} style={{ padding:"20px", borderRadius:R.lg, background:T.white, border:`1px solid ${T.g200}`, borderLeft:`3px solid ${T.greenText}`, marginBottom:12 }}>
+          <div key={i} className="review-card" style={{ padding:"20px", borderRadius:R.lg, background:T.white, border:`1px solid ${T.g200}`, borderLeft:`3px solid ${T.greenText}`, marginBottom:12 }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
               <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                 <div style={{ width:40, height:40, borderRadius:20, background:`${T.green}0A`, border:`1px solid ${T.green}20`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, fontWeight:700, color:T.greenText }}>{r.name[0]}</div>
@@ -1497,7 +1528,7 @@ function PlansPage() {
         <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Why Unlimitedville</p>
         <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.5, lineHeight:1.1 }}>Sounds too good<br/>to be true?</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center", lineHeight:1.5 }}>We get it. Here's why thousands of members trust us.</p>
-        <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+        <div className="guarantees-grid" style={{ display:"flex", flexDirection:"column", gap:12 }}>
           {[
             { icon:I.shield(20,T.green), title:"21-Day Money-Back Guarantee", desc:"Try it completely risk-free. If you're not satisfied, return the router within 21 days for a full refund. No questions, no hassle." },
             { icon:I.lock(20,T.green), title:"Price Lock For Life", desc:"Your monthly rate is locked in the day you sign up. No price hikes after 6 months. No introductory rate games. Ever." },
@@ -1525,6 +1556,7 @@ function PlansPage() {
           <span style={{ fontSize:16, fontWeight:800, color:T.white }}>4.5</span>
           <span style={{ fontSize:13, color:T.g500 }}>from 213+ verified reviews</span>
         </div>
+        <div className="plans-reviews-grid">
         {[
           { name:"Timothy R.", text:"Best speeds I've ever seen here. I can play games online and stream in 4K.", plan:"5G Ultra" },
           { name:"Elizabeth A.", text:"We could not be happier! Streaming works perfectly and setup was a breeze.", plan:"4G Plus" },
@@ -1538,6 +1570,7 @@ function PlansPage() {
             </div>
           </div>
         ))}
+        </div>
         <div style={{ marginTop:16, display:"flex", justifyContent:"center" }}><button onClick={()=>navigate("reviews")} className="btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g400, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(13,T.g400)}</button></div>
         </div>
       </div>
@@ -1617,7 +1650,7 @@ function Footer() {
           <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:"4px 0", textAlign:"left", transition:"color 0.2s" }}>{link.l}</button>
         ))}
       </div>
-      <div style={{ display:"flex", gap:10, marginBottom:28 }}>
+      <div className="footer-actions" style={{ display:"flex", gap:10, marginBottom:28 }}>
         <button onClick={()=>navigate("login")} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
           {I.user(15,T.green)} My Account
         </button>
