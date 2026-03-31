@@ -486,6 +486,7 @@ function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
     if (!container) return;
     let iv, mounted = true;
 
+    const isLight = light;
     async function attach() {
       try {
         await google.maps.importLibrary("places");
@@ -495,6 +496,20 @@ function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
           types: ["address"]
         });
         pac.style.cssText = "width:100%;";
+        // Set theme via CSS custom properties directly on the element -- these
+        // cascade into the shadow DOM and win over any stylesheet rule.
+        pac.style.setProperty("--gmpac-color-primary", "#55b685");
+        if (isLight) {
+          pac.style.setProperty("--gmpac-color-surface-container-highest", "#fff");
+          pac.style.setProperty("--gmpac-color-on-surface", "#18181b");
+          pac.style.setProperty("--gmpac-color-on-surface-variant", "#71717a");
+          pac.style.setProperty("--gmpac-color-outline-variant", "#e4e4e7");
+        } else {
+          pac.style.setProperty("--gmpac-color-surface-container-highest", "#18181b");
+          pac.style.setProperty("--gmpac-color-on-surface", "#ffffff");
+          pac.style.setProperty("--gmpac-color-on-surface-variant", "#a1a1aa");
+          pac.style.setProperty("--gmpac-color-outline-variant", "#27272a");
+        }
         pac.addEventListener("gmp-select", async (e) => {
           const place = e.placePrediction.toPlace();
           await place.fetchFields({ fields: ["formattedAddress"] });
