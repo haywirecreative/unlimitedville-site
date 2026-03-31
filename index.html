@@ -156,16 +156,19 @@
     .grid-reviews { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
     .grid-reviews > div { margin-bottom: 0 !important; }
     .hero-title { font-size: 56px !important; }
+    .hero-subtitle { font-size: 17px !important; max-width: 420px !important; }
     .hero-section { min-height: 80vh !important; }
     .nav-desktop-links { display: flex !important; }
     .nav-mobile-toggle { display: none !important; }
     .nav-mobile-drawer { display: none !important; }
     .footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
-    .checkout-form { max-width: 600px; margin: 0 auto; }
+    .checkout-form { max-width: 600px; margin-left: auto; margin-right: auto; }
     .how-it-works-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; }
     .how-it-works-grid > div { margin-bottom: 0 !important; }
     .quiz-section { max-width: 560px; margin-left: auto; margin-right: auto; }
-    .lifestyle-break { max-height: 520px; }
+    .lifestyle-break { max-height: 520px !important; }
+    .lifestyle-title { font-size: 40px !important; }
+    .lifestyle-desc { max-width: 460px !important; }
     .sticky-bar-inner { max-width: 1200px; margin: 0 auto; }
     .plans-hero { max-width: 640px; margin-left: auto; margin-right: auto; }
   }
@@ -177,14 +180,24 @@
     .hero-section { min-height: 85vh !important; }
     .grid-features { grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
     .grid-use-cases { grid-template-columns: repeat(4, 1fr) !important; }
+    .grid-reviews { grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; }
+    .grid-reviews > div { margin-bottom: 0 !important; }
     .checkout-form { max-width: 680px; }
     .plans-hero { max-width: 720px; }
+    .lifestyle-break { max-height: 600px !important; }
+    .lifestyle-title { font-size: 48px !important; }
+    .lifestyle-desc { font-size: 17px !important; max-width: 520px !important; }
+    .footer-grid { grid-template-columns: repeat(6, 1fr) !important; }
+    .grid-features { grid-template-columns: repeat(4, 1fr) !important; gap: 16px !important; }
   }
 
   /* ── RESPONSIVE: Wide Desktop (1280px+) ── */
   @media (min-width: 1280px) {
     .hero-title { font-size: 72px !important; }
+    .hero-subtitle { font-size: 19px !important; max-width: 520px !important; }
     .grid-plans { gap: 24px !important; }
+    .section-inner { max-width: 1280px; }
+    .lifestyle-title { font-size: 56px !important; }
   }
 
   /* ── NAV: Desktop links (hidden on mobile) ── */
@@ -819,9 +832,9 @@ function HomePage() {
           ═══════════════════════════════════ */}
       <section className="lifestyle-break" style={{ position:"relative", overflow:"hidden", maxHeight:520 }}>
         <ImageBlock aspect="9/16" style={{ maxHeight:520 }} dark={true} overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
-          <div style={{ position:"absolute", bottom:40, left:24, right:24, textAlign:"left" }}>
-            <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:10 }}>Your home<br/>internet,<br/>everywhere.</h2>
-            <p style={{ fontSize:15, color:T.g300, lineHeight:1.5, marginBottom:20 }}>Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
+          <div className="section-inner" style={{ position:"absolute", bottom:40, left:24, right:24, textAlign:"left" }}>
+            <h2 className="lifestyle-title" style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:10 }}>Your home<br/>internet,<br/>everywhere.</h2>
+            <p className="lifestyle-desc" style={{ fontSize:15, color:T.g300, lineHeight:1.5, marginBottom:20, maxWidth:400 }}>Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
             <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 28px", background:T.green, border:"none", borderRadius:14, color:T.white, fontSize:14, fontWeight:700, display:"flex", alignItems:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}` }}>
               View Plans {I.arrow(13)}
             </button>
@@ -960,7 +973,7 @@ function CartPage() {
 
   return (
     <div style={{ minHeight:"100vh", background:T.g50, paddingTop:64, paddingBottom:40 }}>
-      <div style={{ padding:"28px 20px" }}>
+      <div className="checkout-form" style={{ padding:"28px 20px" }}>
         <button onClick={()=>navigate("plans")} style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:6, color:T.g500, fontSize:14, fontWeight:500, marginBottom:24 }}>{I.back(16,T.g500)} Back to plans</button>
 
         <h1 style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:28 }}>Your Order</h1>
