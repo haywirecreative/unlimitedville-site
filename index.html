@@ -1320,8 +1320,11 @@ function PlansPage() {
     <div style={{ minHeight:"100vh", background:T.g50 }}>
 
       {/* ── HERO HEADER ── */}
-      <div style={{ paddingTop:104, paddingBottom:56, background:`linear-gradient(180deg, ${T.dark} 0%, ${T.black} 100%)`, textAlign:"center" }}>
-        <div className="plans-hero" style={{ padding:"0 24px" }}>
+      <div style={{ position:"relative", paddingTop:104, paddingBottom:56, textAlign:"center", overflow:"hidden" }}>
+        {/* Background image + heavy overlay */}
+        <img src={SITE_IMG} alt="" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.75) 50%, rgba(10,10,10,0.92) 100%)" }} />
+        <div className="plans-hero" style={{ position:"relative", zIndex:1, padding:"0 24px" }}>
         <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:14 }}>Plans & Pricing</p>
         <h1 className="plans-hero-title" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.2, lineHeight:1.05, marginBottom:16 }}>No wires means<br/>no boundaries.</h1>
         <p className="plans-hero-subtitle" style={{ fontSize:16, color:T.g400, lineHeight:1.55, maxWidth:340, margin:"0 auto 28px" }}>Every plan includes unlimited data, a pre-configured router, and our 21-day money-back guarantee.</p>
