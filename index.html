@@ -139,28 +139,22 @@
   .uc-card:hover .uc-arrow { transform: translateX(4px); opacity: 1; }
   input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
   *:focus-visible { outline: 2px solid #55b685; outline-offset: 2px; }
-  /* Google Places Autocomplete -- NO global defaults, fully scoped per theme */
-  gmp-placeautocomplete { width:100% !important; --gmpac-color-primary:#55b685; }
+  /* Google Places Autocomplete dropdown -- pac-container is appended to body by Google,
+     so we theme it via classes added in JS (pac-theme-dark / pac-theme-light) */
   .pac-icon { display:none !important; }
   .pac-matched { color:#55b685 !important; }
-  /* Dark theme (home page coverage checker) */
-  .coverage-dark gmp-placeautocomplete { --gmpac-color-surface-container-highest:#18181b; --gmpac-color-on-surface:#fff; --gmpac-color-on-surface-variant:#a1a1aa; --gmpac-color-outline-variant:#27272a; --gmpac-color-primary:#55b685; }
-  .coverage-dark gmp-placeautocomplete input { background:#18181b !important; color:#fff !important; border:1px solid #27272a !important; border-radius:12px !important; padding:14px 16px !important; font-size:15px !important; font-family:'Inter',sans-serif !important; outline:none !important; width:100% !important; }
-  .coverage-dark gmp-placeautocomplete input:focus { border-color:#55b685 !important; box-shadow:0 0 0 3px rgba(85,182,133,0.1) !important; }
-  .coverage-dark .pac-container { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
-  .coverage-dark .pac-item { border-top:1px solid #27272a !important; padding:10px 14px !important; color:#d4d4d8 !important; font-size:14px !important; cursor:pointer !important; }
-  .coverage-dark .pac-item:first-child { border-top:none !important; }
-  .coverage-dark .pac-item:hover, .coverage-dark .pac-item-selected { background:#27272a !important; }
-  .coverage-dark .pac-item-query { color:#fff !important; font-weight:600 !important; }
-  /* Light theme (Plans page coverage checker) */
-  .coverage-light gmp-placeautocomplete { --gmpac-color-surface-container-highest:#fff; --gmpac-color-on-surface:#18181b; --gmpac-color-on-surface-variant:#71717a; --gmpac-color-outline-variant:#e4e4e7; --gmpac-color-primary:#55b685; }
-  .coverage-light gmp-placeautocomplete input { background:#fff !important; color:#18181b !important; border:1px solid #e4e4e7 !important; border-radius:12px !important; padding:14px 16px !important; font-size:15px !important; font-family:'Inter',sans-serif !important; outline:none !important; width:100% !important; }
-  .coverage-light gmp-placeautocomplete input:focus { border-color:#55b685 !important; box-shadow:0 0 0 3px rgba(85,182,133,0.1) !important; }
-  .coverage-light .pac-container { background:#fff !important; border:1px solid #e4e4e7 !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.1) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
-  .coverage-light .pac-item { border-top:1px solid #e4e4e7 !important; padding:10px 14px !important; color:#3f3f46 !important; font-size:14px !important; cursor:pointer !important; }
-  .coverage-light .pac-item:first-child { border-top:none !important; }
-  .coverage-light .pac-item:hover, .coverage-light .pac-item-selected { background:#f4f4f5 !important; }
-  .coverage-light .pac-item-query { color:#18181b !important; font-weight:600 !important; }
+  /* Dark dropdown (home page) */
+  .pac-theme-dark { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
+  .pac-theme-dark .pac-item { border-top:1px solid #27272a !important; padding:10px 14px !important; color:#d4d4d8 !important; font-size:14px !important; cursor:pointer !important; }
+  .pac-theme-dark .pac-item:first-child { border-top:none !important; }
+  .pac-theme-dark .pac-item:hover, .pac-theme-dark .pac-item-selected { background:#27272a !important; }
+  .pac-theme-dark .pac-item-query { color:#fff !important; font-weight:600 !important; }
+  /* Light dropdown (Plans page) */
+  .pac-theme-light { background:#fff !important; border:1px solid #e4e4e7 !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.1) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
+  .pac-theme-light .pac-item { border-top:1px solid #e4e4e7 !important; padding:10px 14px !important; color:#3f3f46 !important; font-size:14px !important; cursor:pointer !important; }
+  .pac-theme-light .pac-item:first-child { border-top:none !important; }
+  .pac-theme-light .pac-item:hover, .pac-theme-light .pac-item-selected { background:#f4f4f5 !important; }
+  .pac-theme-light .pac-item-query { color:#18181b !important; font-weight:600 !important; }
   .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; will-change: transform; }
   .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(85,182,133,0.08) !important; }
   .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; opacity: 0; }
@@ -473,57 +467,46 @@ function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:
 
 /* ═══════════════════════════════════════
    ADDRESS INPUT w/ GOOGLE PLACES AUTOCOMPLETE
-   Falls back to plain input if API key not set
+   Uses classic Autocomplete API on a plain <input> so styling is
+   100% under our control -- no shadow DOM, no element replacement.
    ═══════════════════════════════════════ */
 function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
-  const containerRef = useRef(null);
+  const inputRef = useRef(null);
   const cbRef = useRef({ onChange, onSubmit });
   cbRef.current = { onChange, onSubmit };
-  const [useFallback, setUseFallback] = useState(false);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    let iv, mounted = true;
+    let mounted = true, iv, pacObserver;
+    const themeClass = light ? "pac-theme-light" : "pac-theme-dark";
 
-    const isLight = light;
     async function attach() {
       try {
         await google.maps.importLibrary("places");
-        if (!mounted) return;
-        const pac = new google.maps.places.PlaceAutocompleteElement({
+        if (!mounted || !inputRef.current) return;
+        const ac = new google.maps.places.Autocomplete(inputRef.current, {
           componentRestrictions: { country: "us" },
-          types: ["address"]
+          types: ["address"],
+          fields: ["formatted_address"]
         });
-        pac.style.cssText = "width:100%;";
-        // Force color-scheme so the element's internal media queries pick the right theme.
-        // Without this the element reads body background as dark and ignores custom props.
-        pac.style.setProperty("color-scheme", isLight ? "light" : "dark");
-        // Set theme via CSS custom properties directly on the element.
-        pac.style.setProperty("--gmpac-color-primary", "#55b685");
-        if (isLight) {
-          pac.style.setProperty("--gmpac-color-surface-container-highest", "#fff");
-          pac.style.setProperty("--gmpac-color-on-surface", "#18181b");
-          pac.style.setProperty("--gmpac-color-on-surface-variant", "#71717a");
-          pac.style.setProperty("--gmpac-color-outline-variant", "#e4e4e7");
-        } else {
-          pac.style.setProperty("--gmpac-color-surface-container-highest", "#18181b");
-          pac.style.setProperty("--gmpac-color-on-surface", "#ffffff");
-          pac.style.setProperty("--gmpac-color-on-surface-variant", "#a1a1aa");
-          pac.style.setProperty("--gmpac-color-outline-variant", "#27272a");
-        }
-        pac.addEventListener("gmp-select", async (e) => {
-          const place = e.placePrediction.toPlace();
-          await place.fetchFields({ fields: ["formattedAddress"] });
-          const addr = place.formattedAddress || "";
+        // Tag the pac-container dropdown with our theme class when Google appends it to body
+        pacObserver = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            for (const node of m.addedNodes) {
+              if (node.classList && node.classList.contains("pac-container")) {
+                node.classList.add(themeClass);
+              }
+            }
+          }
+        });
+        pacObserver.observe(document.body, { childList: true });
+        ac.addListener("place_changed", () => {
+          if (!mounted || !inputRef.current) return;
+          const place = ac.getPlace();
+          const addr = place.formatted_address || inputRef.current.value;
           cbRef.current.onChange(addr);
           setTimeout(() => cbRef.current.onSubmit && cbRef.current.onSubmit(addr), 100);
         });
-        container.innerHTML = "";
-        container.appendChild(pac);
-      } catch(e) {
-        if (mounted) setUseFallback(true);
-      }
+      } catch(e) { /* plain input still works */ }
     }
 
     if (window.google && window.google.maps) { attach(); }
@@ -531,27 +514,18 @@ function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
       let tries = 0;
       iv = setInterval(() => {
         if (window.google && window.google.maps) { clearInterval(iv); attach(); }
-        else if (++tries > 40) { clearInterval(iv); if (mounted) setUseFallback(true); }
+        else if (++tries > 40) { clearInterval(iv); }
       }, 250);
     }
-    return () => { mounted = false; iv && clearInterval(iv); };
+    return () => { mounted = false; iv && clearInterval(iv); pacObserver && pacObserver.disconnect(); };
   }, []);
 
-  if (useFallback) {
-    return (
-      <input type="text" placeholder="Enter your address..." defaultValue={value}
-        onChange={e => cbRef.current.onChange(e.target.value)}
-        onKeyDown={e => { if(e.key==="Enter" && e.target.value.length>=5) cbRef.current.onSubmit && cbRef.current.onSubmit(e.target.value); }}
-        style={inputStyle} />
-    );
-  }
-
-  return <div ref={containerRef} style={{ flex:1, colorScheme: light ? "light" : "dark" }}>
-    <input type="text" placeholder="Enter your address..." defaultValue={value}
+  return (
+    <input ref={inputRef} type="text" placeholder="Enter your address..." defaultValue={value}
       onChange={e => cbRef.current.onChange(e.target.value)}
       onKeyDown={e => { if(e.key==="Enter" && e.target.value.length>=5) cbRef.current.onSubmit && cbRef.current.onSubmit(e.target.value); }}
       style={inputStyle} />
-  </div>;
+  );
 }
 
 /* ═══════════════════════════════════════
