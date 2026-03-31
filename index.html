@@ -139,25 +139,28 @@
   .uc-card:hover .uc-arrow { transform: translateX(4px); opacity: 1; }
   input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
   *:focus-visible { outline: 2px solid #55b685; outline-offset: 2px; }
-  /* Google Places Autocomplete (new PlaceAutocompleteElement) */
-  gmp-placeautocomplete { width:100% !important; --gmpac-color-surface-container-highest:#18181b; --gmpac-color-on-surface:#fff; --gmpac-color-on-surface-variant:#a1a1aa; --gmpac-color-outline-variant:#27272a; --gmpac-color-primary:#55b685; }
-  gmp-placeautocomplete input { background:#18181b !important; color:#fff !important; border:1px solid #27272a !important; border-radius:12px !important; padding:14px 16px !important; font-size:15px !important; font-family:'Inter',sans-serif !important; outline:none !important; width:100% !important; }
-  gmp-placeautocomplete input:focus { border-color:#55b685 !important; box-shadow:0 0 0 3px rgba(85,182,133,0.1) !important; }
-  /* Fallback for old pac-container if it appears */
-  .pac-container { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
-  .pac-item { border-top:1px solid #27272a !important; padding:10px 14px !important; color:#d4d4d8 !important; font-size:14px !important; cursor:pointer !important; }
-  .pac-item:first-child { border-top:none !important; }
-  .pac-item:hover, .pac-item-selected { background:#27272a !important; }
-  .pac-item-query { color:#fff !important; font-weight:600 !important; }
+  /* Google Places Autocomplete -- NO global defaults, fully scoped per theme */
+  gmp-placeautocomplete { width:100% !important; --gmpac-color-primary:#55b685; }
   .pac-icon { display:none !important; }
   .pac-matched { color:#55b685 !important; }
-  /* Light-theme override for coverage checker on Plans page */
-  .coverage-light gmp-placeautocomplete { --gmpac-color-surface-container-highest:#fff; --gmpac-color-on-surface:#18181b; --gmpac-color-on-surface-variant:#71717a; --gmpac-color-outline-variant:#e4e4e7; }
-  .coverage-light gmp-placeautocomplete input { background:#fff !important; color:#18181b !important; border:1px solid #e4e4e7 !important; }
-  .coverage-light .pac-container { background:#fff !important; border:1px solid #e4e4e7 !important; box-shadow:0 16px 48px rgba(0,0,0,0.1) !important; }
-  .coverage-light .pac-item { border-top:1px solid #e4e4e7 !important; color:#3f3f46 !important; }
+  /* Dark theme (home page coverage checker) */
+  .coverage-dark gmp-placeautocomplete { --gmpac-color-surface-container-highest:#18181b; --gmpac-color-on-surface:#fff; --gmpac-color-on-surface-variant:#a1a1aa; --gmpac-color-outline-variant:#27272a; --gmpac-color-primary:#55b685; }
+  .coverage-dark gmp-placeautocomplete input { background:#18181b !important; color:#fff !important; border:1px solid #27272a !important; border-radius:12px !important; padding:14px 16px !important; font-size:15px !important; font-family:'Inter',sans-serif !important; outline:none !important; width:100% !important; }
+  .coverage-dark gmp-placeautocomplete input:focus { border-color:#55b685 !important; box-shadow:0 0 0 3px rgba(85,182,133,0.1) !important; }
+  .coverage-dark .pac-container { background:#18181b !important; border:1px solid #27272a !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.5) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
+  .coverage-dark .pac-item { border-top:1px solid #27272a !important; padding:10px 14px !important; color:#d4d4d8 !important; font-size:14px !important; cursor:pointer !important; }
+  .coverage-dark .pac-item:first-child { border-top:none !important; }
+  .coverage-dark .pac-item:hover, .coverage-dark .pac-item-selected { background:#27272a !important; }
+  .coverage-dark .pac-item-query { color:#fff !important; font-weight:600 !important; }
+  /* Light theme (Plans page coverage checker) */
+  .coverage-light gmp-placeautocomplete { --gmpac-color-surface-container-highest:#fff; --gmpac-color-on-surface:#18181b; --gmpac-color-on-surface-variant:#71717a; --gmpac-color-outline-variant:#e4e4e7; --gmpac-color-primary:#55b685; }
+  .coverage-light gmp-placeautocomplete input { background:#fff !important; color:#18181b !important; border:1px solid #e4e4e7 !important; border-radius:12px !important; padding:14px 16px !important; font-size:15px !important; font-family:'Inter',sans-serif !important; outline:none !important; width:100% !important; }
+  .coverage-light gmp-placeautocomplete input:focus { border-color:#55b685 !important; box-shadow:0 0 0 3px rgba(85,182,133,0.1) !important; }
+  .coverage-light .pac-container { background:#fff !important; border:1px solid #e4e4e7 !important; border-radius:12px !important; margin-top:4px !important; box-shadow:0 16px 48px rgba(0,0,0,0.1) !important; font-family:'Inter',sans-serif !important; z-index:99999 !important; }
+  .coverage-light .pac-item { border-top:1px solid #e4e4e7 !important; padding:10px 14px !important; color:#3f3f46 !important; font-size:14px !important; cursor:pointer !important; }
+  .coverage-light .pac-item:first-child { border-top:none !important; }
   .coverage-light .pac-item:hover, .coverage-light .pac-item-selected { background:#f4f4f5 !important; }
-  .coverage-light .pac-item-query { color:#18181b !important; }
+  .coverage-light .pac-item-query { color:#18181b !important; font-weight:600 !important; }
   .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; will-change: transform; }
   .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(85,182,133,0.08) !important; }
   .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; opacity: 0; }
@@ -491,16 +494,7 @@ function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
           componentRestrictions: { country: "us" },
           types: ["address"]
         });
-        // Style the inner input to match our design
         pac.style.cssText = "width:100%;";
-        if (light) {
-          // Set CSS custom properties before appending
-          pac.style.setProperty("--gmpac-color-surface-container-highest", "#fff");
-          pac.style.setProperty("--gmpac-color-on-surface", "#18181b");
-          pac.style.setProperty("--gmpac-color-on-surface-variant", "#71717a");
-          pac.style.setProperty("--gmpac-color-outline-variant", "#e4e4e7");
-          pac.style.setProperty("--gmpac-color-primary", "#55b685");
-        }
         pac.addEventListener("gmp-select", async (e) => {
           const place = e.placePrediction.toPlace();
           await place.fetchFields({ fields: ["formattedAddress"] });
@@ -510,23 +504,6 @@ function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
         });
         container.innerHTML = "";
         container.appendChild(pac);
-        // For light mode: use MutationObserver to stamp styles the moment
-        // Google's internal input element appears in the DOM
-        if (light) {
-          const LIGHT = "background:#fff !important;color:#18181b !important;border:1px solid #e4e4e7 !important;border-radius:12px !important;padding:14px 16px !important;font-size:15px !important;font-family:'Inter',sans-serif !important;width:100% !important;";
-          const stamp = () => {
-            const inp = pac.querySelector("input");
-            if (inp && inp.style.background !== "#fff") { inp.style.cssText = LIGHT; }
-          };
-          // Observe the pac element and its descendants for additions
-          const obs = new MutationObserver(stamp);
-          obs.observe(pac, { childList: true, subtree: true, attributes: true });
-          // Also retry via polling for 2s as a safety net
-          let tries = 0;
-          const poll = setInterval(() => { stamp(); if (++tries > 20) clearInterval(poll); }, 100);
-          // Clean up observer after 3s
-          setTimeout(() => obs.disconnect(), 3000);
-        }
       } catch(e) {
         if (mounted) setUseFallback(true);
       }
@@ -808,7 +785,7 @@ function HomePage() {
       {/* ═══════════════════════════════════
           COVERAGE CHECK
           ═══════════════════════════════════ */}
-      <section style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+      <section className="coverage-dark" style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
         <div className="section-wide coverage-check" style={{ display:"flex", flexDirection:"column", marginLeft:"auto", marginRight:"auto" }}>
         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
           <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
