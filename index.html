@@ -406,6 +406,7 @@ const BLOG = [
 const SOLUTION_PAGES = {
   "rural": {
     slug: "rural",
+    heroImg: "https://unlimitedville.com/images/hero/rural-interior-room.jpg",
     title: <>Fast internet for<br/>rural homes.</>,
     subtitle: "No cable required. Plug in our cellular router and get online in 5 minutes. Unlimited data, no contracts.",
     heroTitle: "rural-hero-title",
@@ -432,6 +433,7 @@ const SOLUTION_PAGES = {
   },
   "rv": {
     slug: "rv",
+    heroImg: "https://unlimitedville.com/images/hero/rv-interior.jpg",
     title: <>Reliable RV internet.<br/>Park anywhere, stay connected.</>,
     subtitle: "Powered by 12v or 110v, built for 24/7 use. Stream, Zoom, or run your business from the road with no data caps.",
     heroTitle: "rv-hero-title",
@@ -458,6 +460,7 @@ const SOLUTION_PAGES = {
   },
   "business": {
     slug: "business",
+    heroImg: "https://unlimitedville.com/images/hero/business-coffee-shop.jpg",
     title: <>Business internet.<br/>No installation required.</>,
     subtitle: "Reliable wireless internet for construction sites, food trucks, vacation rentals, and businesses without wired connections.",
     heroTitle: "biz-hero-title",
@@ -484,6 +487,7 @@ const SOLUTION_PAGES = {
   },
   "trucking": {
     slug: "trucking",
+    heroImg: "https://unlimitedville.com/images/hero/trucker-truck-stop.jpg",
     title: <>Internet built for<br/>life on the road.</>,
     subtitle: "Plug in, connect, and stay online from the cab. ELD compliance, dispatch, streaming, and gaming -- all unlimited.",
     heroTitle: "truck-hero-title",
@@ -510,6 +514,7 @@ const SOLUTION_PAGES = {
   },
   "gaming": {
     slug: "gaming",
+    heroImg: "https://unlimitedville.com/images/hero/gaming.jpg",
     title: <>Low-ping unlimited internet.<br/>Game without limits.</>,
     subtitle: "20-40 ms latency, up to 500 Mbps, and truly unlimited data. Download 100 GB updates. No caps, no throttling.",
     heroTitle: "gaming-hero-title",
@@ -536,6 +541,7 @@ const SOLUTION_PAGES = {
   },
   "failover": {
     slug: "failover",
+    heroImg: "https://unlimitedville.com/images/hero/failover-storm.jpg",
     title: <>Never lose internet again.<br/>Automatic cellular backup.</>,
     subtitle: "When your wired connection fails, our router keeps your home and business online. Failover in seconds, not hours.",
     heroTitle: "failover-hero-title",
@@ -757,10 +763,10 @@ function PressStrip({ border=false }) {
    PageHero + CoverageCheck -- used by Home, Plans, and future landing pages.
    One styling change here updates every page.
    ═══════════════════════════════════════ */
-function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92svh", heroTitleClass="hero-title", heroSubClass="hero-subtitle", imgAlt="" }) {
+function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92svh", heroTitleClass="hero-title", heroSubClass="hero-subtitle", imgAlt="", heroImg }) {
   return (
     <section className="hero-section" style={{ minHeight, display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:T.dark }}>
-      <img src={SITE_IMG} alt={imgAlt} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
+      <img src={heroImg || SITE_IMG} alt={imgAlt} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
       <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
       <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px", textAlign:"center" }}>
         {/* Reviews badge */}
@@ -2106,6 +2112,7 @@ function SolutionPage({ config }) {
         minHeight="72svh"
         heroTitleClass={c.heroTitle || "hero-title"}
         imgAlt={c.metaTitle}
+        heroImg={c.heroImg}
       />
       <PressStrip border={true} />
       <CoverageCheck />
@@ -2132,6 +2139,7 @@ function VsStarlinkPage() {
         heroTitleClass="plans-hero-title"
         heroSubClass="plans-hero-subtitle"
         imgAlt="Unlimitedville vs Starlink comparison - wireless internet without a dish"
+        heroImg="https://unlimitedville.com/images/hero/rural-highway.jpg"
       />
       <PressStrip border={true} />
       <KeyDifferences />
