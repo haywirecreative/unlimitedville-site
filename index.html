@@ -376,7 +376,7 @@ const USE_CASES = [
   { icon: "signal", label: "Rural Home", slug: "rural", desc: "Internet where cable and fiber can't reach", img:"Rural cabin with WiFi router" },
   { icon: "globe", label: "RV & Van Life", slug: "rv", desc: "Stay connected anywhere you park or travel", img:"RV parked at scenic overlook" },
   { icon: "zap", label: "Fleets & Trucks", slug: "transportation", desc: "Reliable connectivity for vehicles on the go", img:"Commercial vehicle on highway" },
-  { icon: "signal", label: "Vacation Rentals", slug: "rental", desc: "Give guests fast, reliable WiFi on arrival", img:"Vacation rental cabin interior" },
+  { icon: "signal", label: "Rental Properties", slug: "rental", desc: "Give guests fast, reliable WiFi on arrival", img:"Vacation rental cabin interior" },
   { icon: "globe", label: "Mobile Business", slug: "mobile-biz", desc: "Pop-up shops, food trucks, and businesses on the move", img:"Mobile business setup with WiFi" },
   { icon: "signal", label: "Urban & Suburban Homes", slug: "urban", desc: "A better alternative to overpriced cable and DSL", img:"Modern home office setup" },
   { icon: "zap", label: "Failover Backup", slug: "failover", desc: "Automatic backup internet when your primary goes down", img:"Network equipment with backup connection" },
@@ -726,17 +726,21 @@ function HomePage() {
         <img src={SITE_IMG} alt="Wireless home internet by Unlimitedville - works anywhere with cellular coverage" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
         <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
 
-        <div style={{ flex:1, display:"flex", flexDirection:"column", justifyContent:"flex-end", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px 48px", textAlign:"center" }}>
-          <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, marginBottom:20 }}>
+        <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px", textAlign:"center" }}>
+          {/* Reviews badge -- pinned near top, 48px below nav */}
+          <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, paddingTop:112 }}>
             <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(12)}</span>)}<span>{I.starHalf(12)}</span></div>
             <span style={{ fontSize:13, fontWeight:700, color:T.white }}>4.5</span>
             <span style={{ fontSize:12, color:T.g400 }}>from 213+ verified reviews</span>
           </div>
 
-          <h1 className="fade-up fade-up-d3 hero-title" style={{ fontSize:44, fontWeight:900, lineHeight:1.05, color:T.white, letterSpacing:-2, marginBottom:18 }}>
+          {/* Spacer to center the main content block */}
+          <div style={{ flex:1 }} />
+
+          <h1 className="fade-up fade-up-d3 hero-title" style={{ fontSize:44, fontWeight:900, lineHeight:1.05, color:T.white, letterSpacing:-2, marginBottom:20 }}>
             Wireless internet<br/>that goes<br/><span style={{ color:T.green }}>where you do.</span>
           </h1>
-          <p className="fade-up fade-up-d4 hero-subtitle" style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:28, maxWidth:340 }}>
+          <p className="fade-up fade-up-d4 hero-subtitle" style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:32, maxWidth:340 }}>
             Unlimited data. No contracts. Plug in anywhere and get online in 5 minutes -- plans from $69/mo.
           </p>
 
@@ -746,8 +750,11 @@ function HomePage() {
             </button>
           </div>
 
-          <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, marginTop:20, justifyContent:"center" }}>
-            {["21-day money-back guarantee","No contracts ever","Ships in 24 hours"].map((l,i) => (
+          {/* Spacer to push bullets toward bottom */}
+          <div style={{ flex:1 }} />
+
+          <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:"center" }}>
+            {["Ships in 24 hours","Setup takes 5 minutes","21-day money-back guarantee"].map((l,i) => (
               <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
             ))}
           </div>
@@ -1097,7 +1104,7 @@ function HomePage() {
         {/* Content -- not absolute, flows naturally */}
         <div className="section-inner cta-section desktop-section" style={{ position:"relative", zIndex:1, paddingTop:48, paddingBottom:48, textAlign:"center" }}>
           <h2 className="section-heading" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Join thousands of<br/>happy members.</h2>
-          <p style={{ fontSize:16, color:T.g300, marginBottom:32, lineHeight:1.5 }}>Setup takes 5 minutes. Ships in 24 hours.<br/>21-day money-back guarantee.</p>
+          <p style={{ fontSize:16, color:T.g300, marginBottom:32, lineHeight:1.5 }}>Ships in 24 hours. Setup takes 5 minutes.<br/>21-day money-back guarantee.</p>
           <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
             View Plans {I.arrow(16)}
           </button>
@@ -1655,7 +1662,7 @@ function PlansPage() {
         <div className="desktop-section" style={{ position:"relative", zIndex:1, padding:"48px 20px", textAlign:"center" }}>
           <div className="section-wide">
           <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Ready to get<br/>connected?</h2>
-          <p style={{ fontSize:16, color:T.g300, marginBottom:28, lineHeight:1.5 }}>Setup takes 5 minutes. No technicians,<br/>no contracts, no risk.</p>
+          <p style={{ fontSize:16, color:T.g300, marginBottom:28, lineHeight:1.5 }}>Ships in 24 hours. Setup takes 5 minutes.<br/>No technicians, no contracts, no risk.</p>
           <button onClick={()=>{const el=document.getElementById("plan-cards");if(el){el.scrollIntoView({behavior:"smooth"})}else{window.scrollTo({top:0,behavior:"smooth"})}}} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
             Choose Your Plan {I.arrow(16)}
           </button>
