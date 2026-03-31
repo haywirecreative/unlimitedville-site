@@ -468,7 +468,7 @@ function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:
    ADDRESS INPUT w/ GOOGLE PLACES AUTOCOMPLETE
    Falls back to plain input if API key not set
    ═══════════════════════════════════════ */
-function AddressInput({ value, onChange, onSubmit, inputStyle }) {
+function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
   const containerRef = useRef(null);
   const cbRef = useRef({ onChange, onSubmit });
   cbRef.current = { onChange, onSubmit };
@@ -488,7 +488,16 @@ function AddressInput({ value, onChange, onSubmit, inputStyle }) {
           types: ["address"]
         });
         // Style the inner input to match our design
-        pac.style.cssText = "width:100%;";
+        if (light) {
+          pac.style.cssText = "width:100%;--gmpac-color-surface-container-highest:#fff;--gmpac-color-on-surface:#18181b;--gmpac-color-on-surface-variant:#71717a;--gmpac-color-outline-variant:#e4e4e7;";
+          // Force light styles on the input once it renders
+          requestAnimationFrame(() => {
+            const inp = pac.querySelector("input") || (pac.shadowRoot && pac.shadowRoot.querySelector("input"));
+            if (inp) { inp.style.cssText = "background:#fff !important;color:#18181b !important;border:1px solid #e4e4e7 !important;border-radius:12px !important;padding:14px 16px !important;font-size:15px !important;font-family:'Inter',sans-serif !important;outline:none !important;width:100% !important;"; }
+          });
+        } else {
+          pac.style.cssText = "width:100%;";
+        }
         pac.addEventListener("gmp-select", async (e) => {
           const place = e.placePrediction.toPlace();
           await place.fetchFields({ fields: ["formattedAddress"] });
@@ -1369,7 +1378,7 @@ function PlansPage() {
           </div>
           {!addressChecked ? (
             <div style={{ display:"flex", gap:8 }}>
-              <AddressInput value={address} onChange={setAddress}
+              <AddressInput value={address} onChange={setAddress} light={true}
                 onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
                 inputStyle={{ flex:1, padding:"15px 16px", borderRadius:12, border:`1px solid ${T.g200}`, background:T.white, color:T.g900, fontSize:16, outline:"none" }} />
               <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"15px 24px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
