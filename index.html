@@ -241,6 +241,25 @@
     /* Section spacing rhythm -- generous vertical breathing on tablet+ */
     .desktop-section { padding-top: 64px !important; padding-bottom: 64px !important; }
     .desktop-section-sm { padding-top: 40px !important; padding-bottom: 40px !important; }
+    /* Landing page: feature cards 3-col on tablet+ */
+    .lp-features-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
+    /* Landing page: reviews 3-col on tablet+ */
+    .lp-reviews-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
+    /* Landing page: plans 3-col on tablet+ */
+    .lp-plans-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
+    /* Landing page: key differences 3-col */
+    .lp-keydiff-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
+    /* Landing page: FAQ constrained on tablet+ */
+    .lp-faq { max-width: 720px !important; margin-left: auto !important; margin-right: auto !important; }
+    /* Landing page: hero left-aligned on tablet+ */
+    .lp-hero-inner { text-align: left !important; align-items: flex-start !important; padding-left: 48px !important; }
+    .lp-hero-inner .hero-bullet { justify-content: flex-start !important; }
+    .lp-hero-inner .btn-primary { margin-left: 0 !important; }
+    .lp-hero-badge { justify-content: flex-start !important; }
+    /* Landing page: hero subtitle left-aligned */
+    .lp-hero-subtitle { text-align: left !important; }
+    /* Landing page: plans button never full-width on desktop */
+    .lp-plan-btn { width: 100% !important; }
   }
 
   /* ── RESPONSIVE: Desktop (1024px+) ── */
@@ -304,6 +323,19 @@
     .press-strip-label { font-size: 12px !important; letter-spacing: 3px !important; }
     /* FAQ narrower on desktop */
     .faq-section { max-width: 720px !important; margin-left: auto !important; margin-right: auto !important; }
+    /* Landing page feature cards: bigger on desktop */
+    .lp-features-grid { gap: 20px !important; }
+    .lp-features-grid > div { padding: 28px !important; }
+    /* Landing page reviews: bigger on desktop */
+    .lp-reviews-grid { gap: 20px !important; }
+    /* Landing page plans: bigger on desktop */
+    .lp-plans-grid { gap: 20px !important; }
+    /* Landing page key differences: vertical layout on desktop */
+    .lp-keydiff-grid > div { flex-direction: column !important; align-items: flex-start !important; text-align: left !important; }
+    /* Landing page hero: wider content area on desktop */
+    .lp-hero-inner { max-width: 560px !important; padding-left: 64px !important; }
+    /* Landing page hero gradient: side gradient for left-aligned content */
+    .lp-hero-gradient { background: linear-gradient(90deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.75) 40%, rgba(10,10,10,0.3) 70%, rgba(10,10,10,0.05) 100%) !important; }
     /* CTA section -- left aligned on desktop */
     .cta-section { text-align: left !important; }
     .cta-section h2 { text-align: left !important; }
@@ -329,6 +361,13 @@
     .hero-subtitle { font-size: 19px !important; max-width: 520px !important; }
     .grid-plans { gap: 28px !important; }
     .grid-plans .card-hover { padding: 28px !important; }
+    /* Landing page grids: wider gaps */
+    .lp-features-grid { gap: 24px !important; }
+    .lp-reviews-grid { gap: 24px !important; }
+    .lp-plans-grid { gap: 24px !important; }
+    .lp-keydiff-grid { gap: 24px !important; }
+    /* Landing page hero: more padding on wide screens */
+    .lp-hero-inner { max-width: 640px !important; padding-left: 80px !important; }
     .lifestyle-title { font-size: 56px !important; }
     .lifestyle-break { max-height: 680px !important; }
     .section-heading { font-size: 48px !important; letter-spacing: -2px !important; }
@@ -763,14 +802,15 @@ function PressStrip({ border=false }) {
    PageHero + CoverageCheck -- used by Home, Plans, and future landing pages.
    One styling change here updates every page.
    ═══════════════════════════════════════ */
-function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92svh", heroTitleClass="hero-title", heroSubClass="hero-subtitle", imgAlt="", heroImg }) {
+function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92svh", heroTitleClass="hero-title", heroSubClass="hero-subtitle", imgAlt="", heroImg, landing=false }) {
+  const isLanding = landing || (heroTitleClass !== "hero-title" && heroTitleClass !== "plans-hero-title");
   return (
     <section className="hero-section" style={{ minHeight, display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:T.dark }}>
       <img src={heroImg || SITE_IMG} alt={imgAlt} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
-      <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
-      <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px", textAlign:"center" }}>
+      <div className={isLanding ? "lp-hero-gradient" : ""} style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
+      <div className={isLanding ? "lp-hero-inner" : ""} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:isLanding?undefined:"center", position:"relative", zIndex:1, padding:"0 24px", textAlign:isLanding?undefined:"center" }}>
         {/* Reviews badge */}
-        <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, paddingTop:112 }}>
+        <div className={"fade-up fade-up-d2" + (isLanding?" lp-hero-badge":"")} style={{ display:"flex", alignItems:"center", gap:6, paddingTop:112, justifyContent:isLanding?undefined:"center" }}>
           <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(12)}</span>)}<span>{I.starHalf(12)}</span></div>
           <span style={{ fontSize:13, fontWeight:700, color:T.white }}>4.5</span>
           <span style={{ fontSize:12, color:T.g400 }}>from 213+ verified reviews</span>
@@ -779,16 +819,16 @@ function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92s
         <h1 className={"fade-up fade-up-d3 " + heroTitleClass} style={{ fontSize:44, fontWeight:900, lineHeight:1.05, color:T.white, letterSpacing:-2, marginBottom:20 }}>
           {title}
         </h1>
-        <p className={"fade-up fade-up-d4 " + heroSubClass} style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:32, maxWidth:380 }}>
+        <p className={"fade-up fade-up-d4 " + heroSubClass + (isLanding?" lp-hero-subtitle":"")} style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:32, maxWidth:isLanding?480:380 }}>
           {subtitle}
         </p>
         <div className="fade-up fade-up-d5">
-          <button onClick={ctaAction} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)`, margin:"0 auto" }}>
+          <button onClick={ctaAction} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)`, margin:isLanding?undefined:"0 auto" }}>
             {ctaText} {I.arrow(16)}
           </button>
         </div>
         <div style={{ flex:1 }} />
-        <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:"center" }}>
+        <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:isLanding?undefined:"center" }}>
           {bullets.map((l,i) => (
             <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
           ))}
@@ -801,7 +841,7 @@ function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92s
 function CoverageCheck() {
   const { address, setAddress, addressChecked, setAddressChecked, addressResult, setAddressResult } = useApp();
   return (
-    <section className="coverage-dark" style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+    <section className="coverage-dark desktop-section-sm" style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
       <div className="section-wide coverage-check" style={{ display:"flex", flexDirection:"column", marginLeft:"auto", marginRight:"auto" }}>
       <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
         <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
@@ -844,18 +884,18 @@ function CoverageCheck() {
 
 function ProblemSolution({ features, label="How it helps", title }) {
   return (
-    <section style={{ padding:"48px 20px", background:T.dark }}>
+    <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
       <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>{label}</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>{label}</p>
         {title && <h2 className="section-heading" style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:32, textAlign:"center", lineHeight:1.1 }}>{title}</h2>}
-        <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+        <div className="lp-features-grid" style={{ display:"flex", flexDirection:"column", gap:16 }}>
           {features.map((f,i) => (
             <div key={i} className="card-hover" style={{ padding:"24px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}` }}>
-              <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14 }}>
-                {f.icon==="wifi"?I.wifi(20,T.greenText):f.icon==="signal"?I.signal(20,T.greenText):I.zap(20,T.greenText)}
+              <div style={{ width:44, height:44, borderRadius:12, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:16 }}>
+                {f.icon==="wifi"?I.wifi(22,T.greenText):f.icon==="signal"?I.signal(22,T.greenText):I.zap(22,T.greenText)}
               </div>
               <h3 style={{ fontSize:18, fontWeight:800, color:T.white, marginBottom:8, letterSpacing:-0.3 }}>{f.title}</h3>
-              <p style={{ fontSize:14, color:T.g400, lineHeight:1.6 }}>{f.desc}</p>
+              <p style={{ fontSize:14, color:T.g400, lineHeight:1.65 }}>{f.desc}</p>
             </div>
           ))}
         </div>
@@ -866,21 +906,21 @@ function ProblemSolution({ features, label="How it helps", title }) {
 
 function SocialProof({ reviews, heading="What members are saying" }) {
   return (
-    <section style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+    <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
       <div className="section-inner">
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:6 }}>
           <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(14)}</span>)}<span>{I.starHalf(14)}</span></div>
           <span style={{ fontSize:15, fontWeight:700, color:T.white }}>4.5</span>
           <span style={{ fontSize:13, color:T.g500 }}>from 213+ reviews</span>
         </div>
-        <h2 style={{ fontSize:24, fontWeight:900, color:T.white, textAlign:"center", letterSpacing:-0.5, marginBottom:28 }}>{heading}</h2>
-        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+        <h2 className="section-heading" style={{ fontSize:24, fontWeight:900, color:T.white, textAlign:"center", letterSpacing:-0.5, marginBottom:28 }}>{heading}</h2>
+        <div className="lp-reviews-grid" style={{ display:"flex", flexDirection:"column", gap:14 }}>
           {reviews.map((r,i) => (
-            <div key={i} style={{ padding:"20px", borderRadius:14, background:T.darkCard, border:`1px solid ${T.darkBorder}` }}>
-              <div style={{ display:"flex", gap:2, marginBottom:10 }}>{[1,2,3,4,5].map(j=><span key={j}>{I.star(12)}</span>)}</div>
-              <p style={{ fontSize:14, color:T.g300, lineHeight:1.6, marginBottom:12 }}>"{r.text}"</p>
+            <div key={i} className="card-hover" style={{ padding:"24px", borderRadius:14, background:T.darkCard, border:`1px solid ${T.darkBorder}`, display:"flex", flexDirection:"column" }}>
+              <div style={{ display:"flex", gap:2, marginBottom:12 }}>{[1,2,3,4,5].map(j=><span key={j}>{I.star(13)}</span>)}</div>
+              <p style={{ fontSize:14, color:T.g300, lineHeight:1.65, marginBottom:16, flex:1 }}>"{r.text}"</p>
               <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                <div style={{ width:28, height:28, borderRadius:14, background:T.g800, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, color:T.g400 }}>{r.name[0]}</div>
+                <div style={{ width:32, height:32, borderRadius:16, background:T.g800, display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:700, color:T.g400 }}>{r.name[0]}</div>
                 <span style={{ fontSize:13, fontWeight:600, color:T.g400 }}>{r.name}</span>
                 {r.verified && <span style={{ fontSize:11, color:T.greenText, fontWeight:600 }}>Verified</span>}
               </div>
@@ -895,35 +935,33 @@ function SocialProof({ reviews, heading="What members are saying" }) {
 function CompactPlans({ contextLabels, heading="Pick your plan." }) {
   const { navigate } = useApp();
   return (
-    <section style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+    <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
       <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plans</p>
-        <h2 style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.1 }}>{heading}</h2>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plans</p>
+        <h2 className="section-heading" style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.1 }}>{heading}</h2>
         <p style={{ fontSize:14, color:T.g500, marginBottom:8, textAlign:"center" }}>Unlimited data on every plan. No contracts, ever.</p>
         <div style={{ display:"flex", justifyContent:"center", marginBottom:28 }}>
           <div style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"6px 12px", borderRadius:99, background:`${T.green}08` }}>
             {I.shield(11,T.greenText)}<span style={{ fontSize:12, fontWeight:600, color:T.greenText }}>Price Lock Guarantee -- your rate never increases</span>
           </div>
         </div>
-        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+        <div className="lp-plans-grid" style={{ display:"flex", flexDirection:"column", gap:14 }}>
           {PLANS.map((plan,idx) => (
-            <div key={plan.id} className="card-hover" style={{ borderRadius:18, background:T.darkCard, border:plan.popular?`1.5px solid ${T.green}35`:`1px solid ${T.darkBorder}`, borderLeft:`4px solid ${plan.color}`, position:"relative", padding:"22px", boxShadow:plan.popular?`0 0 60px ${T.green}0A`:"none" }}>
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
-                <div>
-                  <p style={{ fontSize:11, fontWeight:700, letterSpacing:2, color:plan.color, textTransform:"uppercase", marginBottom:2 }}>{plan.tier}</p>
-                  <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                    <h3 style={{ fontSize:20, fontWeight:800, color:T.white, letterSpacing:-0.3 }}>{plan.name}</h3>
-                    {plan.popular && <span style={{ padding:"3px 8px", borderRadius:99, background:T.green, color:T.white, fontSize:10, fontWeight:700 }}>POPULAR</span>}
-                  </div>
+            <div key={plan.id} className="card-hover" style={{ borderRadius:18, background:T.darkCard, border:plan.popular?`1.5px solid ${T.green}35`:`1px solid ${T.darkBorder}`, borderTop:`4px solid ${plan.color}`, position:"relative", padding:"24px", boxShadow:plan.popular?`0 0 60px ${T.green}0A`:"none", display:"flex", flexDirection:"column" }}>
+              <div style={{ marginBottom:10 }}>
+                <p style={{ fontSize:11, fontWeight:700, letterSpacing:2, color:plan.color, textTransform:"uppercase", marginBottom:4 }}>{plan.tier}</p>
+                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
+                  <h3 style={{ fontSize:20, fontWeight:800, color:T.white, letterSpacing:-0.3 }}>{plan.name}</h3>
+                  {plan.popular && <span style={{ padding:"3px 8px", borderRadius:99, background:T.green, color:T.white, fontSize:10, fontWeight:700 }}>POPULAR</span>}
                 </div>
-                <div style={{ textAlign:"right", flexShrink:0 }}>
-                  <span style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1 }}>${plan.monthly}</span>
-                  <span style={{ fontSize:13, color:T.g500 }}>/mo</span>
+                <div style={{ marginBottom:10 }}>
+                  <span style={{ fontSize:36, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1 }}>${plan.monthly}</span>
+                  <span style={{ fontSize:14, color:T.g500 }}>/mo</span>
                 </div>
               </div>
               <p style={{ fontSize:13, color:T.g400, marginBottom:4 }}>Up to {plan.maxSpeed} -- {plan.latency} latency</p>
-              <p style={{ fontSize:13, color:T.g500, marginBottom:16 }}>{contextLabels?contextLabels[idx]:plan.bestFor}</p>
-              <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", padding:"15px", background:plan.popular?T.green:"rgba(255,255,255,0.08)", color:T.white, border:plan.popular?"none":`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:plan.popular?`0 0 40px ${T.greenGlow}`:"none" }}>
+              <p style={{ fontSize:13, color:T.g500, marginBottom:20, flex:1 }}>{contextLabels?contextLabels[idx]:plan.bestFor}</p>
+              <button onClick={()=>navigate("plans")} className="btn-primary lp-plan-btn" style={{ width:"100%", padding:"15px", background:plan.popular?T.green:"rgba(255,255,255,0.08)", color:T.white, border:plan.popular?"none":`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:plan.popular?`0 0 40px ${T.greenGlow}`:"none" }}>
                 Start 21-Day Trial {I.arrow(13)}
               </button>
             </div>
@@ -937,10 +975,10 @@ function CompactPlans({ contextLabels, heading="Pick your plan." }) {
 function LandingFAQ({ items, heading="Frequently asked questions" }) {
   const [openIdx, setOpenIdx] = useState(-1);
   return (
-    <section style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
-      <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>FAQ</p>
-        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>{heading}</h2>
+    <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner lp-faq">
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>FAQ</p>
+        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>{heading}</h2>
         <div style={{ display:"flex", flexDirection:"column", gap:2 }}>
           {items.map((item,i) => (
             <div key={i} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
@@ -964,14 +1002,14 @@ function LandingFAQ({ items, heading="Frequently asked questions" }) {
 function FinalCTA({ heading="Ready to get connected?", subtitle="Start your 21-day risk-free trial today.", ctaText="See Plans & Pricing" }) {
   const { navigate } = useApp();
   return (
-    <section style={{ padding:"48px 20px", background:T.dark, textAlign:"center" }}>
+    <section className="desktop-section cta-section" style={{ padding:"48px 20px", background:T.dark, textAlign:"center" }}>
       <div className="section-inner">
-        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:10 }}>{heading}</h2>
+        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:10 }}>{heading}</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:28 }}>{subtitle}</p>
         <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"18px 36px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
           {ctaText} {I.arrow(15)}
         </button>
-        <p style={{ fontSize:13, color:T.g600, marginTop:16, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+        <p style={{ fontSize:13, color:T.g600, marginTop:16, display:"flex", alignItems:"center", gap:6 }}>
           {I.phone(13,T.g600)} Or call an expert: <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
         </p>
       </div>
@@ -986,17 +1024,17 @@ function KeyDifferences() {
     { icon:I.lock(24,T.greenText), title:"Price Lock Guarantee.", desc:"Your monthly price stays locked once you join. Starlink has raised prices multiple times." },
   ];
   return (
-    <section style={{ padding:"48px 20px", background:T.dark }}>
+    <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
       <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Key differences</p>
-        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center", lineHeight:1.1 }}>Why members choose<br/>Unlimitedville over Starlink</h2>
-        <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Key differences</p>
+        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center", lineHeight:1.1 }}>Why members choose<br/>Unlimitedville over Starlink</h2>
+        <div className="lp-keydiff-grid" style={{ display:"flex", flexDirection:"column", gap:14 }}>
           {cards.map((c,i) => (
-            <div key={i} style={{ padding:"24px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}`, display:"flex", gap:16, alignItems:"flex-start" }}>
-              <div style={{ width:48, height:48, borderRadius:14, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{c.icon}</div>
+            <div key={i} className="card-hover" style={{ padding:"28px", borderRadius:16, background:T.darkCard, border:`1px solid ${T.darkBorder}`, display:"flex", gap:16, alignItems:"flex-start" }}>
+              <div style={{ width:52, height:52, borderRadius:14, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{c.icon}</div>
               <div>
-                <h3 style={{ fontSize:17, fontWeight:800, color:T.white, marginBottom:6, letterSpacing:-0.3 }}>{c.title}</h3>
-                <p style={{ fontSize:14, color:T.g400, lineHeight:1.6 }}>{c.desc}</p>
+                <h3 style={{ fontSize:18, fontWeight:800, color:T.white, marginBottom:8, letterSpacing:-0.3 }}>{c.title}</h3>
+                <p style={{ fontSize:14, color:T.g400, lineHeight:1.65 }}>{c.desc}</p>
               </div>
             </div>
           ))}
@@ -1010,10 +1048,10 @@ function ComparisonTable() {
   const [expanded, setExpanded] = useState(false);
   const visibleRows = expanded ? STARLINK_COMPARE.rows : STARLINK_COMPARE.rows.slice(0,6);
   return (
-    <section style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+    <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
       <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Side-by-side</p>
-        <h2 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>Full plan comparison</h2>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Side-by-side</p>
+        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>Full plan comparison</h2>
         <div style={{ overflowX:"auto", borderRadius:16, border:`1px solid ${T.darkBorder}` }}>
           <table style={{ width:"100%", minWidth:640, borderCollapse:"collapse", fontSize:13 }}>
             <thead>
@@ -1050,9 +1088,9 @@ function ComparisonTable() {
 
 function UseCaseSection({ title, children }) {
   return (
-    <section style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
-      <div className="section-inner">
-        <h2 style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:20, lineHeight:1.15 }}>{title}</h2>
+    <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner lp-faq">
+        <h2 className="section-heading" style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:20, lineHeight:1.15 }}>{title}</h2>
         <div style={{ fontSize:15, color:T.g400, lineHeight:1.7 }}>{children}</div>
       </div>
     </section>
