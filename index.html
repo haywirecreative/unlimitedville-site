@@ -492,15 +492,14 @@ function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
           types: ["address"]
         });
         // Style the inner input to match our design
+        pac.style.cssText = "width:100%;";
         if (light) {
-          pac.style.cssText = "width:100%;--gmpac-color-surface-container-highest:#fff;--gmpac-color-on-surface:#18181b;--gmpac-color-on-surface-variant:#71717a;--gmpac-color-outline-variant:#e4e4e7;";
-          // Force light styles on the input once it renders
-          requestAnimationFrame(() => {
-            const inp = pac.querySelector("input") || (pac.shadowRoot && pac.shadowRoot.querySelector("input"));
-            if (inp) { inp.style.cssText = "background:#fff !important;color:#18181b !important;border:1px solid #e4e4e7 !important;border-radius:12px !important;padding:14px 16px !important;font-size:15px !important;font-family:'Inter',sans-serif !important;outline:none !important;width:100% !important;"; }
-          });
-        } else {
-          pac.style.cssText = "width:100%;";
+          // Set CSS custom properties before appending
+          pac.style.setProperty("--gmpac-color-surface-container-highest", "#fff");
+          pac.style.setProperty("--gmpac-color-on-surface", "#18181b");
+          pac.style.setProperty("--gmpac-color-on-surface-variant", "#71717a");
+          pac.style.setProperty("--gmpac-color-outline-variant", "#e4e4e7");
+          pac.style.setProperty("--gmpac-color-primary", "#55b685");
         }
         pac.addEventListener("gmp-select", async (e) => {
           const place = e.placePrediction.toPlace();
@@ -511,6 +510,23 @@ function AddressInput({ value, onChange, onSubmit, inputStyle, light }) {
         });
         container.innerHTML = "";
         container.appendChild(pac);
+        // For light mode: use MutationObserver to stamp styles the moment
+        // Google's internal input element appears in the DOM
+        if (light) {
+          const LIGHT = "background:#fff !important;color:#18181b !important;border:1px solid #e4e4e7 !important;border-radius:12px !important;padding:14px 16px !important;font-size:15px !important;font-family:'Inter',sans-serif !important;width:100% !important;";
+          const stamp = () => {
+            const inp = pac.querySelector("input");
+            if (inp && inp.style.background !== "#fff") { inp.style.cssText = LIGHT; }
+          };
+          // Observe the pac element and its descendants for additions
+          const obs = new MutationObserver(stamp);
+          obs.observe(pac, { childList: true, subtree: true, attributes: true });
+          // Also retry via polling for 2s as a safety net
+          let tries = 0;
+          const poll = setInterval(() => { stamp(); if (++tries > 20) clearInterval(poll); }, 100);
+          // Clean up observer after 3s
+          setTimeout(() => obs.disconnect(), 3000);
+        }
       } catch(e) {
         if (mounted) setUseFallback(true);
       }
