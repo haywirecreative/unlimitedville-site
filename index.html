@@ -893,7 +893,7 @@ function HomePage() {
       <section id="quiz" className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
         <div className="quiz-section">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plan finder</p>
-        <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.08 }}>Not sure which<br/>plan fits?</h2>
+        <h2 className="section-heading" style={{ fontSize:34, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.05 }}>Not sure which<br/>plan fits?</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:36, textAlign:"center" }}>Three questions. Thirty seconds.</p>
 
         {!quizResult ? (
@@ -1486,8 +1486,8 @@ function PlansPage() {
       {/* ── COMPARE PLANS TABLE ── */}
       <div className="desktop-section" style={{ padding:"48px 20px", borderTop:`1px solid ${T.g200}`, marginTop:24 }}>
         <div className="section-inner">
-        <h2 style={{ fontSize:24, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.5 }}>Plan Comparison</h2>
-        <p style={{ fontSize:14, color:T.g500, marginBottom:24, textAlign:"center" }}>Your perfect connection -- choose without compromise.</p>
+        <h2 className="section-heading" style={{ fontSize:32, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.8, lineHeight:1.05 }}>Plan Comparison</h2>
+        <p style={{ fontSize:15, color:T.g500, marginBottom:24, textAlign:"center" }}>Your perfect connection -- choose without compromise.</p>
 
         <div style={{ borderRadius:20, overflow:"hidden", boxShadow:"0 8px 40px rgba(85,182,133,0.12)" }}>
           {/* Header row */}
@@ -1541,8 +1541,8 @@ function PlansPage() {
 
             <div className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
         <div className="section-inner">
-        <h2 className="section-heading" style={{ fontSize:24, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.5 }}>Included with every plan</h2>
-        <p style={{ fontSize:14, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
+        <h2 className="section-heading" style={{ fontSize:32, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.8, lineHeight:1.05 }}>Included with every plan</h2>
+        <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
         <div className="grid-features" style={{ display:"grid", gap:12 }}>
           {[
             { t:"21-Day Money-Back", d:"Try risk-free, return if not satisfied", icon:I.back(20,T.green) },
@@ -1568,7 +1568,7 @@ function PlansPage() {
       <div className="desktop-section" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-wide">
         <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Why Unlimitedville</p>
-        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.5, lineHeight:1.1 }}>Sounds too good<br/>to be true?</h2>
+        <h2 className="section-heading" style={{ fontSize:34, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.8, lineHeight:1.05 }}>Sounds too good<br/>to be true?</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center", lineHeight:1.5 }}>We get it. Here's why thousands of members trust us.</p>
         <div className="guarantees-grid" style={{ display:"flex", flexDirection:"column", gap:12 }}>
           {[
@@ -1620,7 +1620,7 @@ function PlansPage() {
       {/* ── FAQ ── */}
       <div className="desktop-section" style={{ padding:"48px 20px", background:T.white, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-wide faq-section">
-        <h2 className="section-heading" style={{ fontSize:22, fontWeight:900, color:T.g900, letterSpacing:-0.3, marginBottom:24, textAlign:"center" }}>Common questions</h2>
+        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:24, textAlign:"center" }}>Common questions</h2>
         {plansFaq.map((item,i) => (
           <div key={i} style={{ borderRadius:14, overflow:"hidden", background:T.g50, border:`1px solid ${faqOpen===i?T.green+"30":T.g200}`, marginBottom:8, transition:"border-color 0.2s" }}>
             <button onClick={()=>setFaqOpen(faqOpen===i?null:i)} style={{ width:"100%", padding:"18px 20px", background:"none", border:"none", fontSize:15, fontWeight:600, color:T.g900, textAlign:"left", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
@@ -1641,8 +1641,8 @@ function PlansPage() {
         </div>
         <div className="desktop-section" style={{ position:"relative", zIndex:1, padding:"48px 20px", textAlign:"center" }}>
           <div className="section-wide">
-          <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:14 }}>Ready to get<br/>connected?</h2>
-          <p style={{ fontSize:15, color:T.g300, marginBottom:28, lineHeight:1.5 }}>Setup takes 5 minutes. No technicians,<br/>no contracts, no risk.</p>
+          <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Ready to get<br/>connected?</h2>
+          <p style={{ fontSize:16, color:T.g300, marginBottom:28, lineHeight:1.5 }}>Setup takes 5 minutes. No technicians,<br/>no contracts, no risk.</p>
           <button onClick={()=>{const el=document.getElementById("plan-cards");if(el){el.scrollIntoView({behavior:"smooth"})}else{window.scrollTo({top:0,behavior:"smooth"})}}} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
             Choose Your Plan {I.arrow(16)}
           </button>
