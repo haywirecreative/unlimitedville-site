@@ -126,8 +126,8 @@
   .pac-item-query { color:#fff !important; font-weight:600 !important; }
   .pac-icon { display:none !important; }
   .pac-matched { color:#55b685 !important; }
-  .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; }
-  .card-hover:hover { transform: translateY(-3px); }
+  .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; will-change: transform; }
+  .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(85,182,133,0.08) !important; }
   .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; opacity: 0; }
   .faq-answer.open { max-height: 300px; opacity: 1; }
 
@@ -144,11 +144,15 @@
   }
 
   /* ── RESPONSIVE: Full-width section with contained inner content ── */
-  .section-inner { max-width: 1200px; margin-left: auto; margin-right: auto; }
-  .section-wide { max-width: 960px; margin-left: auto; margin-right: auto; }
+  .section-inner { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+  .section-wide { max-width: 960px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
 
   /* ── RESPONSIVE: Tablet (768px+) ── */
   @media (min-width: 768px) {
+    /* Containment side padding */
+    .section-inner { padding-left: 40px; padding-right: 40px; }
+    .section-wide { padding-left: 40px; padding-right: 40px; }
+    /* Grids */
     .grid-plans { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; flex-direction: unset !important; }
     .grid-plans > div { margin-bottom: 0 !important; }
     .grid-features { grid-template-columns: repeat(3, 1fr) !important; }
@@ -156,77 +160,105 @@
     .grid-use-cases > button { min-width: unset !important; }
     .grid-reviews { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
     .grid-reviews > div { margin-bottom: 0 !important; }
+    /* Hero */
     .hero-title { font-size: 56px !important; }
-    .hero-subtitle { font-size: 17px !important; max-width: 420px !important; }
+    .hero-subtitle { font-size: 17px !important; max-width: 420px !important; line-height: 1.6 !important; }
     .hero-section { min-height: 80vh !important; }
+    /* Nav */
     .nav-desktop-links { display: flex !important; }
     .nav-mobile-toggle { display: none !important; }
     .nav-mobile-drawer { display: none !important; }
+    /* Footer */
     .footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    /* Forms */
     .checkout-form { max-width: 600px; margin-left: auto; margin-right: auto; }
+    /* How It Works */
     .how-it-works-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; }
     .how-it-works-grid > div { margin-bottom: 0 !important; }
+    .how-it-works-section { padding-top: 64px !important; padding-bottom: 64px !important; }
+    /* Quiz */
     .quiz-section { max-width: 560px; margin-left: auto; margin-right: auto; }
+    /* Lifestyle */
     .lifestyle-break { max-height: 520px !important; }
     .lifestyle-title { font-size: 40px !important; }
     .lifestyle-desc { max-width: 460px !important; }
+    /* Sticky bar */
     .sticky-bar-inner { max-width: 1200px; margin: 0 auto; }
+    /* Plans hero */
     .plans-hero { max-width: 640px; margin-left: auto; margin-right: auto; }
+    .plans-hero-title { font-size: 48px !important; }
+    .plans-hero-subtitle { font-size: 17px !important; max-width: 460px !important; margin-left: auto !important; margin-right: auto !important; }
     /* Desktop buttons: never full-width */
     .btn-desktop-auto { width: auto !important; min-width: 220px !important; padding-left: 40px !important; padding-right: 40px !important; margin-left: auto !important; margin-right: auto !important; }
     /* Coverage check constrained */
     .coverage-check { max-width: 520px !important; margin-left: auto !important; margin-right: auto !important; }
-    /* Plans page hero text */
-    .plans-hero-title { font-size: 48px !important; }
-    .plans-hero-subtitle { font-size: 17px !important; max-width: 460px !important; margin-left: auto !important; margin-right: auto !important; }
+    /* Section spacing rhythm -- generous vertical breathing on tablet+ */
+    .desktop-section { padding-top: 64px !important; padding-bottom: 64px !important; }
   }
 
   /* ── RESPONSIVE: Desktop (1024px+) ── */
   @media (min-width: 1024px) {
+    /* Containment side padding */
+    .section-inner { padding-left: 48px; padding-right: 48px; }
+    .section-wide { padding-left: 48px; padding-right: 48px; }
+    /* Hero */
     .hero-title { font-size: 64px !important; letter-spacing: -3px !important; }
-    .hero-subtitle { font-size: 18px !important; max-width: 480px !important; }
+    .hero-subtitle { font-size: 18px !important; max-width: 480px !important; line-height: 1.65 !important; }
     .hero-section { min-height: 85vh !important; }
+    /* Grids */
     .grid-features { grid-template-columns: repeat(4, 1fr) !important; gap: 16px !important; }
     .grid-use-cases { grid-template-columns: repeat(4, 1fr) !important; gap: 2px !important; }
     .grid-reviews { grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; }
     .grid-reviews > div { margin-bottom: 0 !important; }
+    /* Forms */
     .checkout-form { max-width: 680px; }
-    .plans-hero { max-width: 720px; }
+    /* Plans hero */
+    .plans-hero { max-width: 800px; }
+    .plans-hero-title { font-size: 56px !important; letter-spacing: -2px !important; }
+    .plans-hero-subtitle { font-size: 18px !important; max-width: 520px !important; line-height: 1.6 !important; }
+    /* Lifestyle */
     .lifestyle-break { max-height: 600px !important; }
     .lifestyle-title { font-size: 48px !important; }
     .lifestyle-desc { font-size: 17px !important; max-width: 520px !important; }
-    .footer-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; }
+    /* Footer */
+    .footer-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 12px !important; }
+    .footer-section { padding-top: 64px !important; padding-bottom: 64px !important; }
+    .footer-bottom-row { flex-direction: row !important; }
     /* How It Works more breathing room */
-    .how-it-works-section { padding-top: 72px !important; padding-bottom: 72px !important; }
-    /* Section text sizes bumped */
-    .section-heading { font-size: 42px !important; }
-    .section-subheading { font-size: 17px !important; }
+    .how-it-works-section { padding-top: 80px !important; padding-bottom: 80px !important; }
+    /* Section text sizes bumped for desktop */
+    .section-heading { font-size: 42px !important; letter-spacing: -1.5px !important; }
+    .section-subheading { font-size: 17px !important; line-height: 1.6 !important; }
+    .section-label { font-size: 13px !important; letter-spacing: 3.5px !important; }
     /* Coverage check */
     .coverage-check { max-width: 480px !important; }
     /* FAQ narrower on desktop */
     .faq-section { max-width: 720px !important; margin-left: auto !important; margin-right: auto !important; }
-    /* CTA section */
+    /* CTA section -- left aligned on desktop */
     .cta-section { text-align: left !important; }
     .cta-section h2 { text-align: left !important; }
     .cta-section p { text-align: left !important; }
     .cta-section .btn-primary { margin-left: 0 !important; margin-right: auto !important; }
-    /* Plans page hero */
-    .plans-hero { max-width: 800px; }
-    .plans-hero-title { font-size: 56px !important; }
-    .plans-hero-subtitle { font-size: 18px !important; max-width: 520px !important; }
     /* Desktop buttons */
     .btn-desktop-auto { min-width: 260px !important; }
+    /* Section spacing -- generous vertical breathing on desktop */
+    .desktop-section { padding-top: 80px !important; padding-bottom: 80px !important; }
   }
 
   /* ── RESPONSIVE: Wide Desktop (1280px+) ── */
   @media (min-width: 1280px) {
-    .hero-title { font-size: 72px !important; }
+    .section-inner { max-width: 1280px; padding-left: 64px; padding-right: 64px; }
+    .section-wide { padding-left: 64px; padding-right: 64px; }
+    .hero-title { font-size: 72px !important; letter-spacing: -3.5px !important; }
     .hero-subtitle { font-size: 19px !important; max-width: 520px !important; }
     .grid-plans { gap: 24px !important; }
-    .section-inner { max-width: 1280px; }
     .lifestyle-title { font-size: 56px !important; }
-    .section-heading { font-size: 48px !important; }
+    .section-heading { font-size: 48px !important; letter-spacing: -2px !important; }
     .plans-hero-title { font-size: 64px !important; }
+    .plans-hero { max-width: 880px; }
+    .how-it-works-section { padding-top: 96px !important; padding-bottom: 96px !important; }
+    .desktop-section { padding-top: 96px !important; padding-bottom: 96px !important; }
+    .footer-grid { grid-template-columns: repeat(4, 1fr) !important; }
   }
 
   /* ── NAV: Desktop links (hidden on mobile) ── */
@@ -700,9 +732,9 @@ function HomePage() {
           ═══════════════════════════════════ */}
       <section className="how-it-works-section" style={{ padding:"56px 24px 56px", background:T.white }}>
         <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>How it works</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>How it works</p>
         <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:12, textAlign:"center", lineHeight:1.05 }}>Online in minutes,<br/>not days.</h2>
-        <p style={{ fontSize:15, color:T.g500, textAlign:"center", marginBottom:36, maxWidth:280, marginLeft:"auto", marginRight:"auto", lineHeight:1.5 }}>Three steps. No technicians. No wait.</p>
+        <p className="section-subheading" style={{ fontSize:15, color:T.g500, textAlign:"center", marginBottom:36, maxWidth:280, marginLeft:"auto", marginRight:"auto", lineHeight:1.5 }}>Three steps. No technicians. No wait.</p>
 
         <div className="how-it-works-grid">
         {[
@@ -730,9 +762,9 @@ function HomePage() {
       {/* ═══════════════════════════════════
           PLANS PREVIEW
           ═══════════════════════════════════ */}
-      <section style={{ padding:"48px 20px", background:T.g50 }}>
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.g50 }}>
         <div className="section-inner">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plans</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plans</p>
         <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:6, textAlign:"center", lineHeight:1.05 }}>Simple plans.<br/>Honest pricing.</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:8, textAlign:"center" }}>Unlimited data on every plan. No contracts, ever.</p>
         <div style={{ display:"flex", justifyContent:"center", marginBottom:28 }}>
@@ -784,7 +816,7 @@ function HomePage() {
             {/* ═══════════════════════════════════
           QUIZ
           ═══════════════════════════════════ */}
-      <section id="quiz" style={{ padding:"48px 24px", background:T.dark }}>
+      <section id="quiz" className="desktop-section" style={{ padding:"48px 24px", background:T.dark }}>
         <div className="quiz-section">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plan finder</p>
         <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.08 }}>Not sure which<br/>plan fits?</h2>
@@ -876,10 +908,10 @@ function HomePage() {
       {/* ═══════════════════════════════════
           USE CASES
           ═══════════════════════════════════ */}
-      <section style={{ padding:"48px 0", background:T.white }}>
+      <section className="desktop-section" style={{ padding:"48px 0", background:T.white }}>
         <div className="section-inner">
         <div style={{ padding:"0 24px", marginBottom:32 }}>
-          <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Solutions</p>
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Solutions</p>
           <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, textAlign:"center", lineHeight:1.05 }}>Built for how<br/>you live.</h2>
         </div>
         {/* Vertical stack of full-width feature rows */}
@@ -914,10 +946,10 @@ function HomePage() {
       {/* ═══════════════════════════════════
           REVIEWS
           ═══════════════════════════════════ */}
-      <section style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-inner">
         <div style={{ textAlign:"center", marginBottom:32 }}>
-          <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Reviews</p>
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Reviews</p>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:4 }}>
             <span style={{ fontSize:40, fontWeight:900, color:T.g900, letterSpacing:-1 }}>4.5</span>
             <div style={{ textAlign:"left" }}>
@@ -953,10 +985,10 @@ function HomePage() {
       {/* ═══════════════════════════════════
           FAQ
           ═══════════════════════════════════ */}
-      <section style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-wide faq-section">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>FAQ</p>
-        <h2 style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:32, textAlign:"center" }}>Common questions</h2>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>FAQ</p>
+        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:32, textAlign:"center" }}>Common questions</h2>
         {FAQ.map((item,i) => (
           <div key={i} style={{ borderRadius:14, overflow:"hidden", background:T.white, border:`1px solid ${faqOpen===i?T.green+"30":T.g200}`, marginBottom:8, transition:"border-color 0.2s" }}>
             <button onClick={()=>setFaqOpen(faqOpen===i?null:i)} style={{ width:"100%", padding:"18px 20px", background:"none", border:"none", fontSize:15, fontWeight:600, color:T.g900, textAlign:"left", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
@@ -1430,9 +1462,9 @@ function PlansPage() {
         </div>
       </div>
 
-            <div style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+            <div className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
         <div className="section-inner">
-        <h2 style={{ fontSize:24, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.5 }}>Included with every plan</h2>
+        <h2 className="section-heading" style={{ fontSize:24, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.5 }}>Included with every plan</h2>
         <p style={{ fontSize:14, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
         <div className="grid-features" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
           {[
@@ -1456,10 +1488,10 @@ function PlansPage() {
       </div>
 
       {/* ── GUARANTEES ── */}
-      <div style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+      <div className="desktop-section" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-wide">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Why Unlimitedville</p>
-        <h2 style={{ fontSize:28, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.5, lineHeight:1.1 }}>Sounds too good<br/>to be true?</h2>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Why Unlimitedville</p>
+        <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.5, lineHeight:1.1 }}>Sounds too good<br/>to be true?</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center", lineHeight:1.5 }}>We get it. Here's why thousands of members trust us.</p>
         <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
           {[
@@ -1481,9 +1513,9 @@ function PlansPage() {
       </div>
 
       {/* ── SOCIAL PROOF STRIP ── */}
-      <div style={{ padding:"40px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="desktop-section" style={{ padding:"40px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
         <div className="section-wide">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>What members say</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>What members say</p>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:20 }}>
           <div style={{ display:"flex", gap:2 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(14)}</span>)}<span>{I.starHalf(14)}</span></div>
           <span style={{ fontSize:16, fontWeight:800, color:T.white }}>4.5</span>
@@ -1507,9 +1539,9 @@ function PlansPage() {
       </div>
 
       {/* ── FAQ ── */}
-      <div style={{ padding:"48px 20px", background:T.white, borderTop:`1px solid ${T.g200}` }}>
+      <div className="desktop-section" style={{ padding:"48px 20px", background:T.white, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-wide faq-section">
-        <h2 style={{ fontSize:22, fontWeight:900, color:T.g900, letterSpacing:-0.3, marginBottom:24, textAlign:"center" }}>Common questions</h2>
+        <h2 className="section-heading" style={{ fontSize:22, fontWeight:900, color:T.g900, letterSpacing:-0.3, marginBottom:24, textAlign:"center" }}>Common questions</h2>
         {plansFaq.map((item,i) => (
           <div key={i} style={{ borderRadius:14, overflow:"hidden", background:T.g50, border:`1px solid ${faqOpen===i?T.green+"30":T.g200}`, marginBottom:8, transition:"border-color 0.2s" }}>
             <button onClick={()=>setFaqOpen(faqOpen===i?null:i)} style={{ width:"100%", padding:"18px 20px", background:"none", border:"none", fontSize:15, fontWeight:600, color:T.g900, textAlign:"left", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
@@ -1566,15 +1598,19 @@ function PlaceholderPage({ title, subtitle }) {
 function Footer() {
   const { navigate } = useApp();
   return (
-    <footer style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+    <footer className="footer-section" style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid rgba(255,255,255,0.06)` }}>
       <div className="section-inner">
-      <div onClick={()=>navigate("home")} style={{ marginBottom:8, cursor:"pointer", display:"inline-block" }}>
-        <LogoFull h={32} />
+      <div style={{ display:"flex", flexDirection:"column", gap:28, marginBottom:32 }}>
+        <div>
+          <div onClick={()=>navigate("home")} style={{ marginBottom:8, cursor:"pointer", display:"inline-block" }}>
+            <LogoFull h={32} />
+          </div>
+          <p style={{ fontSize:14, color:T.g500, lineHeight:1.5, maxWidth:300 }}>Wireless home internet that goes where you do. Trusted by thousands since 2016.</p>
+        </div>
       </div>
-      <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by thousands of members since 2016.</p>
-      <div className="footer-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px 0", marginBottom:28 }}>
+      <div className="footer-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"12px 0", marginBottom:32 }}>
         {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"solutions"},{l:"Blog",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Contact Us",p:"support"}].map((link,i) => (
-          <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:0, textAlign:"left" }}>{link.l}</button>
+          <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:"4px 0", textAlign:"left", transition:"color 0.2s" }}>{link.l}</button>
         ))}
       </div>
       <div style={{ display:"flex", gap:10, marginBottom:28 }}>
