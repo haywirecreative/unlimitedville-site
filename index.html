@@ -2192,18 +2192,18 @@ function App() {
       case "solutions": return <PlaceholderPage title="Solutions" subtitle="Internet solutions for every lifestyle. Rural homes, RV travel, businesses, and more." />;
       case "login": return <PlaceholderPage title="Member Login" subtitle="Access your account, manage your plan, and track your usage." />;
       case "starlink-compare": return <VsStarlinkPage />;
-      case "rural": return <SolutionPage config={SOLUTION_PAGES["rural"]} />;
-      case "rv": return <SolutionPage config={SOLUTION_PAGES["rv"]} />;
-      case "business": return <SolutionPage config={SOLUTION_PAGES["business"]} />;
-      case "trucking": return <SolutionPage config={SOLUTION_PAGES["trucking"]} />;
-      case "gaming": return <SolutionPage config={SOLUTION_PAGES["gaming"]} />;
-      case "failover": return <SolutionPage config={SOLUTION_PAGES["failover"]} />;
+      case "rural": return <SolutionPage key="rural" config={SOLUTION_PAGES["rural"]} />;
+      case "rv": return <SolutionPage key="rv" config={SOLUTION_PAGES["rv"]} />;
+      case "business": return <SolutionPage key="business" config={SOLUTION_PAGES["business"]} />;
+      case "trucking": return <SolutionPage key="trucking" config={SOLUTION_PAGES["trucking"]} />;
+      case "gaming": return <SolutionPage key="gaming" config={SOLUTION_PAGES["gaming"]} />;
+      case "failover": return <SolutionPage key="failover" config={SOLUTION_PAGES["failover"]} />;
       default:
         if (page.startsWith("uc-")) {
           const slugMap = { "uc-rural":"rural", "uc-rv":"rv", "uc-transportation":"trucking", "uc-mobile-biz":"business", "uc-failover":"failover", "uc-urban":"rural" };
           const configKey = slugMap[page];
           if (configKey && SOLUTION_PAGES[configKey]) {
-            return <SolutionPage config={SOLUTION_PAGES[configKey]} />;
+            return <SolutionPage key={configKey} config={SOLUTION_PAGES[configKey]} />;
           }
           const uc = USE_CASES.find(u => "uc-"+u.slug === page);
           return <PlaceholderPage title={uc ? `Internet for ${uc.label}` : "Use Case"} subtitle={uc?.desc} />;
