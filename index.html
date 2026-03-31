@@ -2215,7 +2215,7 @@ function App() {
   return (
     <AppContext.Provider value={ctx}>
       <Nav />
-      <main id="main-content">
+      <main id="main-content" key={page}>
         {renderPage()}
       </main>
       <Footer />
