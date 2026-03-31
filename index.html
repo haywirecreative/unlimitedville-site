@@ -142,49 +142,47 @@
     animation: shimmer 2.5s ease-in-out infinite;
   }
 
-  /* ── RESPONSIVE: Container utility ── */
-  .container { width: 100%; margin: 0 auto; padding: 0 20px; }
+  /* ── RESPONSIVE: Full-width section with contained inner content ── */
+  .section-inner { max-width: 1200px; margin-left: auto; margin-right: auto; }
+  .section-wide { max-width: 960px; margin-left: auto; margin-right: auto; }
 
   /* ── RESPONSIVE: Tablet (768px+) ── */
   @media (min-width: 768px) {
-    .container { max-width: 720px; padding: 0 32px; }
     .grid-plans { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; flex-direction: unset !important; }
     .grid-plans > div { margin-bottom: 0 !important; }
     .grid-features { grid-template-columns: repeat(3, 1fr) !important; }
-    .grid-use-cases { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; overflow-x: visible !important; }
-    .grid-use-cases > div { min-width: unset !important; }
+    .grid-use-cases { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 0 !important; overflow-x: visible !important; }
+    .grid-use-cases > button { min-width: unset !important; }
     .grid-reviews { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
     .grid-reviews > div { margin-bottom: 0 !important; }
     .hero-title { font-size: 56px !important; }
     .hero-section { min-height: 80vh !important; }
-    .section-padding { padding-left: 40px !important; padding-right: 40px !important; }
     .nav-desktop-links { display: flex !important; }
     .nav-mobile-toggle { display: none !important; }
+    .nav-mobile-drawer { display: none !important; }
     .footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
-    .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .checkout-form { max-width: 560px; margin: 0 auto; }
-    .cart-layout { max-width: 560px; margin: 0 auto; }
-    .how-it-works-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; }
+    .checkout-form { max-width: 600px; margin: 0 auto; }
+    .how-it-works-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; }
     .how-it-works-grid > div { margin-bottom: 0 !important; }
+    .quiz-section { max-width: 560px; margin-left: auto; margin-right: auto; }
+    .lifestyle-break { max-height: 520px; }
+    .sticky-bar-inner { max-width: 1200px; margin: 0 auto; }
+    .plans-hero { max-width: 640px; margin-left: auto; margin-right: auto; }
   }
 
   /* ── RESPONSIVE: Desktop (1024px+) ── */
   @media (min-width: 1024px) {
-    .container { max-width: 960px; padding: 0 48px; }
     .hero-title { font-size: 64px !important; letter-spacing: -3px !important; }
     .hero-subtitle { font-size: 18px !important; max-width: 480px !important; }
     .hero-section { min-height: 85vh !important; }
-    .section-title { font-size: 36px !important; }
     .grid-features { grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
     .grid-use-cases { grid-template-columns: repeat(4, 1fr) !important; }
-    .checkout-form { max-width: 640px; }
-    .cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: 32px; max-width: 960px; }
-    .plans-hero-title { font-size: 48px !important; }
+    .checkout-form { max-width: 680px; }
+    .plans-hero { max-width: 720px; }
   }
 
   /* ── RESPONSIVE: Wide Desktop (1280px+) ── */
   @media (min-width: 1280px) {
-    .container { max-width: 1200px; }
     .hero-title { font-size: 72px !important; }
     .grid-plans { gap: 24px !important; }
   }
@@ -267,7 +265,7 @@ const I = {
   check: (s=14,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>,
   shield: (s=13,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
   star: (s=12) => <svg width={s} height={s} viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-  starHalf: (s=12) => <svg width={s} height={s} viewBox="0 0 24 24" strokeWidth="1"><defs><clipPath id="halfStar"><rect x="0" y="0" width="12" height="24"/></clipPath></defs><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#d4d4d8" stroke="#d4d4d8"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#facc15" stroke="#facc15" clipPath="url(#halfStar)"/></svg>,
+  starHalf: (s=12) => { const id="hs"+Math.random().toString(36).slice(2,8); return <svg width={s} height={s} viewBox="0 0 24 24" strokeWidth="1"><defs><clipPath id={id}><rect x="0" y="0" width="12" height="24"/></clipPath></defs><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#d4d4d8" stroke="#d4d4d8"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#facc15" stroke="#facc15" clipPath={`url(#${id})`}/></svg>; },
   chevDown: (s=14,c=T.g400) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg>,
   chevRight: (s=14,c=T.g500) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>,
   chevUp: (s=14,c=T.g400) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg>,
@@ -416,7 +414,7 @@ function Nav() {
   return (
     <nav role="navigation" aria-label="Main navigation" style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, backdropFilter:"blur(24px) saturate(150%)", WebkitBackdropFilter:"blur(24px) saturate(150%)", background:bg, borderBottom: (scrolled||open) ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent", transition:"background 0.4s ease, border-color 0.4s ease" }}>
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"14px 20px", maxWidth:1200, margin:"0 auto" }}>
-        <div onClick={()=>go("home")} style={{ cursor:"pointer" }}><LogoFull h={30} /></div>
+        <div onClick={()=>go("home")} style={{ cursor:"pointer" }}><LogoFull h={36} /></div>
         <div className="nav-desktop-links">
           <button onClick={()=>go("plans")}>Plans</button>
           <div style={{ position:"relative" }} onMouseEnter={()=>setUcOpen(true)} onMouseLeave={()=>setUcOpen(false)}>
@@ -455,7 +453,7 @@ function Nav() {
         </div>
       </div>
       {open && (
-        <div style={{ padding:"4px 0 16px", borderTop:`1px solid ${T.darkBorder}` }}>
+        <div className="nav-mobile-drawer" style={{ padding:"4px 0 16px", borderTop:`1px solid ${T.darkBorder}` }}>
           <button onClick={()=>go("plans")} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", width:"100%", padding:"15px 20px", background:"none", border:"none", color:T.white, fontSize:15, fontWeight:500, textAlign:"left" }}>
             Plans & Pricing {I.chevRight(14,T.g600)}
           </button>
@@ -518,14 +516,16 @@ function StickyBar() {
   }, []);
   if (!show || page !== "home") return null;
   return (
-    <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:99, backdropFilter:"blur(20px) saturate(140%)", WebkitBackdropFilter:"blur(20px) saturate(140%)", background:"rgba(15,15,18,0.92)", borderTop:`1px solid rgba(85,182,133,0.15)`, padding:"12px 16px", display:"flex", alignItems:"center", gap:12, boxShadow:"0 -4px 30px rgba(0,0,0,0.3)" }}>
-      <div style={{ flex:1 }}>
-        <span style={{ fontSize:12, color:T.g500, display:"block", lineHeight:1.2 }}>Plans from</span>
-        <span style={{ fontSize:26, fontWeight:900, color:T.white, letterSpacing:-1 }}>$69<span style={{ fontSize:13, fontWeight:500, color:T.g400 }}>/mo</span></span>
+    <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:99, backdropFilter:"blur(20px) saturate(140%)", WebkitBackdropFilter:"blur(20px) saturate(140%)", background:"rgba(15,15,18,0.92)", borderTop:`1px solid rgba(85,182,133,0.15)`, padding:"12px 16px", boxShadow:"0 -4px 30px rgba(0,0,0,0.3)" }}>
+      <div className="sticky-bar-inner" style={{ display:"flex", alignItems:"center", gap:12 }}>
+        <div style={{ flex:1 }}>
+          <span style={{ fontSize:12, color:T.g500, display:"block", lineHeight:1.2 }}>Plans from</span>
+          <span style={{ fontSize:26, fontWeight:900, color:T.white, letterSpacing:-1 }}>$69<span style={{ fontSize:13, fontWeight:500, color:T.g400 }}>/mo</span></span>
+        </div>
+        <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", gap:6, boxShadow:`0 2px 20px ${T.greenGlow}` }}>
+          View Plans {I.arrow(14)}
+        </button>
       </div>
-      <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", gap:6, boxShadow:`0 2px 20px ${T.greenGlow}` }}>
-        View Plans {I.arrow(14)}
-      </button>
     </div>
   );
 }
@@ -598,6 +598,7 @@ function HomePage() {
           AS SEEN ON -- Uniform press strip
           ═══════════════════════════════════ */}
       <section style={{ padding:"28px 24px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner">
         <p style={{ fontSize:12, fontWeight:600, letterSpacing:2.5, color:T.g600, textTransform:"uppercase", textAlign:"center", marginBottom:20 }}>As seen on</p>
         <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"10px 12px" }}>
           {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist","Internet Access Guide"].map((name,i,arr) => (
@@ -607,12 +608,14 @@ function HomePage() {
             </React.Fragment>
           ))}
         </div>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
           COVERAGE CHECK
           ═══════════════════════════════════ */}
       <section style={{ padding:"32px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+        <div className="section-wide" style={{ display:"flex", flexDirection:"column" }}>
         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
           <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
           <div>
@@ -647,14 +650,16 @@ function HomePage() {
         <p style={{ fontSize:12, color:T.g600, marginTop:10, display:"flex", alignItems:"center", gap:4 }}>
           {I.phone(12,T.g600)} Need help? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
         </p>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
           HOW IT WORKS -- Apple-style: big type, generous space
           ═══════════════════════════════════ */}
-      <section className="section-padding" style={{ padding:"56px 24px 56px", background:T.white }}>
+      <section style={{ padding:"56px 24px 56px", background:T.white }}>
+        <div className="section-inner">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>How it works</p>
-        <h2 className="section-title" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:12, textAlign:"center", lineHeight:1.05 }}>Online in minutes,<br/>not days.</h2>
+        <h2 style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:12, textAlign:"center", lineHeight:1.05 }}>Online in minutes,<br/>not days.</h2>
         <p style={{ fontSize:15, color:T.g500, textAlign:"center", marginBottom:36, maxWidth:280, marginLeft:"auto", marginRight:"auto", lineHeight:1.5 }}>Three steps. No technicians. No wait.</p>
 
         <div className="how-it-works-grid">
@@ -677,12 +682,14 @@ function HomePage() {
           </div>
         ))}
         </div>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
           PLANS PREVIEW
           ═══════════════════════════════════ */}
       <section style={{ padding:"48px 20px", background:T.g50 }}>
+        <div className="section-inner">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plans</p>
         <h2 style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:6, textAlign:"center", lineHeight:1.05 }}>Simple plans.<br/>Honest pricing.</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:8, textAlign:"center" }}>Unlimited data on every plan. No contracts, ever.</p>
@@ -727,12 +734,14 @@ function HomePage() {
         <button onClick={()=>navigate("plans")} style={{ width:"100%", marginTop:20, padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
           Compare all plans side-by-side {I.arrow(14,T.g700)}
         </button>
+        </div>
       </section>
 
             {/* ═══════════════════════════════════
           QUIZ
           ═══════════════════════════════════ */}
       <section id="quiz" style={{ padding:"48px 24px", background:T.dark }}>
+        <div className="quiz-section">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Plan finder</p>
         <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.08 }}>Not sure which<br/>plan fits?</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:36, textAlign:"center" }}>Three questions. Thirty seconds.</p>
@@ -801,14 +810,15 @@ function HomePage() {
             </div>
           </div>
         )}
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
           LIFESTYLE BREAK -- Full-bleed image
           Tesla-style: dramatic image with overlaid text
           ═══════════════════════════════════ */}
-      <section style={{ position:"relative", overflow:"hidden" }}>
-        <ImageBlock aspect="9/16" style={{ maxHeight:480 }} dark={true} overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
+      <section className="lifestyle-break" style={{ position:"relative", overflow:"hidden", maxHeight:520 }}>
+        <ImageBlock aspect="9/16" style={{ maxHeight:520 }} dark={true} overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
           <div style={{ position:"absolute", bottom:40, left:24, right:24, textAlign:"left" }}>
             <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:10 }}>Your home<br/>internet,<br/>everywhere.</h2>
             <p style={{ fontSize:15, color:T.g300, lineHeight:1.5, marginBottom:20 }}>Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
@@ -823,6 +833,7 @@ function HomePage() {
           USE CASES
           ═══════════════════════════════════ */}
       <section style={{ padding:"48px 0", background:T.white }}>
+        <div className="section-inner">
         <div style={{ padding:"0 24px", marginBottom:32 }}>
           <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Solutions</p>
           <h2 style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, textAlign:"center", lineHeight:1.05 }}>Built for how<br/>you live.</h2>
@@ -853,12 +864,14 @@ function HomePage() {
             View all solutions {I.arrow(14,T.g700)}
           </button>
         </div>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
           REVIEWS
           ═══════════════════════════════════ */}
-      <section className="section-padding" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+      <section style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+        <div className="section-inner">
         <div style={{ textAlign:"center", marginBottom:32 }}>
           <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Reviews</p>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:4 }}>
@@ -888,12 +901,14 @@ function HomePage() {
         ))}
         </div>
         <button onClick={()=>navigate("reviews")} className="btn-secondary" style={{ width:"100%", padding:"15px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:15, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(14,T.g700)}</button>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
           FAQ
           ═══════════════════════════════════ */}
       <section style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+        <div className="section-wide">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>FAQ</p>
         <h2 style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:32, textAlign:"center" }}>Common questions</h2>
         {FAQ.map((item,i) => (
@@ -905,6 +920,7 @@ function HomePage() {
             <div className={`faq-answer ${faqOpen===i?"open":""}`}><div style={{ padding:"0 20px 18px", fontSize:15, color:T.g500, lineHeight:1.65 }}>{item.a}</div></div>
           </div>
         ))}
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
@@ -917,7 +933,7 @@ function HomePage() {
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.92) 100%)" }} />
         </div>
         {/* Content -- not absolute, flows naturally */}
-        <div style={{ position:"relative", zIndex:1, padding:"48px 24px", textAlign:"center" }}>
+        <div className="section-wide" style={{ position:"relative", zIndex:1, padding:"48px 24px", textAlign:"center" }}>
           <h2 style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.05, marginBottom:14 }}>Join thousands of<br/>happy members.</h2>
           <p style={{ fontSize:16, color:T.g300, marginBottom:32, lineHeight:1.5 }}>Setup takes 5 minutes. Ships in 24 hours.<br/>21-day money-back guarantee.</p>
           <button onClick={()=>navigate("plans")} className="btn-primary" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
@@ -1160,6 +1176,7 @@ function PlansPage() {
 
       {/* ── HERO HEADER ── */}
       <div style={{ padding:"40px 24px 48px", background:T.dark, textAlign:"center" }}>
+        <div className="plans-hero">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:12 }}>Plans & Pricing</p>
         <h1 style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.2, lineHeight:1.05, marginBottom:14 }}>No wires means<br/>no boundaries.</h1>
         <p style={{ fontSize:16, color:T.g400, lineHeight:1.55, maxWidth:310, margin:"0 auto 28px" }}>Every plan includes unlimited data, a pre-configured router, and our 21-day money-back guarantee.</p>
@@ -1183,10 +1200,12 @@ function PlansPage() {
             </React.Fragment>
           ))}
         </div>
+        </div>
       </div>
 
       {/* ── COVERAGE CHECKER ── */}
         <div style={{ padding:"0 24px 32px", background:T.dark }}>
+          <div className="section-wide">
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
             <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(20,T.green)}</div>
             <div>
@@ -1221,10 +1240,12 @@ function PlansPage() {
           <p style={{ fontSize:12, color:T.g600, marginTop:12, display:"flex", alignItems:"center", gap:5 }}>
             {I.phone(12,T.g600)} Need help choosing? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
           </p>
+          </div>
         </div>
 
       {/* ── PLAN CARDS (homepage style) ── */}
       <div id="plan-cards" style={{ padding:"24px 20px 0" }}>
+        <div className="section-inner">
         <div className="grid-plans" style={{ display:"flex", flexDirection:"column", gap:16 }}>
           {PLANS.map(plan => {
             const total = plan.monthly + plan.activation;
@@ -1304,10 +1325,12 @@ function PlansPage() {
         <p style={{ textAlign:"center", fontSize:12, color:T.g500, padding:"16px 0 0", lineHeight:1.5 }}>
           All plans month-to-month. Router provided for the duration of your membership.
         </p>
+        </div>
       </div>
 
       {/* ── COMPARE PLANS TABLE ── */}
       <div style={{ padding:"48px 20px 40px" }}>
+        <div className="section-inner">
         <h2 style={{ fontSize:24, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.5 }}>Plan Comparison</h2>
         <p style={{ fontSize:14, color:T.g500, marginBottom:24, textAlign:"center" }}>Your perfect connection -- choose without compromise.</p>
 
@@ -1355,9 +1378,11 @@ function PlansPage() {
         <button onClick={()=>navigate("starlink-compare")} style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, width:"100%", marginTop:16, padding:"12px", background:"none", border:"none", color:T.greenText, fontSize:14, fontWeight:600 }}>
           Compare Unlimitedville to Starlink {I.arrow(14,T.greenText)}
         </button>
+        </div>
       </div>
 
             <div style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner">
         <h2 style={{ fontSize:24, fontWeight:900, color:T.white, marginBottom:8, textAlign:"center", letterSpacing:-0.5 }}>Included with every plan</h2>
         <p style={{ fontSize:14, color:T.g500, marginBottom:28, textAlign:"center" }}>No hidden fees. No surprises. Just internet that works.</p>
         <div className="grid-features" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
@@ -1378,10 +1403,12 @@ function PlansPage() {
             </div>
           ))}
         </div>
+        </div>
       </div>
 
       {/* ── GUARANTEES ── */}
       <div style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
+        <div className="section-wide">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Why Unlimitedville</p>
         <h2 style={{ fontSize:28, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.5, lineHeight:1.1 }}>Sounds too good<br/>to be true?</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center", lineHeight:1.5 }}>We get it. Here's why thousands of members trust us.</p>
@@ -1401,10 +1428,12 @@ function PlansPage() {
             </div>
           ))}
         </div>
+        </div>
       </div>
 
       {/* ── SOCIAL PROOF STRIP ── */}
       <div style={{ padding:"40px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
+        <div className="section-wide">
         <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>What members say</p>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:20 }}>
           <div style={{ display:"flex", gap:2 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(14)}</span>)}<span>{I.starHalf(14)}</span></div>
@@ -1425,10 +1454,12 @@ function PlansPage() {
           </div>
         ))}
         <button onClick={()=>navigate("reviews")} style={{ width:"100%", marginTop:16, padding:"14px", background:"none", border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g400, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(13,T.g400)}</button>
+        </div>
       </div>
 
       {/* ── FAQ ── */}
       <div style={{ padding:"48px 20px", background:T.white, borderTop:`1px solid ${T.g200}` }}>
+        <div className="section-wide">
         <h2 style={{ fontSize:22, fontWeight:900, color:T.g900, letterSpacing:-0.3, marginBottom:24, textAlign:"center" }}>Common questions</h2>
         {plansFaq.map((item,i) => (
           <div key={i} style={{ borderRadius:14, overflow:"hidden", background:T.g50, border:`1px solid ${faqOpen===i?T.green+"30":T.g200}`, marginBottom:8, transition:"border-color 0.2s" }}>
@@ -1439,6 +1470,7 @@ function PlansPage() {
             <div className={`faq-answer ${faqOpen===i?"open":""}`}><div style={{ padding:"0 20px 18px", fontSize:15, color:T.g500, lineHeight:1.65 }}>{item.a}</div></div>
           </div>
         ))}
+        </div>
       </div>
 
       {/* ── BOTTOM CTA ── */}
@@ -1448,12 +1480,14 @@ function PlansPage() {
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.92) 100%)" }} />
         </div>
         <div style={{ position:"relative", zIndex:1, padding:"56px 24px 48px", textAlign:"center" }}>
+          <div className="section-wide">
           <h2 style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-0.8, lineHeight:1.08, marginBottom:14 }}>Ready to get<br/>connected?</h2>
           <p style={{ fontSize:15, color:T.g300, marginBottom:28, lineHeight:1.5 }}>Setup takes 5 minutes. No technicians,<br/>no contracts, no risk.</p>
           <button onClick={()=>{const el=document.getElementById("plan-cards");if(el){el.scrollIntoView({behavior:"smooth"})}else{window.scrollTo({top:0,behavior:"smooth"})}}} className="btn-primary" style={{ width:"100%", maxWidth:320, padding:"18px", margin:"0 auto", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 20px rgba(0,0,0,0.3)` }}>
             Choose Your Plan {I.arrow(16)}
           </button>
           <p style={{ fontSize:13, color:T.g500, marginTop:16 }}>Or call <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a></p>
+          </div>
         </div>
       </div>
     </div>
@@ -1483,9 +1517,10 @@ function PlaceholderPage({ title, subtitle }) {
 function Footer() {
   const { navigate } = useApp();
   return (
-    <footer style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, maxWidth:1200, margin:"0 auto" }}>
+    <footer style={{ padding:"48px 24px 120px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+      <div className="section-inner">
       <div onClick={()=>navigate("home")} style={{ marginBottom:8, cursor:"pointer", display:"inline-block" }}>
-        <LogoFull h={26} />
+        <LogoFull h={32} />
       </div>
       <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Trusted by thousands of members since 2016.</p>
       <div className="footer-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px 0", marginBottom:28 }}>
@@ -1510,6 +1545,7 @@ function Footer() {
             <a href="#" style={{ fontSize:12, color:T.g500 }}>Terms</a>
           </div>
         </div>
+      </div>
       </div>
     </footer>
   );
