@@ -130,6 +130,13 @@
   /* Footer action buttons */
   .btn-footer-action { transition: background 0.2s ease, border-color 0.2s ease; }
   .btn-footer-action:hover { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; }
+  /* Use case image cards */
+  .uc-card img { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+  .uc-card:hover img { transform: scale(1.06); }
+  .uc-card .uc-overlay { transition: background 0.4s ease; }
+  .uc-card:hover .uc-overlay { background: linear-gradient(180deg, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.3) 40%, rgba(10,10,10,0.6) 80%, rgba(10,10,10,0.8) 100%) !important; }
+  .uc-card .uc-arrow { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease; opacity: 0.7; }
+  .uc-card:hover .uc-arrow { transform: translateX(4px); opacity: 1; }
   input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
   *:focus-visible { outline: 2px solid #55b685; outline-offset: 2px; }
   /* Google Places Autocomplete (new PlaceAutocompleteElement) */
@@ -984,19 +991,16 @@ function HomePage() {
         {/* Vertical stack of full-width feature rows */}
         <div className="grid-use-cases">
           {USE_CASES.slice(0,4).map((uc,i) => (
-            <button key={i} onClick={()=>navigate("uc-"+uc.slug)} style={{ width:"100%", position:"relative", overflow:"hidden", marginBottom:i<USE_CASES.length-1?0:0, background:T.white, border:"none", cursor:"pointer", padding:0, textAlign:"left" }}>
-              {/* Full-bleed image with dark overlay */}
+            <button key={i} onClick={()=>navigate("uc-"+uc.slug)} className="uc-card" style={{ width:"100%", position:"relative", overflow:"hidden", background:T.white, border:"none", cursor:"pointer", padding:0, textAlign:"left" }}>
               <div style={{ position:"relative", width:"100%", paddingTop:"56%", overflow:"hidden" }}>
                 <img src={SITE_IMG} alt={uc.label} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
-                <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.85) 100%)" }} />
-
-                {/* Title, description, and arrow -- positioned at bottom */}
+                <div className="uc-overlay" style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.85) 100%)" }} />
                 <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"24px", display:"flex", alignItems:"flex-end", justifyContent:"space-between" }}>
                   <div>
                     <h3 style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5, lineHeight:1.1, marginBottom:6 }}>{uc.label}</h3>
                     <p style={{ fontSize:15, color:T.g200, lineHeight:1.5, maxWidth:260 }}>{uc.desc}</p>
                   </div>
-                  <div style={{ marginLeft:16, marginBottom:2, flexShrink:0 }}>{I.arrow(18,T.white)}</div>
+                  <div className="uc-arrow" style={{ marginLeft:16, marginBottom:2, flexShrink:0 }}>{I.arrow(18,T.white)}</div>
                 </div>
               </div>
             </button>
