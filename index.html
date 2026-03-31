@@ -144,6 +144,13 @@
   .pac-item-query { color:#fff !important; font-weight:600 !important; }
   .pac-icon { display:none !important; }
   .pac-matched { color:#55b685 !important; }
+  /* Light-theme override for coverage checker on Plans page */
+  .coverage-light gmp-placeautocomplete { --gmpac-color-surface-container-highest:#fff; --gmpac-color-on-surface:#18181b; --gmpac-color-on-surface-variant:#71717a; --gmpac-color-outline-variant:#e4e4e7; }
+  .coverage-light gmp-placeautocomplete input { background:#fff !important; color:#18181b !important; border:1px solid #e4e4e7 !important; }
+  .coverage-light .pac-container { background:#fff !important; border:1px solid #e4e4e7 !important; box-shadow:0 16px 48px rgba(0,0,0,0.1) !important; }
+  .coverage-light .pac-item { border-top:1px solid #e4e4e7 !important; color:#3f3f46 !important; }
+  .coverage-light .pac-item:hover, .coverage-light .pac-item-selected { background:#f4f4f5 !important; }
+  .coverage-light .pac-item-query { color:#18181b !important; }
   .card-hover { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease; will-change: transform; }
   .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(85,182,133,0.08) !important; }
   .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; opacity: 0; }
@@ -1327,22 +1334,19 @@ function PlansPage() {
       </div>
 
       {/* ── AS SEEN ON (separate strip) ── */}
-      <div style={{ padding:"20px 24px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
-        <div className="section-inner">
-          <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:"6px 14px" }}>
-            <span className="press-label" style={{ fontSize:11, fontWeight:600, letterSpacing:2, color:T.g600, textTransform:"uppercase", marginRight:6 }}>As seen on</span>
-            {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource"].map((name,i,arr) => (
-              <React.Fragment key={i}>
-                <span className="press-name" style={{ fontSize:12, fontWeight:500, color:T.g500, whiteSpace:"nowrap" }}>{name}</span>
-                {i < arr.length-1 && <span className="press-divider" style={{ color:T.g700, fontSize:12 }}>|</span>}
-              </React.Fragment>
+      <div style={{ padding:"24px 24px", background:"linear-gradient(180deg, rgba(18,18,20,0.6) 0%, rgba(10,10,10,0.9) 100%)", borderTop:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner" style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:14 }}>
+          <span style={{ fontSize:11, fontWeight:700, letterSpacing:3, color:T.g600, textTransform:"uppercase" }}>Trusted by thousands -- as seen on</span>
+          <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:"8px 24px" }}>
+            {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource"].map((name,i) => (
+              <span key={i} className="press-name" style={{ fontSize:13, fontWeight:600, color:T.g500, whiteSpace:"nowrap", letterSpacing:0.5 }}>{name}</span>
             ))}
           </div>
         </div>
       </div>
 
       {/* ── COVERAGE CHECKER (light bg, visually separated) ── */}
-        <div style={{ padding:"32px 24px", background:T.g50 }}>
+        <div className="coverage-light" style={{ padding:"32px 24px", background:T.g50 }}>
           <div className="section-wide coverage-check">
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
             <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(20,T.greenText)}</div>
@@ -1701,14 +1705,27 @@ function Footer() {
 /* ═══════════════════════════════════════
    APP ROUTER
    ═══════════════════════════════════════ */
+function getHashPage() {
+  const h = window.location.hash.replace("#/","").replace("#","");
+  return h || "home";
+}
+
 function App() {
-  const [page, setPage] = useState("home");
+  const [page, setPage] = useState(getHashPage);
   const [cart, setCart] = useState(null);
   const [address, setAddress] = useState("");
   const [addressChecked, setAddressChecked] = useState(false);
   const [addressResult, setAddressResult] = useState(null);
 
+  // Sync hash -> state (back/forward buttons)
+  useEffect(() => {
+    const onHash = () => { const p = getHashPage(); setPage(p); window.scrollTo({top:0,behavior:"instant"}); };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   function navigate(p) {
+    window.location.hash = "#/" + p;
     setPage(p);
     window.scrollTo({ top:0, behavior:"instant" });
   }
