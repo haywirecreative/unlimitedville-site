@@ -559,6 +559,90 @@ function PressStrip({ border=false }) {
   );
 }
 
+/* ═══════════════════════════════════════
+   SHARED LANDING TEMPLATE COMPONENTS
+   PageHero + CoverageCheck -- used by Home, Plans, and future landing pages.
+   One styling change here updates every page.
+   ═══════════════════════════════════════ */
+function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92svh", heroTitleClass="hero-title", heroSubClass="hero-subtitle", imgAlt="" }) {
+  return (
+    <section className="hero-section" style={{ minHeight, display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:T.dark }}>
+      <img src={SITE_IMG} alt={imgAlt} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
+      <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
+      <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px", textAlign:"center" }}>
+        {/* Reviews badge */}
+        <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, paddingTop:112 }}>
+          <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(12)}</span>)}<span>{I.starHalf(12)}</span></div>
+          <span style={{ fontSize:13, fontWeight:700, color:T.white }}>4.5</span>
+          <span style={{ fontSize:12, color:T.g400 }}>from 213+ verified reviews</span>
+        </div>
+        <div style={{ flex:1 }} />
+        <h1 className={"fade-up fade-up-d3 " + heroTitleClass} style={{ fontSize:44, fontWeight:900, lineHeight:1.05, color:T.white, letterSpacing:-2, marginBottom:20 }}>
+          {title}
+        </h1>
+        <p className={"fade-up fade-up-d4 " + heroSubClass} style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:32, maxWidth:380 }}>
+          {subtitle}
+        </p>
+        <div className="fade-up fade-up-d5">
+          <button onClick={ctaAction} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)`, margin:"0 auto" }}>
+            {ctaText} {I.arrow(16)}
+          </button>
+        </div>
+        <div style={{ flex:1 }} />
+        <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:"center" }}>
+          {bullets.map((l,i) => (
+            <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CoverageCheck() {
+  const { address, setAddress, addressChecked, setAddressChecked, addressResult, setAddressResult } = useApp();
+  return (
+    <section className="coverage-dark" style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+      <div className="section-wide coverage-check" style={{ display:"flex", flexDirection:"column", marginLeft:"auto", marginRight:"auto" }}>
+      <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
+        <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
+        <div>
+          <h3 style={{ fontSize:16, fontWeight:700, color:T.white, lineHeight:1.1 }}>Check Your Coverage</h3>
+          <p style={{ fontSize:13, color:T.g500 }}>Enter your address to check availability</p>
+        </div>
+      </div>
+      {!addressChecked ? (
+        <div style={{ display:"flex", gap:8 }}>
+          <AddressInput value={address} onChange={setAddress}
+            onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
+            inputStyle={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:15, outline:"none" }} />
+          <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"14px 22px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:14, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
+        </div>
+      ) : addressResult==="verify" ? (
+        <div style={{ padding:"14px 16px", borderRadius:12, background:"rgba(250,204,21,0.06)", border:"1px solid rgba(250,204,21,0.15)" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
+            {I.phone(14,"#facc15")}
+            <span style={{ fontSize:14, fontWeight:700, color:"#facc15" }}>Coverage varies in your area</span>
+          </div>
+          <p style={{ fontSize:13, color:T.g500, lineHeight:1.5, marginLeft:24 }}>Call us to verify: <a href="tel:+18884222907" style={{ color:T.green, fontWeight:600 }}>888.422.2907</a></p>
+        </div>
+      ) : (
+        <div style={{ padding:"14px 16px", borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}18` }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
+            <div style={{ width:22, height:22, borderRadius:11, background:T.green, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.check(13,T.white)}</div>
+            <span style={{ fontSize:14, fontWeight:700, color:T.greenText }}>Coverage available</span>
+          </div>
+          <p style={{ fontSize:13, color:T.g500, lineHeight:1.5, marginLeft:32 }}>Multiple carriers serve your area. All plans backed by our 21-day guarantee.</p>
+        </div>
+      )}
+      <p style={{ fontSize:12, color:T.g600, marginTop:10, display:"flex", alignItems:"center", gap:5 }}>
+        {I.phone(12,T.g600)} Need help choosing? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
+      </p>
+      </div>
+    </section>
+  );
+}
+
 function Nav() {
   const { navigate, cart, page } = useApp();
   const [open, setOpen] = useState(false);
@@ -724,96 +808,17 @@ function HomePage() {
 
   return (
     <div>
-      {/* ═══════════════════════════════════
-          HERO -- Full-bleed, dramatic
-          Tesla-style: image fills screen, text overlaid
-          ═══════════════════════════════════ */}
-      <section className="hero-section" style={{ minHeight:"92svh", display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:T.dark }}>
-        <img src={SITE_IMG} alt="Wireless home internet by Unlimitedville - works anywhere with cellular coverage" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
-        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
-
-        <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px", textAlign:"center" }}>
-          {/* Reviews badge -- pinned near top, 48px below nav */}
-          <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, paddingTop:112 }}>
-            <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(12)}</span>)}<span>{I.starHalf(12)}</span></div>
-            <span style={{ fontSize:13, fontWeight:700, color:T.white }}>4.5</span>
-            <span style={{ fontSize:12, color:T.g400 }}>from 213+ verified reviews</span>
-          </div>
-
-          {/* Spacer to center the main content block */}
-          <div style={{ flex:1 }} />
-
-          <h1 className="fade-up fade-up-d3 hero-title" style={{ fontSize:44, fontWeight:900, lineHeight:1.05, color:T.white, letterSpacing:-2, marginBottom:20 }}>
-            Wireless internet<br/>that goes<br/><span style={{ color:T.green }}>where you do.</span>
-          </h1>
-          <p className="fade-up fade-up-d4 hero-subtitle" style={{ fontSize:15, lineHeight:1.55, color:T.g300, marginBottom:32, maxWidth:340 }}>
-            Unlimited data. No contracts. Plug in anywhere and get online in 5 minutes -- plans from $69/mo.
-          </p>
-
-          <div className="fade-up fade-up-d5">
-            <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)`, margin:"0 auto" }}>
-              See Plans & Pricing {I.arrow(16)}
-            </button>
-          </div>
-
-          {/* Spacer to push bullets toward bottom */}
-          <div style={{ flex:1 }} />
-
-          <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:"center" }}>
-            {["Ships in 24 hours","Setup takes 5 minutes","21-day money-back guarantee"].map((l,i) => (
-              <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ═══════════════════════════════════
-          AS SEEN ON
-          ═══════════════════════════════════ */}
+      {/* ── HERO + PRESS STRIP + COVERAGE (shared template) ── */}
+      <PageHero
+        title={<>Wireless internet<br/>that goes<br/><span style={{ color:T.green }}>where you do.</span></>}
+        subtitle="Unlimited data. No contracts. Plug in anywhere and get online in 5 minutes -- plans from $69/mo."
+        ctaText="See Plans & Pricing"
+        ctaAction={()=>navigate("plans")}
+        bullets={["Ships in 24 hours","Setup takes 5 minutes","21-day money-back guarantee"]}
+        imgAlt="Wireless home internet by Unlimitedville - works anywhere with cellular coverage"
+      />
       <PressStrip border={true} />
-
-      {/* ═══════════════════════════════════
-          COVERAGE CHECK
-          ═══════════════════════════════════ */}
-      <section className="coverage-dark" style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
-        <div className="section-wide coverage-check" style={{ display:"flex", flexDirection:"column", marginLeft:"auto", marginRight:"auto" }}>
-        <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
-          <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
-          <div>
-            <h3 style={{ fontSize:16, fontWeight:700, color:T.white, lineHeight:1.1 }}>Check Your Coverage</h3>
-            <p style={{ fontSize:13, color:T.g500 }}>Enter your address to see available networks</p>
-          </div>
-        </div>
-        {!addressChecked ? (
-          <div style={{ display:"flex", gap:8 }}>
-            <AddressInput value={address} onChange={setAddress}
-              onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
-              inputStyle={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:15, outline:"none" }} />
-            <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"14px 22px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:14, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
-          </div>
-        ) : addressResult==="verify" ? (
-          <div style={{ padding:"14px 16px", borderRadius:12, background:"rgba(250,204,21,0.06)", border:"1px solid rgba(250,204,21,0.15)" }}>
-            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
-              {I.phone(14,"#facc15")}
-              <span style={{ fontSize:14, fontWeight:700, color:"#a16207" }}>Coverage varies at this location</span>
-            </div>
-            <p style={{ fontSize:12, color:T.g500, lineHeight:1.4, marginLeft:32 }}>Call us to verify service availability: <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a></p>
-          </div>
-        ) : (
-          <div style={{ padding:"14px 16px", borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}18` }}>
-            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
-              <div style={{ width:22, height:22, borderRadius:11, background:T.green, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.check(12,T.white)}</div>
-              <span style={{ fontSize:14, fontWeight:700, color:T.greenText }}>Coverage available</span>
-            </div>
-            <p style={{ fontSize:12, color:T.g400, lineHeight:1.4, marginLeft:32 }}>Multiple carriers serve your area. 21-day guarantee included.</p>
-          </div>
-        )}
-        <p style={{ fontSize:12, color:T.g600, marginTop:10, display:"flex", alignItems:"center", gap:4 }}>
-          {I.phone(12,T.g600)} Need help? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
-        </p>
-        </div>
-      </section>
+      <CoverageCheck />
 
       {/* ═══════════════════════════════════
           HOW IT WORKS -- Apple-style: big type, generous space
@@ -1337,86 +1342,20 @@ function PlansPage() {
   return (
     <div style={{ minHeight:"100vh", background:T.g50 }}>
 
-      {/* ── HERO -- mirrors Home page template: full-bleed image, reviews badge, centered copy, trust bullets ── */}
-      <section className="hero-section" style={{ minHeight:"72svh", display:"flex", flexDirection:"column", position:"relative", overflow:"hidden", background:T.dark }}>
-        <img src={SITE_IMG} alt="Unlimitedville plans and pricing - wireless internet with no contracts" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
-        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.05) 30%, rgba(10,10,10,0.5) 55%, rgba(10,10,10,0.95) 100%)" }} />
-
-        <div style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", position:"relative", zIndex:1, padding:"0 24px", textAlign:"center" }}>
-          {/* Reviews badge -- pinned near top */}
-          <div className="fade-up fade-up-d2" style={{ display:"flex", alignItems:"center", gap:6, paddingTop:112 }}>
-            <div style={{ display:"flex", gap:1 }}>{[1,2,3,4].map(i=><span key={i}>{I.star(12)}</span>)}<span>{I.starHalf(12)}</span></div>
-            <span style={{ fontSize:13, fontWeight:700, color:T.white }}>4.5</span>
-            <span style={{ fontSize:12, color:T.g400 }}>from 213+ verified reviews</span>
-          </div>
-
-          <div style={{ flex:1 }} />
-
-          <h1 className="fade-up fade-up-d3 plans-hero-title" style={{ fontSize:38, fontWeight:900, lineHeight:1.05, color:T.white, letterSpacing:-1.2, marginBottom:16 }}>
-            Pick your plan.<br/>Get online <span style={{ color:T.green }}>today.</span>
-          </h1>
-          <p className="fade-up fade-up-d4 plans-hero-subtitle" style={{ fontSize:16, lineHeight:1.55, color:T.g300, marginBottom:32, maxWidth:380 }}>
-            Every plan includes unlimited data, a pre-configured router, and our 21-day money-back guarantee.
-          </p>
-
-          <div className="fade-up fade-up-d5">
-            <button onClick={()=>document.querySelector('.coverage-light')?.scrollIntoView({behavior:'smooth',block:'center'})} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)`, margin:"0 auto" }}>
-              Check Your Coverage {I.arrow(16)}
-            </button>
-          </div>
-
-          <div style={{ flex:1 }} />
-
-          <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:"center" }}>
-            {["No credit checks","No contracts","21-day money-back guarantee"].map((l,i) => (
-              <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── AS SEEN ON ── */}
+      {/* ── HERO + PRESS STRIP + COVERAGE (shared template) ── */}
+      <PageHero
+        title={<>Pick your plan.<br/>Get online <span style={{ color:T.green }}>today.</span></>}
+        subtitle="Every plan includes unlimited data, a pre-configured router, and our 21-day money-back guarantee."
+        ctaText="Check Your Coverage"
+        ctaAction={()=>document.querySelector('.coverage-dark')?.scrollIntoView({behavior:'smooth',block:'center'})}
+        bullets={["No credit checks","No contracts","21-day money-back guarantee"]}
+        minHeight="72svh"
+        heroTitleClass="plans-hero-title"
+        heroSubClass="plans-hero-subtitle"
+        imgAlt="Unlimitedville plans and pricing - wireless internet with no contracts"
+      />
       <PressStrip border={true} />
-
-      {/* ── COVERAGE CHECKER (dark, matches hero/press strip flow) ── */}
-      <section className="coverage-dark" style={{ padding:"28px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
-        <div className="section-wide coverage-check" style={{ display:"flex", flexDirection:"column", marginLeft:"auto", marginRight:"auto" }}>
-        <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
-          <div style={{ width:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(18,T.greenText)}</div>
-          <div>
-            <h3 style={{ fontSize:16, fontWeight:700, color:T.white, lineHeight:1.1 }}>Check Your Coverage</h3>
-            <p style={{ fontSize:13, color:T.g500 }}>Enter your address to check availability</p>
-          </div>
-        </div>
-        {!addressChecked ? (
-          <div style={{ display:"flex", gap:8 }}>
-            <AddressInput value={address} onChange={setAddress}
-              onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
-              inputStyle={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:15, outline:"none" }} />
-            <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"14px 22px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:14, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
-          </div>
-        ) : addressResult==="verify" ? (
-          <div style={{ padding:"14px 16px", borderRadius:12, background:"rgba(250,204,21,0.06)", border:"1px solid rgba(250,204,21,0.15)" }}>
-            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
-              {I.phone(14,"#facc15")}
-              <span style={{ fontSize:14, fontWeight:700, color:"#facc15" }}>Coverage varies in your area</span>
-            </div>
-            <p style={{ fontSize:13, color:T.g500, lineHeight:1.5, marginLeft:24 }}>Call us to verify: <a href="tel:+18884222907" style={{ color:T.green, fontWeight:600 }}>888.422.2907</a></p>
-          </div>
-        ) : (
-          <div style={{ padding:"14px 16px", borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}18` }}>
-            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:5 }}>
-              <div style={{ width:22, height:22, borderRadius:11, background:T.green, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.check(13,T.white)}</div>
-              <span style={{ fontSize:14, fontWeight:700, color:T.greenText }}>Coverage available</span>
-            </div>
-            <p style={{ fontSize:13, color:T.g500, lineHeight:1.5, marginLeft:32 }}>Multiple carriers serve your area. All plans backed by our 21-day guarantee.</p>
-          </div>
-        )}
-        <p style={{ fontSize:12, color:T.g600, marginTop:10, display:"flex", alignItems:"center", gap:5 }}>
-          {I.phone(12,T.g600)} Need help choosing? <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
-        </p>
-        </div>
-      </section>
+      <CoverageCheck />
 
       {/* ── PLAN CARDS (homepage style) ── */}
       <div id="plan-cards" className="desktop-section-sm" style={{ paddingLeft:20, paddingRight:20, paddingTop:24, paddingBottom:24 }}>
