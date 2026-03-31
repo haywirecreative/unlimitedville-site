@@ -252,6 +252,8 @@
     /* Grids */
     .grid-features { grid-template-columns: repeat(4, 1fr) !important; gap: 16px !important; }
     .grid-use-cases { grid-template-columns: repeat(4, 1fr) !important; gap: 16px !important; }
+    .uc-title { font-size: 22px !important; }
+    .uc-desc { font-size: 15px !important; }
     .grid-reviews { grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; }
     .grid-reviews > div { margin-bottom: 0 !important; }
     /* Forms */
@@ -330,6 +332,8 @@
     /* how-it-works uses desktop-section class now */
     .desktop-section { padding-top: 96px !important; padding-bottom: 96px !important; }
     .desktop-section-sm { padding-top: 56px !important; padding-bottom: 56px !important; }
+    .uc-title { font-size: 24px !important; }
+    .uc-desc { font-size: 15px !important; }
     .footer-grid { grid-template-columns: repeat(4, 1fr) !important; }
   }
 
@@ -369,10 +373,10 @@ const PLANS = [
 ];
 
 const USE_CASES = [
-  { icon: "signal", label: "Rural", slug: "rural", desc: "Internet where cable and fiber can't reach", img:"Rural cabin with WiFi router" },
-  { icon: "globe", label: "RV Life", slug: "rv", desc: "Stay connected anywhere you park or travel", img:"RV parked at scenic overlook" },
-  { icon: "zap", label: "Fleets", slug: "transportation", desc: "Reliable connectivity for vehicles on the go", img:"Commercial vehicle on highway" },
-  { icon: "signal", label: "Rentals", slug: "rental", desc: "Give guests fast, reliable WiFi on arrival", img:"Vacation rental cabin interior" },
+  { icon: "signal", label: "Rural & Remote", slug: "rural", desc: "Internet where cable and fiber can't reach", img:"Rural cabin with WiFi router" },
+  { icon: "globe", label: "RV & Van Life", slug: "rv", desc: "Stay connected anywhere you park or travel", img:"RV parked at scenic overlook" },
+  { icon: "zap", label: "Fleets & Trucks", slug: "transportation", desc: "Reliable connectivity for vehicles on the go", img:"Commercial vehicle on highway" },
+  { icon: "signal", label: "Vacation Rentals", slug: "rental", desc: "Give guests fast, reliable WiFi on arrival", img:"Vacation rental cabin interior" },
   { icon: "globe", label: "Mobile Business", slug: "mobile-biz", desc: "Pop-up shops, food trucks, and businesses on the move", img:"Mobile business setup with WiFi" },
   { icon: "signal", label: "Urban & Suburban Homes", slug: "urban", desc: "A better alternative to overpriced cable and DSL", img:"Modern home office setup" },
   { icon: "zap", label: "Failover Backup", slug: "failover", desc: "Automatic backup internet when your primary goes down", img:"Network equipment with backup connection" },
@@ -1006,8 +1010,8 @@ function HomePage() {
                 <div className="uc-overlay" style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.85) 100%)" }} />
                 <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"24px", display:"flex", alignItems:"flex-end", justifyContent:"space-between" }}>
                   <div>
-                    <h3 style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5, lineHeight:1.1, marginBottom:6 }}>{uc.label}</h3>
-                    <p style={{ fontSize:15, color:T.g200, lineHeight:1.5, maxWidth:260 }}>{uc.desc}</p>
+                    <h3 className="uc-title" style={{ fontSize:20, fontWeight:900, color:T.white, letterSpacing:-0.3, lineHeight:1.15, marginBottom:5 }}>{uc.label}</h3>
+                    <p className="uc-desc" style={{ fontSize:14, color:T.g200, lineHeight:1.5 }}>{uc.desc}</p>
                   </div>
                   <div className="uc-arrow" style={{ marginLeft:16, marginBottom:2, flexShrink:0 }}>{I.arrow(18,T.white)}</div>
                 </div>
