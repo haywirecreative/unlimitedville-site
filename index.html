@@ -112,6 +112,24 @@
   .btn-primary:active { transform: translateY(0); }
   .btn-secondary { transition: border-color 0.2s ease, background 0.2s ease; }
   .btn-secondary:hover { border-color: rgba(255,255,255,0.2) !important; background: rgba(255,255,255,0.06) !important; }
+  /* Nav call button */
+  .btn-nav-call { transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+  .btn-nav-call:hover { background: rgba(255,255,255,0.18) !important; border-color: rgba(255,255,255,0.3) !important; transform: translateY(-1px); }
+  /* Outline/ghost buttons (light bg) */
+  .btn-outline { transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+  .btn-outline:hover { background: rgba(0,0,0,0.04) !important; border-color: #a1a1aa !important; transform: translateY(-1px); }
+  /* Outline buttons on dark bg */
+  .btn-outline-dark { transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+  .btn-outline-dark:hover { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.25) !important; transform: translateY(-1px); }
+  /* Nav dropdown items */
+  .nav-dropdown-item { transition: background 0.15s ease; }
+  .nav-dropdown-item:hover { background: rgba(255,255,255,0.06) !important; }
+  /* Footer link hover */
+  .footer-link { transition: color 0.2s ease; }
+  .footer-link:hover { color: #fff !important; }
+  /* Footer action buttons */
+  .btn-footer-action { transition: background 0.2s ease, border-color 0.2s ease; }
+  .btn-footer-action:hover { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; }
   input:focus, select:focus { border-color: #55b685 !important; box-shadow: 0 0 0 3px rgba(85,182,133,0.1) !important; outline: none; }
   *:focus-visible { outline: 2px solid #55b685; outline-offset: 2px; }
   /* Google Places Autocomplete (new PlaceAutocompleteElement) */
@@ -205,6 +223,7 @@
     .coverage-check { max-width: 520px !important; margin-left: auto !important; margin-right: auto !important; }
     /* Section spacing rhythm -- generous vertical breathing on tablet+ */
     .desktop-section { padding-top: 64px !important; padding-bottom: 64px !important; }
+    .desktop-section-sm { padding-top: 40px !important; padding-bottom: 40px !important; }
   }
 
   /* ── RESPONSIVE: Desktop (1024px+) ── */
@@ -274,6 +293,7 @@
     .footer-actions { max-width: 400px !important; }
     /* Section spacing -- generous vertical breathing on desktop */
     .desktop-section { padding-top: 80px !important; padding-bottom: 80px !important; }
+    .desktop-section-sm { padding-top: 48px !important; padding-bottom: 48px !important; }
   }
 
   /* ── RESPONSIVE: Wide Desktop (1280px+) ── */
@@ -291,6 +311,7 @@
     .plans-hero { max-width: 880px; }
     .how-it-works-section { padding-top: 96px !important; padding-bottom: 96px !important; }
     .desktop-section { padding-top: 96px !important; padding-bottom: 96px !important; }
+    .desktop-section-sm { padding-top: 56px !important; padding-bottom: 56px !important; }
     .footer-grid { grid-template-columns: repeat(4, 1fr) !important; }
   }
 
@@ -532,7 +553,7 @@ function Nav() {
               <div style={{ position:"absolute", top:"100%", left:-12, paddingTop:8, zIndex:200 }}>
                 <div style={{ background:"rgba(17,17,19,0.96)", backdropFilter:"blur(24px)", border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:"8px 0", minWidth:220, boxShadow:"0 16px 48px rgba(0,0,0,0.5)" }}>
                   {USE_CASES.slice(0,6).map((uc,i) => (
-                    <button key={i} onClick={()=>{go("uc-"+uc.slug);setUcOpen(false)}} style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"10px 16px", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left", cursor:"pointer" }}>
+                    <button key={i} onClick={()=>{go("uc-"+uc.slug);setUcOpen(false)}} className="nav-dropdown-item" style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"10px 16px", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left", cursor:"pointer" }}>
                       {uc.icon==="signal"?I.signal(14,T.green):uc.icon==="globe"?I.globe(14,T.green):I.zap(14,T.green)} {uc.label}
                     </button>
                   ))}
@@ -553,7 +574,7 @@ function Nav() {
               <span style={{ position:"absolute", top:2, right:2, width:10, height:10, borderRadius:5, background:T.green, boxShadow:"0 0 8px rgba(85,182,133,0.4)" }} />
             </button>
           )}
-          <a href="tel:+18884222907" style={{ color:T.white, fontSize:13, fontWeight:600, padding:"8px 14px", borderRadius:99, border:"1px solid rgba(255,255,255,0.15)", background:"rgba(255,255,255,0.1)", display:"flex", alignItems:"center", gap:5, backdropFilter:"blur(8px)" }}>
+          <a href="tel:+18884222907" className="btn-nav-call" style={{ color:T.white, fontSize:13, fontWeight:600, padding:"8px 14px", borderRadius:99, border:"1px solid rgba(255,255,255,0.15)", background:"rgba(255,255,255,0.1)", display:"flex", alignItems:"center", gap:5, backdropFilter:"blur(8px)" }}>
             {I.phone(13,T.white)} Call
           </a>
           <button className="nav-mobile-toggle" aria-label={open ? "Close menu" : "Open menu"} onClick={()=>{setOpen(!open);setUcOpen(false)}} style={{ background:"none", border:"none", padding:6 }}>
@@ -841,7 +862,7 @@ function HomePage() {
           })}
         </div>
         <div style={{ marginTop:20, display:"flex", justifyContent:"center" }}>
-          <button onClick={()=>navigate("plans")} className="btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+          <button onClick={()=>navigate("plans")} className="btn-outline btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
             Compare all plans side-by-side {I.arrow(14,T.g700)}
           </button>
         </div>
@@ -971,7 +992,7 @@ function HomePage() {
           ))}
         </div>
         <div style={{ padding:"20px 24px 0", display:"flex", justifyContent:"center" }}>
-          <button onClick={()=>navigate("solutions")} className="btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
+          <button onClick={()=>navigate("solutions")} className="btn-outline btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
             View all solutions {I.arrow(14,T.g700)}
           </button>
         </div>
@@ -1012,7 +1033,7 @@ function HomePage() {
         ))}
         </div>
         <div style={{ marginTop:24, display:"flex", justifyContent:"center" }}>
-          <button onClick={()=>navigate("reviews")} className="btn-secondary btn-desktop-auto" style={{ width:"100%", padding:"15px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:15, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(14,T.g700)}</button>
+          <button onClick={()=>navigate("reviews")} className="btn-outline btn-desktop-auto" style={{ width:"100%", padding:"15px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:15, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(14,T.g700)}</button>
         </div>
         </div>
       </section>
@@ -1288,41 +1309,45 @@ function PlansPage() {
     <div style={{ minHeight:"100vh", background:T.g50 }}>
 
       {/* ── HERO HEADER ── */}
-      <div style={{ padding:"40px 24px 48px", paddingTop:104, background:T.dark, textAlign:"center" }}>
-        <div className="plans-hero">
-        <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:12 }}>Plans & Pricing</p>
-        <h1 className="plans-hero-title" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.2, lineHeight:1.05, marginBottom:14 }}>No wires means<br/>no boundaries.</h1>
-        <p className="plans-hero-subtitle" style={{ fontSize:16, color:T.g400, lineHeight:1.55, maxWidth:310, margin:"0 auto 28px" }}>Every plan includes unlimited data, a pre-configured router, and our 21-day money-back guarantee.</p>
+      <div style={{ paddingTop:104, paddingBottom:56, background:`linear-gradient(180deg, ${T.dark} 0%, ${T.black} 100%)`, textAlign:"center" }}>
+        <div className="plans-hero" style={{ padding:"0 24px" }}>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:14 }}>Plans & Pricing</p>
+        <h1 className="plans-hero-title" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.2, lineHeight:1.05, marginBottom:16 }}>No wires means<br/>no boundaries.</h1>
+        <p className="plans-hero-subtitle" style={{ fontSize:16, color:T.g400, lineHeight:1.55, maxWidth:340, margin:"0 auto 28px" }}>Every plan includes unlimited data, a pre-configured router, and our 21-day money-back guarantee.</p>
 
         {/* Trust badges */}
-        <div style={{ display:"flex", justifyContent:"center", gap:8, flexWrap:"wrap", marginBottom:8 }}>
+        <div style={{ display:"flex", justifyContent:"center", gap:8, flexWrap:"wrap" }}>
           {["No credit checks","No contracts","21-day guarantee"].map((t,i) => (
             <div key={i} style={{ display:"flex", alignItems:"center", gap:5, padding:"7px 12px", background:`${T.green}08`, border:`1px solid ${T.green}18`, borderRadius:8 }}>
               {I.check(12,T.green)}<span style={{ fontSize:12, fontWeight:600, color:T.green }}>{t}</span>
             </div>
           ))}
         </div>
-
-        {/* As Seen On */}
-        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"8px 12px", marginTop:20, paddingTop:20, borderTop:`1px solid ${T.darkBorder}` }}>
-          <span style={{ fontSize:12, fontWeight:600, letterSpacing:2, color:T.g600, textTransform:"uppercase", width:"100%", textAlign:"center", marginBottom:4 }}>As seen on</span>
-          {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource","Smart Survivalist","Internet Access Guide"].map((name,i,arr) => (
-            <React.Fragment key={i}>
-              <span style={{ fontSize:12, fontWeight:500, color:T.g500, whiteSpace:"nowrap" }}>{name}</span>
-              {i < arr.length-1 && <span style={{ color:T.g700, fontSize:12 }}>|</span>}
-            </React.Fragment>
-          ))}
-        </div>
         </div>
       </div>
 
-      {/* ── COVERAGE CHECKER ── */}
-        <div style={{ padding:"0 24px 32px", background:T.dark }}>
+      {/* ── AS SEEN ON (separate strip) ── */}
+      <div style={{ padding:"20px 24px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner">
+          <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:"6px 14px" }}>
+            <span className="press-label" style={{ fontSize:11, fontWeight:600, letterSpacing:2, color:T.g600, textTransform:"uppercase", marginRight:6 }}>As seen on</span>
+            {["Forbes","Business Insider","High Speed Internet","Satellite Internet","Mobile Internet Resource"].map((name,i,arr) => (
+              <React.Fragment key={i}>
+                <span className="press-name" style={{ fontSize:12, fontWeight:500, color:T.g500, whiteSpace:"nowrap" }}>{name}</span>
+                {i < arr.length-1 && <span className="press-divider" style={{ color:T.g700, fontSize:12 }}>|</span>}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── COVERAGE CHECKER (light bg, visually separated) ── */}
+        <div style={{ padding:"32px 24px", background:T.g50 }}>
           <div className="section-wide coverage-check">
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
-            <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(20,T.green)}</div>
+            <div style={{ width:40, height:40, borderRadius:12, background:`${T.green}08`, border:`1px solid ${T.green}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{I.pin(20,T.greenText)}</div>
             <div>
-              <h3 style={{ fontSize:18, fontWeight:700, color:T.white, lineHeight:1.1 }}>Check Your Coverage</h3>
+              <h3 style={{ fontSize:18, fontWeight:700, color:T.g900, lineHeight:1.1 }}>Check Your Coverage</h3>
               <p style={{ fontSize:13, color:T.g500 }}>Enter your address to check availability</p>
             </div>
           </div>
@@ -1330,7 +1355,7 @@ function PlansPage() {
             <div style={{ display:"flex", gap:8 }}>
               <AddressInput value={address} onChange={setAddress}
                 onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
-                inputStyle={{ flex:1, padding:"15px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:16, outline:"none" }} />
+                inputStyle={{ flex:1, padding:"15px 16px", borderRadius:12, border:`1px solid ${T.g200}`, background:T.white, color:T.g900, fontSize:16, outline:"none" }} />
               <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"15px 24px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
             </div>
           ) : addressResult==="verify" ? (
@@ -1357,7 +1382,7 @@ function PlansPage() {
         </div>
 
       {/* ── PLAN CARDS (homepage style) ── */}
-      <div id="plan-cards" className="desktop-section" style={{ paddingLeft:20, paddingRight:20, paddingTop:24, paddingBottom:24 }}>
+      <div id="plan-cards" className="desktop-section-sm" style={{ paddingLeft:20, paddingRight:20, paddingTop:24, paddingBottom:24 }}>
         <div className="section-inner">
         <div className="grid-plans" style={{ display:"flex", flexDirection:"column", gap:16 }}>
           {PLANS.map(plan => {
@@ -1571,7 +1596,7 @@ function PlansPage() {
           </div>
         ))}
         </div>
-        <div style={{ marginTop:16, display:"flex", justifyContent:"center" }}><button onClick={()=>navigate("reviews")} className="btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g400, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(13,T.g400)}</button></div>
+        <div style={{ marginTop:16, display:"flex", justifyContent:"center" }}><button onClick={()=>navigate("reviews")} className="btn-outline-dark btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g400, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>Read all reviews {I.arrow(13,T.g400)}</button></div>
         </div>
       </div>
 
@@ -1647,14 +1672,14 @@ function Footer() {
       </div>
       <div className="footer-grid" style={{ display:"grid", gap:"12px 0", marginBottom:32 }}>
         {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"solutions"},{l:"Blog",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Contact Us",p:"support"}].map((link,i) => (
-          <button key={i} onClick={()=>navigate(link.p)} style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:"4px 0", textAlign:"left", transition:"color 0.2s" }}>{link.l}</button>
+          <button key={i} onClick={()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:"4px 0", textAlign:"left" }}>{link.l}</button>
         ))}
       </div>
       <div className="footer-actions" style={{ display:"flex", gap:10, marginBottom:28 }}>
-        <button onClick={()=>navigate("login")} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
+        <button onClick={()=>navigate("login")} className="btn-footer-action" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
           {I.user(15,T.green)} My Account
         </button>
-        <a href="tel:+18884222907" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
+        <a href="tel:+18884222907" className="btn-footer-action" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
           {I.phone(13,T.green)} 888.422.2907
         </a>
       </div>
