@@ -204,6 +204,7 @@
     .hero-section { min-height: 80vh !important; }
     /* Nav */
     .nav-desktop-links { display: flex !important; }
+    .nav-account-icon { display: block !important; }
     .nav-mobile-toggle { display: none !important; }
     .nav-mobile-drawer { display: none !important; }
     /* Footer */
@@ -260,6 +261,19 @@
     .lp-hero-subtitle { text-align: left !important; }
     /* Landing page: plans button never full-width on desktop */
     .lp-plan-btn { width: 100% !important; }
+    /* Blog: 2-col grid on tablet */
+    .blog-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .blog-related-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    /* Blog: featured post side-by-side layout */
+    .blog-featured-img { padding-top: 45% !important; }
+    .blog-featured-title { font-size: 28px !important; }
+    .blog-featured-excerpt { font-size: 16px !important; }
+    /* Blog: email row horizontal */
+    .blog-email-row { flex-direction: row !important; }
+    /* Blog article: larger title */
+    .blog-post-title { font-size: 38px !important; }
+    .blog-h2 { font-size: 24px !important; }
+    .blog-p { font-size: 17px !important; }
   }
 
   /* ── RESPONSIVE: Desktop (1024px+) ── */
@@ -350,6 +364,18 @@
     /* Section spacing -- generous vertical breathing on desktop */
     .desktop-section { padding-top: 80px !important; padding-bottom: 80px !important; }
     .desktop-section-sm { padding-top: 48px !important; padding-bottom: 48px !important; }
+    /* Blog: 3-col grid on desktop */
+    .blog-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    /* Blog: featured post with side-by-side image+text */
+    .blog-featured-img { padding-top: 40% !important; }
+    .blog-featured-title { font-size: 32px !important; }
+    /* Blog article: wider reading column, bigger type */
+    .blog-article-body { max-width: 760px !important; }
+    .blog-article-header { max-width: 760px !important; }
+    .blog-post-title { font-size: 44px !important; letter-spacing: -1.5px !important; }
+    .blog-h2 { font-size: 26px !important; }
+    .blog-p { font-size: 18px !important; line-height: 1.8 !important; }
+    .blog-toc { padding: 24px 28px !important; }
   }
 
   /* ── RESPONSIVE: Wide Desktop (1280px+) ── */
@@ -379,9 +405,16 @@
     .uc-title { font-size: 20px !important; }
     .uc-desc { font-size: 15px !important; }
     .footer-grid { grid-template-columns: repeat(4, 1fr) !important; }
+    /* Blog: wider article body on wide screens */
+    .blog-article-body { max-width: 800px !important; }
+    .blog-article-header { max-width: 800px !important; }
+    .blog-post-title { font-size: 48px !important; letter-spacing: -2px !important; }
+    .blog-h2 { font-size: 28px !important; }
+    .blog-p { font-size: 18px !important; }
   }
 
   /* ── NAV: Desktop links (hidden on mobile) ── */
+  .nav-account-icon { display: none; }
   .nav-desktop-links { display: none; align-items: center; gap: 24px; }
   .nav-desktop-links a, .nav-desktop-links button { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 16px; font-weight: 500; cursor: pointer; transition: color 0.2s; }
   .nav-desktop-links a:hover, .nav-desktop-links button:hover { color: #fff; }
@@ -655,6 +688,166 @@ const FAQ = [
 ];
 
 /* ═══════════════════════════════════════
+   BLOG DATA
+   ═══════════════════════════════════════ */
+const BLOG_CATEGORIES = ["All","Rural Internet","RV & Travel","Business","Comparisons","Tips & Guides"];
+
+const BLOG_POSTS = [
+  {
+    slug: "best-rural-internet-options-2026",
+    title: "The 7 Best Rural Internet Options in 2026 (Ranked)",
+    excerpt: "DSL, satellite, fixed wireless, cellular -- we break down every option available to rural homes and rank them by speed, reliability, and value.",
+    category: "Rural Internet",
+    author: "Unlimitedville Team",
+    date: "2026-03-24",
+    readTime: "9 min read",
+    featured: true,
+    heroImg: "https://unlimitedville.com/images/hero/rural-interior-room.jpg",
+    content: [
+      { type:"p", text:"If you live outside city limits, you already know the frustration: fiber and cable providers draw a coverage line and your address falls on the wrong side of it. But 2026 has brought more options than ever for rural internet. The challenge is sorting through them to find what actually works at your address." },
+      { type:"h2", text:"How We Ranked These Options" },
+      { type:"p", text:"We evaluated each option across five criteria that matter most to rural households: typical download speeds, monthly cost, data limits, installation complexity, and availability. Real-world performance -- not advertised maximums -- drove our rankings." },
+      { type:"h2", text:"1. 5G Fixed Wireless (Cellular Home Internet)" },
+      { type:"p", text:"Cellular home internet has emerged as the top choice for rural homes in 2026. Providers like Unlimitedville deliver 100-500 Mbps over 5G and 4G LTE networks with zero installation -- just plug in a router and connect. No dishes, no drilling, no technician visits." },
+      { type:"callout", text:"Unlimitedville plans start at $69/mo with truly unlimited data and no throttling. Every plan includes a 21-day money-back guarantee." },
+      { type:"h2", text:"2. Starlink Satellite Internet" },
+      { type:"p", text:"SpaceX's low-earth orbit satellite service delivers 50-200 Mbps in most areas. The $599 upfront hardware cost and $120-165/mo pricing make it more expensive than cellular options, but it reaches extremely remote locations where even cell towers are sparse." },
+      { type:"h2", text:"3. Fixed Wireless (WISP)" },
+      { type:"p", text:"Local Wireless Internet Service Providers use tower-mounted antennas to beam internet to your home. Speeds range from 25-100 Mbps. Availability is hyperlocal -- you need direct line of sight to a tower, and service quality varies dramatically between providers." },
+      { type:"h2", text:"4. 4G LTE Home Internet" },
+      { type:"p", text:"Where 5G hasn't reached yet, 4G LTE still delivers solid 40-75 Mbps performance. Unlimitedville's 4G Lite and 4G Plus plans offer this at $69 and $99/mo respectively, making it the most affordable reliable option for many rural addresses." },
+      { type:"h2", text:"5. DSL" },
+      { type:"p", text:"If your home has a phone line, DSL might be available -- but speeds typically max out at 25 Mbps and degrade with distance from the provider's central office. It's cheap but increasingly inadequate for modern household needs." },
+      { type:"h2", text:"6. Traditional Satellite (HughesNet, Viasat)" },
+      { type:"p", text:"Geostationary satellite internet reaches almost everywhere but comes with harsh data caps, high latency (600+ ms), and speeds that slow dramatically during peak hours. Fine for email and basic browsing, poor for video calls, streaming, or gaming." },
+      { type:"h2", text:"7. Mobile Hotspot" },
+      { type:"p", text:"Using your phone's hotspot is technically an option, but carrier data caps (typically 15-50 GB) make it impractical as a primary connection. You'll burn through your monthly allotment in days with normal household use." },
+      { type:"h2", text:"Which Option Is Best for You?" },
+      { type:"p", text:"For most rural homes in 2026, cellular home internet offers the best combination of speed, price, and simplicity. Check your coverage area to see which Unlimitedville plan works at your address -- and test it risk-free for 21 days." },
+    ]
+  },
+  {
+    slug: "starlink-vs-cellular-internet",
+    title: "Starlink vs. Cellular Internet: Which Is Better for Rural Homes?",
+    excerpt: "A head-to-head comparison of Starlink satellite and cellular home internet covering price, speeds, latency, portability, and real-world performance.",
+    category: "Comparisons",
+    author: "Unlimitedville Team",
+    date: "2026-03-17",
+    readTime: "7 min read",
+    featured: false,
+    heroImg: "https://unlimitedville.com/images/hero/rural-highway.jpg",
+    content: [
+      { type:"p", text:"Starlink and cellular home internet are the two technologies reshaping rural connectivity. Both deliver broadband-level speeds without cables or fiber -- but they work very differently and suit different situations. Here's how they compare." },
+      { type:"h2", text:"Price Comparison" },
+      { type:"p", text:"Cellular home internet starts at $69/mo with Unlimitedville, with no equipment purchase required. Starlink Residential costs $120/mo plus a $599 dish. Over the first year, that's a $1,411 difference in total cost." },
+      { type:"h2", text:"Speed and Latency" },
+      { type:"p", text:"Unlimitedville's 5G Ultra plan delivers 100-500 Mbps with 20-40ms latency. Starlink Residential averages 50-200 Mbps with 25-75ms latency. For most households, both provide more than enough speed -- but cellular wins on consistency and latency for video calls and gaming." },
+      { type:"h2", text:"Setup and Portability" },
+      { type:"p", text:"Cellular internet is plug-and-play: unbox the router, plug it in, connect. No exterior hardware. Starlink requires mounting a dish with a clear view of the sky. And while every Unlimitedville plan works at home and on the road, Starlink Residential is locked to one fixed address." },
+      { type:"callout", text:"Want a detailed side-by-side breakdown? Check our full Unlimitedville vs. Starlink comparison with pricing tables and feature-by-feature analysis." },
+      { type:"h2", text:"Weather Reliability" },
+      { type:"p", text:"Satellite internet is inherently weather-dependent. Heavy rain, snow, and cloud cover can disrupt Starlink service. Cellular internet operates through terrestrial towers and maintains connectivity in most weather conditions." },
+      { type:"h2", text:"The Bottom Line" },
+      { type:"p", text:"Starlink is an excellent option for extremely remote locations beyond cell tower reach. For everyone else, cellular home internet delivers better value, lower latency, simpler setup, and the flexibility to take your internet with you." },
+    ]
+  },
+  {
+    slug: "work-from-home-rural-internet",
+    title: "Working from Home on Rural Internet: What You Actually Need",
+    excerpt: "Zoom calls dropping? Uploads crawling? Here's exactly how much speed and what kind of connection you need to work remotely from a rural address.",
+    category: "Tips & Guides",
+    author: "Unlimitedville Team",
+    date: "2026-03-10",
+    readTime: "6 min read",
+    featured: false,
+    heroImg: "https://unlimitedville.com/images/hero/business-coffee-shop.jpg",
+    content: [
+      { type:"p", text:"Remote work is permanent for millions of Americans -- but if your rural internet can't keep up with Zoom, Slack, and cloud file syncing, you're stuck between your career and your address. The good news: you need less speed than you think, but you need it to be reliable." },
+      { type:"h2", text:"Minimum Speed Requirements for Remote Work" },
+      { type:"p", text:"Video calls (Zoom, Teams, Meet) need 10-15 Mbps download and 5 Mbps upload for HD quality. Screen sharing adds another 5 Mbps. Cloud sync tools like Dropbox and Google Drive work fine on 10+ Mbps. The real killer isn't speed -- it's latency and packet loss." },
+      { type:"h2", text:"Why Latency Matters More Than Speed" },
+      { type:"p", text:"A 50 Mbps connection with 30ms latency will outperform a 200 Mbps connection with 600ms latency for video calls every single time. Satellite internet's high latency creates the audio delays and frozen screens that make calls unbearable. Cellular internet's 20-60ms latency keeps calls smooth." },
+      { type:"callout", text:"Every Unlimitedville plan delivers the speeds and low latency needed for remote work. Start with a 21-day risk-free trial and test it with your actual workflow." },
+      { type:"h2", text:"Recommended Setup for Home Offices" },
+      { type:"p", text:"Place your cellular router near a window facing the nearest cell tower for best signal. Use ethernet for your work computer if possible -- it eliminates WiFi interference. Set up QoS (Quality of Service) on your router to prioritize video call traffic over streaming and downloads." },
+      { type:"h2", text:"What Plan Do You Need?" },
+      { type:"p", text:"For a single remote worker, Unlimitedville's 4G Plus plan ($99/mo, 75-250 Mbps) is more than enough. If multiple people in your household work or learn from home simultaneously, the 5G Ultra plan ($109/mo, 100-500 Mbps) provides extra headroom." },
+    ]
+  },
+  {
+    slug: "rv-internet-guide",
+    title: "The Complete Guide to RV Internet in 2026",
+    excerpt: "Campground WiFi, mobile hotspots, satellite, cellular routers -- we tested them all. Here's what actually works for full-time and part-time RV life.",
+    category: "RV & Travel",
+    author: "Unlimitedville Team",
+    date: "2026-03-03",
+    readTime: "8 min read",
+    featured: false,
+    heroImg: "https://unlimitedville.com/images/hero/rv-interior.jpg",
+    content: [
+      { type:"p", text:"Reliable internet on the road used to mean parking next to a Starbucks. In 2026, you have real options -- but not all of them are created equal. We've tested every major approach to RV internet so you don't have to." },
+      { type:"h2", text:"Campground WiFi: Free but Unreliable" },
+      { type:"p", text:"Most campgrounds advertise WiFi, but shared connections serving 200+ RVs deliver speeds measured in kilobits, not megabits. Fine for checking email. Useless for streaming, video calls, or anything bandwidth-intensive." },
+      { type:"h2", text:"Phone Hotspot: Convenient but Limited" },
+      { type:"p", text:"Your phone's hotspot works in a pinch, but carrier data caps (15-50 GB on most plans) make it impractical for daily use. Stream a few movies and you'll blow through your monthly allotment." },
+      { type:"h2", text:"Cellular Routers: The Sweet Spot" },
+      { type:"p", text:"A dedicated cellular router like Unlimitedville's gives you a proper WiFi network powered by 4G LTE or 5G. Truly unlimited data, no throttling, and enough speed for streaming, work, and staying connected. It travels with you and works at home too." },
+      { type:"callout", text:"Unlimitedville plans work at home and on the road. No need to switch plans or pay extra for mobile use." },
+      { type:"h2", text:"Starlink for RVs" },
+      { type:"p", text:"Starlink Roam ($165/mo + $599 dish) delivers decent speeds but requires setting up and leveling a dish at each stop, a clear sky view, and consumes significant power. The dish is bulky and fragile for road travel." },
+      { type:"h2", text:"Our Recommendation" },
+      { type:"p", text:"For most RVers, a cellular router provides the best balance of speed, convenience, cost, and coverage. It works while driving, sets up instantly at each stop, and doesn't require any exterior equipment." },
+    ]
+  },
+  {
+    slug: "internet-for-truckers",
+    title: "Best Internet Options for Truck Drivers and Owner-Operators",
+    excerpt: "Stay connected on long hauls with reliable internet for ELD compliance, navigation, entertainment, and staying in touch with family.",
+    category: "Tips & Guides",
+    author: "Unlimitedville Team",
+    date: "2026-02-24",
+    readTime: "5 min read",
+    featured: false,
+    heroImg: "https://unlimitedville.com/images/hero/trucker-truck-stop.jpg",
+    content: [
+      { type:"p", text:"For truckers, internet isn't a luxury -- it's a tool. ELD devices need connectivity. GPS and routing apps need data. And after 11 hours of driving, you deserve to stream, call home, and unwind without hunting for truck stop WiFi." },
+      { type:"h2", text:"Why Truck Stop WiFi Isn't Enough" },
+      { type:"p", text:"Public WiFi at truck stops is slow, unreliable, and a security risk. Hundreds of devices sharing one connection means speeds drop to near zero during peak hours. And unsecured networks leave your personal data exposed." },
+      { type:"h2", text:"What Truckers Actually Need" },
+      { type:"p", text:"A reliable connection that works while driving and parked. Enough data for GPS, ELD, streaming, and video calls. Low latency for real-time applications. And something that doesn't require setup at every stop." },
+      { type:"callout", text:"Unlimitedville's portable router rides in your cab and delivers internet anywhere you get cell signal. Truly unlimited data with no throttling." },
+      { type:"h2", text:"Recommended Plan for Truckers" },
+      { type:"p", text:"The 4G Plus plan ($99/mo) hits the sweet spot: 75-250 Mbps speeds, nationwide 4G LTE coverage, and enough bandwidth for everything from Netflix to FaceTime. If you're in an area with 5G coverage, the Ultra plan ($109/mo) delivers even faster speeds." },
+      { type:"h2", text:"Setup Tips for Your Cab" },
+      { type:"p", text:"Mount the router on your dashboard or in a window-facing position for best signal. The device runs on standard 110V power, so plug it into your cab's inverter. It creates its own WiFi network -- connect your phone, tablet, laptop, and smart TV." },
+    ]
+  },
+  {
+    slug: "how-cellular-home-internet-works",
+    title: "How Cellular Home Internet Works (And Why It's Getting Faster)",
+    excerpt: "A plain-English explanation of how your home gets broadband speeds from cell towers, and why 5G is changing the game for rural connectivity.",
+    category: "Rural Internet",
+    author: "Unlimitedville Team",
+    date: "2026-02-17",
+    readTime: "5 min read",
+    featured: false,
+    heroImg: "https://unlimitedville.com/images/hero/failover-storm.jpg",
+    content: [
+      { type:"p", text:"Cellular home internet sounds simple -- and it is to use. But understanding how it works helps you get the most out of it and choose the right plan. Here's the short version." },
+      { type:"h2", text:"The Basics: Cell Tower to Your Router" },
+      { type:"p", text:"A cellular home internet router contains a SIM card and radio, just like your phone. It connects to nearby cell towers over 4G LTE or 5G airwaves, then converts that cellular signal into a standard WiFi network in your home. No cables, no wires, no dish." },
+      { type:"h2", text:"4G LTE vs. 5G: What's the Difference?" },
+      { type:"p", text:"4G LTE delivers 40-250 Mbps and has the widest coverage area -- it reaches most of rural America. 5G uses newer radio frequencies to deliver 100-500+ Mbps with lower latency, but its coverage footprint is still growing. Both work for streaming, video calls, and everyday internet use." },
+      { type:"h2", text:"Why It's Getting Faster Every Year" },
+      { type:"p", text:"Carriers are aggressively expanding 5G coverage and upgrading existing 4G towers. Each new tower and spectrum upgrade increases speeds and reduces congestion for everyone in the area. Rural coverage has improved dramatically since 2023." },
+      { type:"callout", text:"Not sure which network is best at your address? Check your coverage to see available Unlimitedville plans and expected speeds for your location." },
+      { type:"h2", text:"Common Concerns Addressed" },
+      { type:"p", text:"Data caps? Unlimitedville plans are truly unlimited with no throttling. Weather? Cellular signals are barely affected by rain or snow, unlike satellite. Shared bandwidth? Cell towers dynamically allocate capacity, so your speeds stay consistent even during peak hours." },
+    ]
+  }
+];
+
+/* ═══════════════════════════════════════
    ICONS (inline SVG)
    ═══════════════════════════════════════ */
 const I = {
@@ -684,6 +877,10 @@ const I = {
   wifi: (s=20,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>,
   router: (s=20,c=T.green) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6.01 18H6M10.01 18H10M12 2v8M8 6l4-4 4 4"/></svg>,
   user: (s=16,c=T.white) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+  clock: (s=14,c=T.g500) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
+  calendar: (s=14,c=T.g500) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>,
+  tag: (s=14,c=T.g500) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1" fill={c}/></svg>,
+  search: (s=16,c=T.g500) => <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>,
 };
 
 /* Logomark SVG */
@@ -1180,7 +1377,7 @@ function Nav() {
           <button onClick={()=>go("support")}>Support</button>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:14 }}>
-          <button onClick={()=>go("account")} className="nav-desktop-links" title="My Account" style={{ background:"none", border:"none", padding:6, cursor:"pointer", opacity:0.7, transition:"opacity 0.2s" }} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=0.7}>
+          <button onClick={()=>go("account")} className="nav-account-icon" title="My Account" style={{ background:"none", border:"none", padding:6, cursor:"pointer", opacity:0.7, transition:"opacity 0.2s" }} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=0.7}>
             {I.user(18, T.white)}
           </button>
           {cart && (
@@ -1232,8 +1429,8 @@ function Nav() {
 
           {/* Account login */}
           <div style={{ margin:"10px 20px 0", paddingTop:10, borderTop:`1px solid ${T.darkBorder}` }}>
-            <button onClick={()=>go("login")} style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"12px 0", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left" }}>
-              {I.user(16,T.g400)} Account Login
+            <button onClick={()=>go("account")} style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"12px 0", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left" }}>
+              {I.user(16,T.g400)} My Account
             </button>
           </div>
           {/* Phone */}
@@ -2107,6 +2304,295 @@ function PlansPage() {
 }
 
 /* ═══════════════════════════════════════
+   BLOG LANDING PAGE
+   ═══════════════════════════════════════ */
+function useSEO(title, description) {
+  useEffect(() => {
+    const prev = document.title;
+    document.title = title;
+    let meta = document.querySelector('meta[name="description"]');
+    const prevDesc = meta ? meta.content : "";
+    if (!meta) { meta = document.createElement("meta"); meta.name = "description"; document.head.appendChild(meta); }
+    meta.content = description;
+    return () => { document.title = prev; if (meta) meta.content = prevDesc; };
+  }, [title, description]);
+}
+
+function BlogPage() {
+  const { navigate } = useApp();
+  const [activeCat, setActiveCat] = useState("All");
+  useSEO("Blog - Wireless Internet Guides & Tips | Unlimitedville", "Expert guides on rural internet, RV connectivity, remote work, and choosing the right wireless internet plan. Tips from Unlimitedville.");
+
+  /* BreadcrumbList schema */
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json"; script.id = "blog-breadcrumb";
+    script.textContent = JSON.stringify({ "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[
+      { "@type":"ListItem", "position":1, "name":"Home", "item":"https://unlimitedville.com/" },
+      { "@type":"ListItem", "position":2, "name":"Blog", "item":"https://unlimitedville.com/blog" }
+    ]});
+    document.head.appendChild(script);
+    return () => { const el = document.getElementById("blog-breadcrumb"); if(el) el.remove(); };
+  }, []);
+  const featured = BLOG_POSTS.find(p => p.featured);
+  const filtered = activeCat === "All" ? BLOG_POSTS : BLOG_POSTS.filter(p => p.category === activeCat);
+  const nonFeatured = filtered.filter(p => !p.featured || activeCat !== "All");
+
+  function fmtDate(d) {
+    const dt = new Date(d + "T00:00:00");
+    return dt.toLocaleDateString("en-US", { month:"long", day:"numeric", year:"numeric" });
+  }
+
+  return (
+    <div style={{ background:T.dark, minHeight:"100vh" }}>
+      {/* Hero */}
+      <section style={{ position:"relative", overflow:"hidden", background:T.dark }}>
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.95) 100%)" }} />
+        <div style={{ position:"relative", zIndex:1, padding:"120px 24px 48px", maxWidth:800, margin:"0 auto", textAlign:"center" }}>
+          <p className="fade-up fade-up-d2" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:12 }}>Blog</p>
+          <h1 className="fade-up fade-up-d3" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1.1, marginBottom:16 }}>
+            Guides, tips, and news about<br/>wireless internet.
+          </h1>
+          <p className="fade-up fade-up-d4" style={{ fontSize:16, color:T.g400, lineHeight:1.6, maxWidth:520, margin:"0 auto" }}>
+            Expert advice on rural connectivity, RV internet, remote work, and choosing the right plan for your lifestyle.
+          </p>
+        </div>
+      </section>
+
+      {/* Category filter */}
+      <section style={{ padding:"0 20px 8px", background:T.dark, borderBottom:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner">
+          <div className="blog-cat-scroll" style={{ display:"flex", gap:8, overflowX:"auto", paddingBottom:16 }}>
+            {BLOG_CATEGORIES.map(cat => (
+              <button key={cat} onClick={()=>setActiveCat(cat)} style={{
+                padding:"8px 18px", borderRadius:99, fontSize:13, fontWeight:600, whiteSpace:"nowrap", cursor:"pointer", transition:"all 0.2s",
+                background: activeCat===cat ? T.green : "rgba(255,255,255,0.04)",
+                color: activeCat===cat ? T.white : T.g400,
+                border: activeCat===cat ? "none" : `1px solid ${T.darkBorder}`,
+              }}>{cat}</button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured post */}
+      {activeCat === "All" && featured && (
+        <section className="desktop-section" style={{ padding:"40px 20px", background:T.dark }}>
+          <div className="section-inner">
+            <button onClick={()=>navigate("blog/"+featured.slug)} className="card-hover" style={{ display:"flex", flexDirection:"column", width:"100%", overflow:"hidden", borderRadius:20, border:`1px solid ${T.darkBorder}`, background:T.darkCard, cursor:"pointer", textAlign:"left", padding:0 }}>
+              <div className="blog-featured-img" style={{ position:"relative", width:"100%", paddingTop:"50%", overflow:"hidden" }}>
+                <img src={featured.heroImg} alt={featured.title} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
+                <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, transparent 40%, rgba(10,10,10,0.8) 100%)" }} />
+                <span style={{ position:"absolute", top:16, left:16, padding:"6px 14px", borderRadius:99, background:`${T.green}20`, color:T.greenText, fontSize:11, fontWeight:700, letterSpacing:1, textTransform:"uppercase", backdropFilter:"blur(8px)" }}>Featured</span>
+              </div>
+              <div style={{ padding:"24px 24px 28px" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:12, flexWrap:"wrap" }}>
+                  <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:T.g500 }}>{I.tag(12,T.g500)} {featured.category}</span>
+                  <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:T.g500 }}>{I.calendar(12,T.g500)} {fmtDate(featured.date)}</span>
+                  <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:T.g500 }}>{I.clock(12,T.g500)} {featured.readTime}</span>
+                </div>
+                <h2 className="blog-featured-title" style={{ fontSize:24, fontWeight:800, color:T.white, letterSpacing:-0.5, lineHeight:1.2, marginBottom:12 }}>{featured.title}</h2>
+                <p className="blog-featured-excerpt" style={{ fontSize:15, color:T.g400, lineHeight:1.6, marginBottom:20, maxWidth:640 }}>{featured.excerpt}</p>
+                <span style={{ fontSize:14, fontWeight:600, color:T.greenText, display:"flex", alignItems:"center", gap:6 }}>Read article {I.arrow(12,T.greenText)}</span>
+              </div>
+            </button>
+          </div>
+        </section>
+      )}
+
+      {/* Post grid */}
+      <section className="desktop-section" style={{ padding: activeCat==="All" && featured ? "0 20px 48px" : "40px 20px 48px", background:T.dark }}>
+        <div className="section-inner">
+          {activeCat !== "All" && (
+            <h2 style={{ fontSize:22, fontWeight:800, color:T.white, letterSpacing:-0.3, marginBottom:24 }}>{activeCat}</h2>
+          )}
+          <div className="blog-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:20 }}>
+            {(activeCat==="All" ? BLOG_POSTS.filter(p=>!p.featured) : filtered).map((post,i) => (
+              <button key={post.slug} onClick={()=>navigate("blog/"+post.slug)} className="card-hover" style={{ display:"flex", flexDirection:"column", overflow:"hidden", borderRadius:16, border:`1px solid ${T.darkBorder}`, background:T.darkCard, cursor:"pointer", textAlign:"left", padding:0 }}>
+                <div className="blog-card-img" style={{ position:"relative", width:"100%", paddingTop:"52%", overflow:"hidden" }}>
+                  <img src={post.heroImg} alt={post.title} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
+                  <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.6) 100%)" }} />
+                </div>
+                <div style={{ padding:"20px 20px 24px", flex:1, display:"flex", flexDirection:"column" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10, flexWrap:"wrap" }}>
+                    <span style={{ padding:"4px 10px", borderRadius:6, background:`${T.green}10`, color:T.greenText, fontSize:11, fontWeight:600 }}>{post.category}</span>
+                    <span style={{ fontSize:12, color:T.g500 }}>{post.readTime}</span>
+                  </div>
+                  <h3 className="blog-card-title" style={{ fontSize:18, fontWeight:700, color:T.white, letterSpacing:-0.3, lineHeight:1.3, marginBottom:8 }}>{post.title}</h3>
+                  <p className="blog-card-excerpt" style={{ fontSize:14, color:T.g400, lineHeight:1.55, marginBottom:16, flex:1 }}>{post.excerpt}</p>
+                  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                    <span style={{ fontSize:12, color:T.g500 }}>{fmtDate(post.date)}</span>
+                    <span style={{ fontSize:13, fontWeight:600, color:T.greenText, display:"flex", alignItems:"center", gap:4 }}>Read {I.arrow(10,T.greenText)}</span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter signup */}
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner" style={{ maxWidth:600, textAlign:"center" }}>
+          <div style={{ width:48, height:48, borderRadius:14, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>
+            {I.msg(22,T.greenText)}
+          </div>
+          <h2 style={{ fontSize:24, fontWeight:800, color:T.white, letterSpacing:-0.3, marginBottom:8 }}>Stay connected.</h2>
+          <p style={{ fontSize:15, color:T.g400, lineHeight:1.6, marginBottom:24 }}>Get new articles, coverage updates, and exclusive tips delivered to your inbox. No spam, unsubscribe anytime.</p>
+          <div className="blog-email-row" style={{ display:"flex", flexDirection:"column", gap:10, maxWidth:440, margin:"0 auto" }}>
+            <input type="email" placeholder="your@email.com" style={{ flex:1, padding:"14px 18px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:"rgba(255,255,255,0.04)", color:T.white, fontSize:15, outline:"none" }} />
+            <button className="btn-primary btn-desktop-auto" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:6, boxShadow:`0 0 32px ${T.greenGlow}` }}>Subscribe {I.arrow(14)}</button>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <FinalCTA />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   BLOG POST / ARTICLE PAGE
+   ═══════════════════════════════════════ */
+function BlogPostPage({ post }) {
+  const { navigate } = useApp();
+  useSEO(post.title + " | Unlimitedville Blog", post.excerpt);
+
+  /* Inject JSON-LD Article schema */
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "article-schema";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": post.title,
+      "description": post.excerpt,
+      "image": post.heroImg,
+      "datePublished": post.date,
+      "dateModified": post.date,
+      "author": { "@type": "Organization", "name": "Unlimitedville", "url": "https://unlimitedville.com" },
+      "publisher": { "@type": "Organization", "name": "Unlimitedville", "logo": { "@type": "ImageObject", "url": "https://unlimitedville.com/images/logo.png" } },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://unlimitedville.com/blog/" + post.slug }
+    });
+    document.head.appendChild(script);
+    return () => { const el = document.getElementById("article-schema"); if (el) el.remove(); };
+  }, [post.slug]);
+
+  function fmtDate(d) {
+    const dt = new Date(d + "T00:00:00");
+    return dt.toLocaleDateString("en-US", { month:"long", day:"numeric", year:"numeric" });
+  }
+
+  /* Table of contents from h2 blocks */
+  const headings = post.content.filter(b => b.type === "h2");
+
+  /* Related posts: same category, excluding this post */
+  const related = BLOG_POSTS.filter(p => p.slug !== post.slug && p.category === post.category).slice(0,2);
+  const relatedFallback = related.length < 2 ? BLOG_POSTS.filter(p => p.slug !== post.slug && !related.find(r=>r.slug===p.slug)).slice(0,2-related.length) : [];
+  const relatedPosts = [...related, ...relatedFallback];
+
+  return (
+    <div style={{ background:T.dark, minHeight:"100vh" }}>
+      {/* Article hero */}
+      <section style={{ position:"relative", overflow:"hidden" }}>
+        <img src={post.heroImg} alt={post.title} style={{ width:"100%", height:360, objectFit:"cover", display:"block" }} />
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.95) 85%, rgba(18,18,20,1) 100%)" }} />
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"0 24px 32px" }}>
+          <div className="blog-article-header" style={{ maxWidth:720, margin:"0 auto" }}>
+            <button onClick={()=>navigate("blog")} style={{ display:"flex", alignItems:"center", gap:6, background:"none", border:"none", color:T.g400, fontSize:13, fontWeight:500, cursor:"pointer", marginBottom:16, padding:0 }}>
+              {I.back(14,T.g400)} All articles
+            </button>
+            <span style={{ display:"inline-block", padding:"5px 12px", borderRadius:6, background:`${T.green}15`, color:T.greenText, fontSize:11, fontWeight:700, letterSpacing:0.5, textTransform:"uppercase", marginBottom:12 }}>{post.category}</span>
+            <h1 className="blog-post-title" style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.15, marginBottom:16 }}>{post.title}</h1>
+            <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
+              <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:13, color:T.g400 }}>{I.user(14,T.g500)} {post.author}</span>
+              <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:13, color:T.g400 }}>{I.calendar(13,T.g500)} {fmtDate(post.date)}</span>
+              <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:13, color:T.g400 }}>{I.clock(13,T.g500)} {post.readTime}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Article body */}
+      <article className="desktop-section" style={{ padding:"40px 24px 48px" }}>
+        <div className="blog-article-body" style={{ maxWidth:720, margin:"0 auto" }}>
+          {/* Table of contents */}
+          {headings.length > 2 && (
+            <div className="blog-toc" style={{ padding:"20px 24px", borderRadius:14, background:"rgba(255,255,255,0.02)", border:`1px solid ${T.darkBorder}`, marginBottom:36 }}>
+              <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:T.g500, textTransform:"uppercase", marginBottom:12 }}>In this article</p>
+              <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                {headings.map((h,i) => (
+                  <a key={i} href={"#section-"+i} onClick={(e)=>{e.preventDefault();document.getElementById("section-"+i)?.scrollIntoView({behavior:"smooth",block:"start"})}} style={{ fontSize:14, color:T.g300, textDecoration:"none", lineHeight:1.4, display:"flex", alignItems:"flex-start", gap:8 }}>
+                    <span style={{ color:T.g600, fontSize:12, fontWeight:600, minWidth:18 }}>{String(i+1).padStart(2,"0")}</span>
+                    {h.text}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Content blocks */}
+          {post.content.map((block, i) => {
+            const sectionIdx = headings.indexOf(block);
+            if (block.type === "h2") {
+              return <h2 key={i} id={"section-"+sectionIdx} className="blog-h2" style={{ fontSize:22, fontWeight:800, color:T.white, letterSpacing:-0.3, marginTop:40, marginBottom:16, lineHeight:1.2, scrollMarginTop:100 }}>{block.text}</h2>;
+            }
+            if (block.type === "p") {
+              return <p key={i} className="blog-p" style={{ fontSize:16, color:T.g300, lineHeight:1.75, marginBottom:20 }}>{block.text}</p>;
+            }
+            if (block.type === "callout") {
+              return (
+                <div key={i} style={{ padding:"20px 24px", borderRadius:14, background:`${T.green}08`, borderLeft:`3px solid ${T.green}`, marginBottom:24, marginTop:8 }}>
+                  <p style={{ fontSize:15, color:T.g200, lineHeight:1.65, margin:0 }}>{block.text}</p>
+                </div>
+              );
+            }
+            return null;
+          })}
+
+          {/* Inline CTA */}
+          <div style={{ marginTop:48, padding:"32px 28px", borderRadius:18, background:"rgba(255,255,255,0.02)", border:`1px solid ${T.darkBorder}`, textAlign:"center" }}>
+            <h3 style={{ fontSize:20, fontWeight:800, color:T.white, marginBottom:8 }}>Ready to get connected?</h3>
+            <p style={{ fontSize:14, color:T.g400, lineHeight:1.6, marginBottom:20, maxWidth:400, margin:"0 auto 20px" }}>Check your coverage and find the right plan for your address. Every plan includes a 21-day money-back guarantee.</p>
+            <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:6, boxShadow:`0 0 32px ${T.greenGlow}`, margin:"0 auto" }}>
+              View Plans {I.arrow(14)}
+            </button>
+          </div>
+        </div>
+      </article>
+
+      {/* Related posts */}
+      {relatedPosts.length > 0 && (
+        <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+          <div className="section-inner">
+            <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>Keep reading</p>
+            <h2 style={{ fontSize:24, fontWeight:800, color:T.white, letterSpacing:-0.3, marginBottom:28, textAlign:"center" }}>Related articles</h2>
+            <div className="blog-related-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:20 }}>
+              {relatedPosts.map(rp => (
+                <button key={rp.slug} onClick={()=>navigate("blog/"+rp.slug)} className="card-hover" style={{ display:"flex", flexDirection:"column", overflow:"hidden", borderRadius:16, border:`1px solid ${T.darkBorder}`, background:T.darkCard, cursor:"pointer", textAlign:"left", padding:0 }}>
+                  <div style={{ position:"relative", width:"100%", paddingTop:"50%", overflow:"hidden" }}>
+                    <img src={rp.heroImg} alt={rp.title} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
+                    <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.6) 100%)" }} />
+                  </div>
+                  <div style={{ padding:"20px 20px 24px", flex:1, display:"flex", flexDirection:"column" }}>
+                    <span style={{ padding:"4px 10px", borderRadius:6, background:`${T.green}10`, color:T.greenText, fontSize:11, fontWeight:600, alignSelf:"flex-start", marginBottom:10 }}>{rp.category}</span>
+                    <h3 style={{ fontSize:17, fontWeight:700, color:T.white, lineHeight:1.3, marginBottom:8 }}>{rp.title}</h3>
+                    <p style={{ fontSize:13, color:T.g400, lineHeight:1.5, flex:1 }}>{rp.excerpt}</p>
+                    <span style={{ fontSize:13, fontWeight:600, color:T.greenText, display:"flex", alignItems:"center", gap:4, marginTop:12 }}>Read {I.arrow(10,T.greenText)}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    PLACEHOLDER PAGE
    ═══════════════════════════════════════ */
 function PlaceholderPage({ title, subtitle }) {
@@ -2337,12 +2823,18 @@ function App() {
       case "cart": return <CartPage />;
       case "checkout": return <CheckoutPage />;
       case "reviews": return <PlaceholderPage title="Reviews" subtitle="213+ verified member reviews. Read what real members are saying about Unlimitedville." />;
-      case "blog": return <PlaceholderPage title="Blog" subtitle="Guides, tips, and news about wireless internet, rural connectivity, and life off the grid." />;
+      case "blog": return <BlogPage />;
       case "support": return <PlaceholderPage title="Support & FAQs" subtitle="Get help with your service, find answers, or talk to a real person at 888.422.2907." />;
       case "solutions": return <SolutionsHub />;
-      case "login": return <PlaceholderPage title="Member Login" subtitle="Access your account, manage your plan, and track your usage." />;
+      case "account": case "login": return <PlaceholderPage title="My Account" subtitle="Sign in to manage your plan, track usage, update billing, and get support." />;
       case "starlink-compare": return <VsStarlinkPage />;
       default:
+        /* Blog post routing -- blog/slug */
+        if (page.startsWith("blog/")) {
+          const slug = page.replace("blog/","");
+          const post = BLOG_POSTS.find(p => p.slug === slug);
+          if (post) return <BlogPostPage key={slug} post={post} />;
+        }
         /* Dynamic solution page routing -- driven by SOLUTION_PAGES */
         if (SOLUTION_PAGES[page]) {
           return <SolutionPage key={page} config={SOLUTION_PAGES[page]} />;
