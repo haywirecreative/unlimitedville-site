@@ -2066,15 +2066,15 @@ function HomePage() {
           Tesla-style: dramatic image with overlaid text
           ═══════════════════════════════════ */}
       <section className="lifestyle-break relative overflow-hidden max-h-[520px]">
-        <ImageBlock aspect="16/9" dark={true} src="assets/images/lifestyle-break.jpg?v=2" label="Unlimitedville router on a picnic table at a mountain campsite with laptop" overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
-          <div className="section-inner absolute bottom-10 left-6 right-6 text-left">
-            <h2 className="lifestyle-title text-[32px] font-black text-white tracking-[-0.8px] leading-[1.08] mb-2.5">Your home<br/>internet,<br/>everywhere.</h2>
-            <p className="lifestyle-desc text-[15px] text-zinc-300 leading-normal mb-5 max-w-[400px]">Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
-            <button onClick={()=>navigate("plans")} className="btn-primary py-3.5 px-7 bg-uv-green border-0 rounded-uv-md text-white text-sm font-bold flex items-center gap-2" style={{boxShadow:`0 0 40px ${T.greenGlow}`}}>
-              View Plans {I.arrow(13)}
-            </button>
-          </div>
+        <ImageBlock aspect="16/9" dark={true} src="assets/images/lifestyle-break.jpg?v=3" label="Unlimitedville router on a picnic table at a mountain campsite with laptop" overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
         </ImageBlock>
+        <div className="section-inner absolute bottom-10 left-6 right-6 text-left z-[2]">
+          <h2 className="lifestyle-title text-[32px] font-black text-white tracking-[-0.8px] leading-[1.08] mb-2.5">Your home<br/>internet,<br/>everywhere.</h2>
+          <p className="lifestyle-desc text-[15px] text-zinc-300 leading-normal mb-5 max-w-[400px]">Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
+          <button onClick={()=>navigate("plans")} className="btn-primary py-3.5 px-7 bg-uv-green border-0 rounded-uv-md text-white text-sm font-bold flex items-center gap-2" style={{boxShadow:`0 0 40px ${T.greenGlow}`}}>
+            View Plans {I.arrow(13)}
+          </button>
+        </div>
       </section>
 
       {/* ═══════════════════════════════════
