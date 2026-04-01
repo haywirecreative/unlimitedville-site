@@ -242,6 +242,7 @@
     /* Section spacing rhythm -- generous vertical breathing on tablet+ */
     .desktop-section { padding-top: 64px !important; padding-bottom: 64px !important; }
     .desktop-section-sm { padding-top: 40px !important; padding-bottom: 40px !important; }
+    .blog-article-section { padding-top: 16px !important; padding-bottom: 64px !important; }
     /* Landing page: feature cards 3-col on tablet+ */
     .lp-features-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
     /* Landing page: reviews 3-col on tablet+ */
@@ -2669,7 +2670,7 @@ function BlogPostPage({ post }) {
       </section>
 
       {/* Article body */}
-      <article className="desktop-section" style={{ padding:"0 24px 48px" }}>
+      <article className="blog-article-section" style={{ padding:"0 24px 48px" }}>
         <div className="blog-article-body" style={{ maxWidth:720, margin:"0 auto" }}>
           {/* Table of contents */}
           {headings.length > 2 && (
