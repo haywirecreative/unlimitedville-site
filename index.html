@@ -182,7 +182,8 @@
   .referral-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
   .account-info-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
   .account-support-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-  .account-tabs { scroll-behavior: smooth; }
+  .account-tabs { scroll-behavior: smooth; padding: 0 16px; -ms-overflow-style: none; scrollbar-width: none; }
+  .account-tabs::-webkit-scrollbar { display: none; }
 
   /* ── RESPONSIVE: Full-width section with contained inner content ── */
   .section-inner { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
@@ -293,6 +294,10 @@
     .referral-grid { grid-template-columns: repeat(2, 1fr) !important; }
     .account-info-grid { grid-template-columns: repeat(2, 1fr) !important; }
     .account-support-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    /* Account tabs: center on tablet+ */
+    .account-tabs { justify-content: center; padding: 0 !important; }
+    /* Subscription details: 4 col on tablet+ */
+    .account-sub-details { grid-template-columns: repeat(4, 1fr) !important; }
   }
 
   /* ── RESPONSIVE: Desktop (1024px+) ── */
@@ -3334,58 +3339,64 @@ function MyAccountPage() {
             <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Manage your active subscriptions and billing</p>
 
             {/* Subscriptions Grid/Cards */}
-            <div className="account-sub-grid" style={{ display:"flex", flexDirection:"column", gap:16 }}>
-              {/* Subscription 1 */}
-              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:20 }}>
-                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr auto", gap:16, alignItems:"center" }}>
+            <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+              {/* Subscription 1 - Active */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:20, borderLeft:`4px solid ${T.green}` }}>
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                    <h3 style={{ fontSize:17, fontWeight:800, color:T.white }}>5G Ultra</h3>
+                    <span style={{ background:T.green, color:T.black, padding:"3px 10px", borderRadius:6, fontSize:10, fontWeight:700 }}>Active</span>
+                  </div>
+                  <button style={{ background:"none", border:`1px solid ${T.darkBorder}`, color:T.g300, cursor:"pointer", fontSize:12, fontWeight:600, padding:"6px 16px", borderRadius:8 }}>Manage</button>
+                </div>
+                <div className="account-sub-details" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"14px 20px" }}>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Plan</p>
-                    <p style={{ fontSize:15, fontWeight:700, color:T.white, marginTop:4 }}>5G Ultra</p>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Device</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>Nighthawk M6 Pro</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>PTN 5551234567</p>
                   </div>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Device</p>
-                    <p style={{ fontSize:14, color:T.g300, marginTop:4 }}>Nighthawk M6 Pro</p>
-                    <p style={{ fontSize:12, color:T.g600, marginTop:2 }}>PTN 5551234567</p>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Next Bill</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>Apr 15, 2026</p>
+                    <p style={{ fontSize:15, fontWeight:700, color:T.white }}>$109.00</p>
                   </div>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Next Bill</p>
-                    <p style={{ fontSize:14, color:T.g300, marginTop:4 }}>Apr 15, 2026</p>
-                    <p style={{ fontSize:14, fontWeight:700, color:T.white, marginTop:2 }}>109.00</p>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Payment</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>**** 4242</p>
                   </div>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Card</p>
-                    <p style={{ fontSize:15, fontWeight:700, color:T.g300, marginTop:4 }}>**** 4242</p>
-                  </div>
-                  <div style={{ textAlign:"right" }}>
-                    <span style={{ display:"inline-block", background:T.green, color:T.black, padding:"4px 12px", borderRadius:8, fontSize:11, fontWeight:700 }}>Active</span>
-                    <button style={{ display:"block", marginTop:12, background:"none", border:"none", color:T.green, cursor:"pointer", fontSize:13, fontWeight:600 }}>Manage</button>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Status</p>
+                    <p style={{ fontSize:14, color:T.green, fontWeight:600 }}>Active - Auto-renew</p>
                   </div>
                 </div>
               </div>
 
-              {/* Subscription 2 */}
-              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:20 }}>
-                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr auto", gap:16, alignItems:"center" }}>
+              {/* Subscription 2 - Canceled */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:20, opacity:0.6 }}>
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                    <h3 style={{ fontSize:17, fontWeight:800, color:T.white }}>4G Plus</h3>
+                    <span style={{ background:T.g700, color:T.g300, padding:"3px 10px", borderRadius:6, fontSize:10, fontWeight:700 }}>Canceled</span>
+                  </div>
+                </div>
+                <div className="account-sub-details" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"14px 20px" }}>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Plan</p>
-                    <p style={{ fontSize:15, fontWeight:700, color:T.white, marginTop:4 }}>4G Plus</p>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Device</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>SIM ONLY (Red)</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>PTN 2316552158</p>
                   </div>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Device</p>
-                    <p style={{ fontSize:14, color:T.g300, marginTop:4 }}>SIM ONLY (Red)</p>
-                    <p style={{ fontSize:12, color:T.g600, marginTop:2 }}>PTN 2316552158</p>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Next Bill</p>
+                    <p style={{ fontSize:14, color:T.g600 }}>--</p>
+                    <p style={{ fontSize:14, color:T.g600 }}>$0.00</p>
                   </div>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Next Bill</p>
-                    <p style={{ fontSize:14, color:T.g600, marginTop:4 }}>(canceled)</p>
-                    <p style={{ fontSize:14, fontWeight:700, color:T.white, marginTop:2 }}>0.00</p>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Payment</p>
+                    <p style={{ fontSize:14, color:T.g600 }}>--</p>
                   </div>
                   <div>
-                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Card</p>
-                    <p style={{ fontSize:15, color:T.g600, marginTop:4 }}>-</p>
-                  </div>
-                  <div style={{ textAlign:"right" }}>
-                    <span style={{ display:"inline-block", background:T.g700, color:T.g300, padding:"4px 12px", borderRadius:8, fontSize:11, fontWeight:700 }}>Canceled</span>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Status</p>
+                    <p style={{ fontSize:14, color:T.g600 }}>Canceled</p>
                   </div>
                 </div>
               </div>
@@ -3396,16 +3407,16 @@ function MyAccountPage() {
         {/* REFERRAL PROGRAM TAB */}
         {activeTab === "referral" && (
           <div>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:28 }}>
+            <div className="referral-header" style={{ marginBottom:28 }}>
               <div>
-                <h2 style={{ fontSize:13, fontWeight:700, letterSpacing:2, textTransform:"uppercase", color:T.white, display:"flex", alignItems:"center", gap:8 }}>
+                <h2 style={{ fontSize:13, fontWeight:700, letterSpacing:2, textTransform:"uppercase", color:T.white, display:"flex", alignItems:"center", gap:8, marginBottom:4 }}>
                   <span style={{ display:"inline-block", width:3, height:16, background:T.green, borderRadius:1.5 }} />
                   Referral Program
                 </h2>
               </div>
-              <div style={{ textAlign:"right" }}>
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:12, padding:"14px 20px", display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:16 }}>
                 <p style={{ fontSize:12, color:T.g500, textTransform:"uppercase", fontWeight:600 }}>Current Membership Credit</p>
-                <p style={{ fontSize:18, fontWeight:700, color:T.green, marginTop:4 }}>0.00</p>
+                <p style={{ fontSize:20, fontWeight:700, color:T.green }}>$0.00</p>
               </div>
             </div>
 
@@ -3471,8 +3482,8 @@ function MyAccountPage() {
                 Update Login Password
               </h3>
               <div style={{ display:"grid", gridTemplateColumns:"1fr", gap:16, maxWidth:400 }}>
-                <input type="password" placeholder="Current password" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:14, outline:"none", background:T.darkCard, color:T.white }} />
-                <input type="password" placeholder="New password" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:14, outline:"none", background:T.darkCard, color:T.white }} />
+                <input type="password" placeholder="Current password" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:16, outline:"none", background:T.darkCard, color:T.white, width:"100%", boxSizing:"border-box" }} />
+                <input type="password" placeholder="New password" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:16, outline:"none", background:T.darkCard, color:T.white, width:"100%", boxSizing:"border-box" }} />
                 <button className="btn-primary btn-desktop-auto" style={{ padding:"12px 28px", background:T.green, color:T.black, border:"none", borderRadius:10, fontSize:14, fontWeight:700, cursor:"pointer", width:"auto" }}>Update Password</button>
               </div>
             </div>
@@ -3488,7 +3499,7 @@ function MyAccountPage() {
                   <p style={{ fontSize:12, fontWeight:600, color:T.g500, marginBottom:8, textTransform:"uppercase" }}>Current Email</p>
                   <p style={{ fontSize:14, color:T.g300 }}>nolan@example.com</p>
                 </div>
-                <input type="email" placeholder="New email address" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:14, outline:"none", background:T.darkCard, color:T.white }} />
+                <input type="email" placeholder="New email address" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:16, outline:"none", background:T.darkCard, color:T.white, width:"100%", boxSizing:"border-box" }} />
                 <button className="btn-primary btn-desktop-auto" style={{ padding:"12px 28px", background:T.green, color:T.black, border:"none", borderRadius:10, fontSize:14, fontWeight:700, cursor:"pointer", width:"auto" }}>Update Email</button>
               </div>
             </div>
@@ -3519,7 +3530,7 @@ function MyAccountPage() {
                 <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
                   <div>
                     <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Email</p>
-                    <p style={{ fontSize:14, color:T.g300 }}>support@unlimitedville.com</p>
+                    <a href="mailto:support@unlimitedville.com" style={{ fontSize:14, color:T.green, textDecoration:"none", display:"block" }}>support@unlimitedville.com</a>
                     <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
                   </div>
                   <div>
@@ -3529,12 +3540,12 @@ function MyAccountPage() {
                   </div>
                   <div>
                     <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Call</p>
-                    <p style={{ fontSize:14, color:T.g300 }}>888-422-2907</p>
+                    <a href="tel:8884222907" style={{ fontSize:14, color:T.green, textDecoration:"none", display:"block" }}>888-422-2907</a>
                     <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
                   </div>
                   <div>
                     <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Text/SMS</p>
-                    <p style={{ fontSize:14, color:T.g300 }}>888-422-2907</p>
+                    <a href="sms:8884222907" style={{ fontSize:14, color:T.green, textDecoration:"none", display:"block" }}>888-422-2907</a>
                     <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
                   </div>
                 </div>
@@ -3546,12 +3557,12 @@ function MyAccountPage() {
                 <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
                   <div>
                     <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Email</p>
-                    <p style={{ fontSize:14, color:T.g300 }}>support@unlimitedville.com</p>
+                    <a href="mailto:support@unlimitedville.com" style={{ fontSize:14, color:T.green, textDecoration:"none", display:"block" }}>support@unlimitedville.com</a>
                     <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
                   </div>
                   <div>
                     <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Call</p>
-                    <p style={{ fontSize:14, color:T.g300 }}>888-422-2907 Ext. 112</p>
+                    <a href="tel:8884222907,112" style={{ fontSize:14, color:T.green, textDecoration:"none", display:"block" }}>888-422-2907 Ext. 112</a>
                     <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
                   </div>
                 </div>
