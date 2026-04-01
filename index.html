@@ -416,16 +416,13 @@ const PLANS = [
   { id:"5g-ultra", name:"5G Ultra", tier:"Fastest", speed:"Fastest", monthly:109, popular:true, activation:199, activationOrig:299, discount:"33% off", maxSpeed:"500 Mbps", latency:"20-40 ms", bestFor:"4K streaming, gaming & remote work", audience:"Large families, power users", features:["Up to 500 Mbps speeds","Unlimited data, zero caps","Premium 5G router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:"#a78bfa", speedDots:3 },
 ];
 
-const USE_CASES = [
-  { icon: "signal", label: "Rural Home", slug: "rural", desc: "Internet where cable and fiber can't reach", img:"Rural cabin with WiFi router" },
-  { icon: "globe", label: "RV & Van Life", slug: "rv", desc: "Stay connected anywhere you park or travel", img:"RV parked at scenic overlook" },
-  { icon: "zap", label: "Trucking & OTR", slug: "trucking", desc: "Reliable connectivity for drivers on the road", img:"Truck cab with WiFi router" },
-  { icon: "zap", label: "Gaming", slug: "gaming", desc: "Low-ping unlimited internet for competitive gaming", img:"Gaming setup with wireless internet" },
-  { icon: "globe", label: "Business", slug: "business", desc: "Portable WiFi for food trucks, job sites, and pop-ups", img:"Mobile business setup with WiFi" },
-  { icon: "zap", label: "Failover Backup", slug: "failover", desc: "Automatic backup internet when your primary goes down", img:"Network equipment with backup connection" },
-  { icon: "signal", label: "Urban & Suburban Homes", slug: "urban", desc: "A better alternative to overpriced cable and DSL", img:"Modern home office setup" },
-  { icon: "zap", label: "Construction Sites", slug: "construction", desc: "Temporary high-speed internet for remote job sites", img:"Construction site with portable office" },
-];
+/* Solution page display order -- controls nav, home page cards, solutions hub, and routing.
+   To add/remove a solution: edit SOLUTION_PAGES above and this array. Everything else updates automatically. */
+const SOLUTION_ORDER = ["rural","rv","trucking","gaming","business","failover"];
+const SOLUTIONS_LIST = SOLUTION_ORDER.map(key => SOLUTION_PAGES[key]);
+
+/* Legacy USE_CASES derived from SOLUTION_PAGES for backward compat */
+const USE_CASES = SOLUTIONS_LIST.map(s => ({ icon: s.navIcon, label: s.navLabel, slug: s.slug, desc: s.navDesc, heroImg: s.heroImg }));
 
 const REVIEWS = [
   { name:"Mike", rating:5, verified:true, text:"We moved further out into the country where wired internet was not available. Unlimitedville has been a game changer for our family.", plan:"4G Plus" },
@@ -445,6 +442,9 @@ const BLOG = [
 const SOLUTION_PAGES = {
   "rural": {
     slug: "rural",
+    navLabel: "Rural Home",
+    navIcon: "signal",
+    navDesc: "Internet where cable and fiber can't reach",
     heroImg: "https://unlimitedville.com/images/hero/rural-interior-room.jpg",
     title: <>Fast internet for<br/>rural homes.</>,
     subtitle: "No cable required. Plug in our cellular router and get online in 5 minutes. Unlimited data, no contracts.",
@@ -472,6 +472,9 @@ const SOLUTION_PAGES = {
   },
   "rv": {
     slug: "rv",
+    navLabel: "RV & Van Life",
+    navIcon: "globe",
+    navDesc: "Stay connected anywhere you park or travel",
     heroImg: "https://unlimitedville.com/images/hero/rv-interior.jpg",
     title: <>Reliable RV internet.<br/>Park anywhere, stay connected.</>,
     subtitle: "Powered by 12v or 110v, built for 24/7 use. Stream, Zoom, or run your business from the road with no data caps.",
@@ -499,6 +502,9 @@ const SOLUTION_PAGES = {
   },
   "business": {
     slug: "business",
+    navLabel: "Business",
+    navIcon: "globe",
+    navDesc: "Portable WiFi for food trucks, job sites, and pop-ups",
     heroImg: "https://unlimitedville.com/images/hero/business-coffee-shop.jpg",
     title: <>Business internet.<br/>No installation required.</>,
     subtitle: "Reliable wireless internet for construction sites, food trucks, events, and businesses without wired connections.",
@@ -526,6 +532,9 @@ const SOLUTION_PAGES = {
   },
   "trucking": {
     slug: "trucking",
+    navLabel: "Trucking & OTR",
+    navIcon: "zap",
+    navDesc: "Reliable connectivity for drivers on the road",
     heroImg: "https://unlimitedville.com/images/hero/trucker-truck-stop.jpg",
     title: <>Internet built for<br/>life on the road.</>,
     subtitle: "Plug in, connect, and stay online from the cab. ELD compliance, dispatch, streaming, and gaming -- all unlimited.",
@@ -553,6 +562,9 @@ const SOLUTION_PAGES = {
   },
   "gaming": {
     slug: "gaming",
+    navLabel: "Gaming",
+    navIcon: "zap",
+    navDesc: "Low-ping unlimited internet for competitive gaming",
     heroImg: "https://unlimitedville.com/images/hero/gaming.jpg",
     title: <>Low-ping unlimited internet.<br/>Game without limits.</>,
     subtitle: "20-40 ms latency, up to 500 Mbps, and truly unlimited data. Download 100 GB updates. No caps, no throttling.",
@@ -580,6 +592,9 @@ const SOLUTION_PAGES = {
   },
   "failover": {
     slug: "failover",
+    navLabel: "Failover Backup",
+    navIcon: "zap",
+    navDesc: "Automatic backup internet when your primary goes down",
     heroImg: "https://unlimitedville.com/images/hero/failover-storm.jpg",
     title: <>Never lose internet again.<br/>Automatic cellular backup.</>,
     subtitle: "When your wired connection fails, our router keeps your home and business online. Failover in seconds, not hours.",
@@ -933,7 +948,8 @@ function SocialProof({ reviews, heading="What members are saying" }) {
 }
 
 function CompactPlans({ contextLabels, heading="Pick your plan." }) {
-  const { navigate } = useApp();
+  const { navigate, setCart } = useApp();
+  const startTrial = (plan) => { setCart(plan); navigate("cart"); };
   return (
     <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
       <div className="section-inner">
@@ -954,14 +970,31 @@ function CompactPlans({ contextLabels, heading="Pick your plan." }) {
                   <h3 style={{ fontSize:20, fontWeight:800, color:T.white, letterSpacing:-0.3 }}>{plan.name}</h3>
                   {plan.popular && <span style={{ padding:"3px 8px", borderRadius:99, background:T.green, color:T.white, fontSize:10, fontWeight:700 }}>POPULAR</span>}
                 </div>
-                <div style={{ marginBottom:10 }}>
+                <div style={{ marginBottom:4 }}>
                   <span style={{ fontSize:36, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1 }}>${plan.monthly}</span>
                   <span style={{ fontSize:14, color:T.g500 }}>/mo</span>
                 </div>
+                <p style={{ fontSize:13, color:T.g400 }}>Up to {plan.maxSpeed} -- {plan.latency} latency</p>
               </div>
-              <p style={{ fontSize:13, color:T.g400, marginBottom:4 }}>Up to {plan.maxSpeed} -- {plan.latency} latency</p>
-              <p style={{ fontSize:13, color:T.g500, marginBottom:20, flex:1 }}>{contextLabels?contextLabels[idx]:plan.bestFor}</p>
-              <button onClick={()=>navigate("plans")} className="btn-primary lp-plan-btn" style={{ width:"100%", padding:"15px", background:plan.popular?T.green:"rgba(255,255,255,0.08)", color:T.white, border:plan.popular?"none":`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:plan.popular?`0 0 40px ${T.greenGlow}`:"none" }}>
+              {/* Feature list */}
+              <div style={{ marginBottom:16, flex:1 }}>
+                {plan.features.map((f,fi) => (
+                  <div key={fi} style={{ display:"flex", alignItems:"center", gap:8, padding:"6px 0" }}>
+                    {I.check(13,T.green)}
+                    <span style={{ fontSize:13, color:T.g300 }}>{f}</span>
+                  </div>
+                ))}
+                {contextLabels && <p style={{ fontSize:12, color:T.g500, marginTop:8, fontStyle:"italic" }}>Best for: {contextLabels[idx]}</p>}
+              </div>
+              {/* Activation fee */}
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
+                <span style={{ fontSize:13, color:T.g500 }}>Activation:</span>
+                {plan.activation===0
+                  ? <span style={{ fontSize:13, fontWeight:700, color:T.greenText }}>FREE</span>
+                  : <><span style={{ fontSize:13, color:T.g600, textDecoration:"line-through" }}>${plan.activationOrig}</span><span style={{ fontSize:13, fontWeight:700, color:T.white }}>${plan.activation}</span><span style={{ fontSize:11, fontWeight:600, color:T.greenText }}>{plan.discount}</span></>
+                }
+              </div>
+              <button onClick={()=>startTrial(plan)} className="btn-primary lp-plan-btn" style={{ width:"100%", padding:"15px", background:plan.popular?T.green:"rgba(255,255,255,0.08)", color:T.white, border:plan.popular?"none":`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:plan.popular?`0 0 40px ${T.greenGlow}`:"none" }}>
                 Start 21-Day Trial {I.arrow(13)}
               </button>
             </div>
@@ -1051,7 +1084,7 @@ function KeyDifferences() {
 }
 
 function ComparisonTable() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const visibleRows = expanded ? STARLINK_COMPARE.rows : STARLINK_COMPARE.rows.slice(0,6);
   return (
     <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
@@ -1133,9 +1166,9 @@ function Nav() {
             {ucOpen && (
               <div style={{ position:"absolute", top:"100%", left:-12, paddingTop:8, zIndex:200 }}>
                 <div style={{ background:"rgba(17,17,19,0.96)", backdropFilter:"blur(24px)", border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:"8px 0", minWidth:220, boxShadow:"0 16px 48px rgba(0,0,0,0.5)" }}>
-                  {USE_CASES.slice(0,6).map((uc,i) => (
-                    <button key={i} onClick={()=>{go("uc-"+uc.slug);setUcOpen(false)}} className="nav-dropdown-item" style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"10px 16px", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left", cursor:"pointer" }}>
-                      {uc.icon==="signal"?I.signal(14,T.green):uc.icon==="globe"?I.globe(14,T.green):I.zap(14,T.green)} {uc.label}
+                  {SOLUTIONS_LIST.map((s,i) => (
+                    <button key={i} onClick={()=>{go(s.slug);setUcOpen(false)}} className="nav-dropdown-item" style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"10px 16px", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left", cursor:"pointer" }}>
+                      {s.navIcon==="signal"?I.signal(14,T.green):s.navIcon==="globe"?I.globe(14,T.green):I.zap(14,T.green)} {s.navLabel}
                     </button>
                   ))}
                   <div style={{ borderTop:`1px solid ${T.darkBorder}`, margin:"4px 0" }} />
@@ -1175,9 +1208,9 @@ function Nav() {
           </button>
           {ucOpen && (
             <div style={{ padding:"0 20px 8px 36px" }}>
-              {USE_CASES.slice(0,6).map((uc,j) => (
-                <button key={j} onClick={()=>go("uc-"+uc.slug)} style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"10px 0", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left" }}>
-                  {uc.icon==="signal"?I.signal(14,T.green):uc.icon==="globe"?I.globe(14,T.green):I.zap(14,T.green)} {uc.label}
+              {SOLUTIONS_LIST.map((s,j) => (
+                <button key={j} onClick={()=>go(s.slug)} style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"10px 0", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left" }}>
+                  {s.navIcon==="signal"?I.signal(14,T.green):s.navIcon==="globe"?I.globe(14,T.green):I.zap(14,T.green)} {s.navLabel}
                 </button>
               ))}
               <button onClick={()=>go("solutions")} style={{ display:"flex", alignItems:"center", gap:6, width:"100%", padding:"10px 0", background:"none", border:"none", color:T.greenText, fontSize:13, fontWeight:600, textAlign:"left" }}>
@@ -1469,15 +1502,15 @@ function HomePage() {
         </div>
         {/* Vertical stack of full-width feature rows */}
         <div className="grid-use-cases">
-          {USE_CASES.slice(0,4).map((uc,i) => (
-            <button key={i} onClick={()=>navigate("uc-"+uc.slug)} className="uc-card" style={{ width:"100%", position:"relative", overflow:"hidden", background:T.white, border:"none", cursor:"pointer", padding:0, textAlign:"left" }}>
+          {SOLUTIONS_LIST.slice(0,4).map((s,i) => (
+            <button key={i} onClick={()=>navigate(s.slug)} className="uc-card" style={{ width:"100%", position:"relative", overflow:"hidden", background:T.white, border:"none", cursor:"pointer", padding:0, textAlign:"left" }}>
               <div style={{ position:"relative", width:"100%", paddingTop:"56%", overflow:"hidden" }}>
-                <img src={SITE_IMG} alt={uc.label} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
+                <img src={s.heroImg || SITE_IMG} alt={s.navLabel} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
                 <div className="uc-overlay" style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.85) 100%)" }} />
                 <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"24px", display:"flex", alignItems:"flex-end", justifyContent:"space-between" }}>
                   <div>
-                    <h3 className="uc-title" style={{ fontSize:20, fontWeight:900, color:T.white, letterSpacing:-0.3, lineHeight:1.15, marginBottom:5 }}>{uc.label}</h3>
-                    <p className="uc-desc" style={{ fontSize:14, color:T.g200, lineHeight:1.5 }}>{uc.desc}</p>
+                    <h3 className="uc-title" style={{ fontSize:20, fontWeight:900, color:T.white, letterSpacing:-0.3, lineHeight:1.15, marginBottom:5 }}>{s.navLabel}</h3>
+                    <p className="uc-desc" style={{ fontSize:14, color:T.g200, lineHeight:1.5 }}>{s.navDesc}</p>
                   </div>
                   <div className="uc-arrow" style={{ marginLeft:16, marginBottom:2, flexShrink:0 }}>{I.arrow(18,T.white)}</div>
                 </div>
@@ -2168,6 +2201,70 @@ function SolutionPage({ config }) {
   );
 }
 
+function SolutionsHub() {
+  const { navigate } = useApp();
+  return (
+    <div>
+      <PageHero
+        title={<>Internet solutions<br/>for every lifestyle.</>}
+        subtitle="Rural homes, RVs, truckers, gamers, businesses, and backup connections. One provider, every use case."
+        ctaText="Check Your Coverage"
+        ctaAction={()=>document.querySelector('.coverage-dark')?.scrollIntoView({behavior:'smooth',block:'center'})}
+        bullets={["Ships in 24 hours","Setup takes 5 minutes","21-day money-back guarantee"]}
+        minHeight="72svh"
+        heroTitleClass="plans-hero-title"
+        heroSubClass="plans-hero-subtitle"
+        imgAlt="Unlimitedville internet solutions for every use case"
+      />
+      <PressStrip border={true} />
+      <CoverageCheck />
+
+      {/* Solution cards grid */}
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
+        <div className="section-inner">
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10, textAlign:"center" }}>All solutions</p>
+          <h2 className="section-heading" style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:32, textAlign:"center", lineHeight:1.1 }}>Find the right fit.</h2>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))", gap:20 }}>
+            {SOLUTIONS_LIST.map((s,i) => (
+              <button key={i} onClick={()=>navigate(s.slug)} className="card-hover" style={{ position:"relative", overflow:"hidden", borderRadius:18, border:`1px solid ${T.darkBorder}`, background:T.darkCard, cursor:"pointer", padding:0, textAlign:"left", display:"flex", flexDirection:"column" }}>
+                <div style={{ position:"relative", width:"100%", paddingTop:"50%", overflow:"hidden" }}>
+                  <img src={s.heroImg || SITE_IMG} alt={s.navLabel} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
+                  <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, transparent 30%, rgba(10,10,10,0.7) 100%)" }} />
+                </div>
+                <div style={{ padding:"20px 24px 24px", flex:1, display:"flex", flexDirection:"column" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
+                    <div style={{ width:32, height:32, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                      {s.navIcon==="signal"?I.signal(16,T.greenText):s.navIcon==="globe"?I.globe(16,T.greenText):I.zap(16,T.greenText)}
+                    </div>
+                    <h3 style={{ fontSize:18, fontWeight:800, color:T.white, letterSpacing:-0.3 }}>{s.navLabel}</h3>
+                  </div>
+                  <p style={{ fontSize:14, color:T.g400, lineHeight:1.6, marginBottom:16, flex:1 }}>{s.navDesc}</p>
+                  <span style={{ fontSize:13, fontWeight:600, color:T.greenText, display:"flex", alignItems:"center", gap:6 }}>Learn more {I.arrow(12,T.greenText)}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Starlink comparison callout */}
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner" style={{ maxWidth:720, textAlign:"center" }}>
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Compare</p>
+          <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:12, lineHeight:1.1 }}>Considering Starlink?</h2>
+          <p style={{ fontSize:15, color:T.g400, lineHeight:1.6, marginBottom:28 }}>See how Unlimitedville compares on price, portability, setup, and performance.</p>
+          <button onClick={()=>navigate("starlink-compare")} className="btn-primary btn-desktop-auto" style={{ padding:"16px 32px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
+            Unlimitedville vs. Starlink {I.arrow(14)}
+          </button>
+        </div>
+      </section>
+
+      <LandingFAQ items={FAQ} />
+      <FinalCTA />
+    </div>
+  );
+}
+
 function VsStarlinkPage() {
   const { navigate } = useApp();
   return (
@@ -2215,6 +2312,7 @@ function App() {
   const [address, setAddress] = useState("");
   const [addressChecked, setAddressChecked] = useState(false);
   const [addressResult, setAddressResult] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   // Sync hash -> state (back/forward buttons)
   useEffect(() => {
@@ -2229,7 +2327,7 @@ function App() {
     window.scrollTo({ top:0, behavior:"instant" });
   }
 
-  const ctx = { page, navigate, cart, setCart, address, setAddress, addressChecked, setAddressChecked, addressResult, setAddressResult };
+  const ctx = { page, navigate, cart, setCart, address, setAddress, addressChecked, setAddressChecked, addressResult, setAddressResult, selectedPlan, setSelectedPlan };
 
   function renderPage() {
     switch(page) {
@@ -2240,24 +2338,20 @@ function App() {
       case "reviews": return <PlaceholderPage title="Reviews" subtitle="213+ verified member reviews. Read what real members are saying about Unlimitedville." />;
       case "blog": return <PlaceholderPage title="Blog" subtitle="Guides, tips, and news about wireless internet, rural connectivity, and life off the grid." />;
       case "support": return <PlaceholderPage title="Support & FAQs" subtitle="Get help with your service, find answers, or talk to a real person at 888.422.2907." />;
-      case "solutions": return <PlaceholderPage title="Solutions" subtitle="Internet solutions for every lifestyle. Rural homes, RV travel, businesses, and more." />;
+      case "solutions": return <SolutionsHub />;
       case "login": return <PlaceholderPage title="Member Login" subtitle="Access your account, manage your plan, and track your usage." />;
       case "starlink-compare": return <VsStarlinkPage />;
-      case "rural": return <SolutionPage key="rural" config={SOLUTION_PAGES["rural"]} />;
-      case "rv": return <SolutionPage key="rv" config={SOLUTION_PAGES["rv"]} />;
-      case "business": return <SolutionPage key="business" config={SOLUTION_PAGES["business"]} />;
-      case "trucking": return <SolutionPage key="trucking" config={SOLUTION_PAGES["trucking"]} />;
-      case "gaming": return <SolutionPage key="gaming" config={SOLUTION_PAGES["gaming"]} />;
-      case "failover": return <SolutionPage key="failover" config={SOLUTION_PAGES["failover"]} />;
       default:
+        /* Dynamic solution page routing -- driven by SOLUTION_PAGES */
+        if (SOLUTION_PAGES[page]) {
+          return <SolutionPage key={page} config={SOLUTION_PAGES[page]} />;
+        }
+        /* Legacy uc-* slug support for bookmarks/SEO */
         if (page.startsWith("uc-")) {
-          const slugMap = { "uc-rural":"rural", "uc-rv":"rv", "uc-trucking":"trucking", "uc-gaming":"gaming", "uc-business":"business", "uc-failover":"failover", "uc-urban":"rural", "uc-transportation":"trucking", "uc-mobile-biz":"business" };
-          const configKey = slugMap[page];
-          if (configKey && SOLUTION_PAGES[configKey]) {
-            return <SolutionPage key={configKey} config={SOLUTION_PAGES[configKey]} />;
+          const legacy = { "uc-rural":"rural", "uc-rv":"rv", "uc-trucking":"trucking", "uc-gaming":"gaming", "uc-business":"business", "uc-failover":"failover", "uc-urban":"rural", "uc-transportation":"trucking", "uc-mobile-biz":"business" };
+          if (legacy[page] && SOLUTION_PAGES[legacy[page]]) {
+            return <SolutionPage key={legacy[page]} config={SOLUTION_PAGES[legacy[page]]} />;
           }
-          const uc = USE_CASES.find(u => "uc-"+u.slug === page);
-          return <PlaceholderPage title={uc ? `Internet for ${uc.label}` : "Use Case"} subtitle={uc?.desc} />;
         }
         return <PlaceholderPage title="Page Not Found" />;
     }
