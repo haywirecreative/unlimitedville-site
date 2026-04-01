@@ -175,6 +175,7 @@
   /* ── Base grid defaults (mobile: 2 col) ── */
   .grid-features { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 20px; }
 
   /* ── RESPONSIVE: Full-width section with contained inner content ── */
   .section-inner { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
@@ -209,6 +210,7 @@
     .nav-mobile-drawer { display: none !important; }
     /* Footer */
     .footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    .footer-links-grid { grid-template-columns: repeat(4, 1fr) !important; }
     /* Forms */
     .checkout-form { max-width: 600px; margin-left: auto; margin-right: auto; }
     /* How It Works */
@@ -262,6 +264,12 @@
     .lp-hero-subtitle { text-align: left !important; }
     /* Landing page: plans button never full-width on desktop */
     .lp-plan-btn { width: 100% !important; }
+    /* Reviews grid: 2-col on tablet */
+    .reviews-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    /* Support articles grid: 2-col on tablet */
+    .support-articles-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    /* Support contact grid: 3-col on tablet */
+    .support-contact-grid { grid-template-columns: repeat(3, 1fr) !important; }
     /* Blog: 2-col grid on tablet */
     .blog-grid { grid-template-columns: repeat(2, 1fr) !important; }
     .blog-related-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -364,6 +372,10 @@
     /* Section spacing -- generous vertical breathing on desktop */
     .desktop-section { padding-top: 80px !important; padding-bottom: 80px !important; }
     .desktop-section-sm { padding-top: 48px !important; padding-bottom: 48px !important; }
+    /* Reviews grid: 3-col on desktop */
+    .reviews-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    /* Support articles grid: 3-col on desktop */
+    .support-articles-grid { grid-template-columns: repeat(3, 1fr) !important; }
     /* Blog: 3-col grid on desktop */
     .blog-grid { grid-template-columns: repeat(3, 1fr) !important; }
     /* Blog: featured post with side-by-side image+text */
@@ -2770,6 +2782,269 @@ function PlaceholderPage({ title, subtitle }) {
 }
 
 /* ═══════════════════════════════════════
+   REVIEWS PAGE
+   ═══════════════════════════════════════ */
+const PLACEHOLDER_REVIEWS = [
+  { name:"Sarah Martinez", rating:5, verified:true, text:"Finally ditched my satellite internet. Unlimitedville has been a game changer for my rural property. Speeds are incredibly fast and so reliable.", plan:"5G Ultra", useCase:"Rural Home", date:"Mar 2026" },
+  { name:"James Wilson", rating:5, verified:true, text:"We've been traveling in our RV for 2 years now and this is the best mobile internet solution we've found. Setup was easy, speeds are consistent.", plan:"4G Plus", useCase:"RV & Travel", date:"Feb 2026" },
+  { name:"Michelle Chen", rating:4, verified:true, text:"Running a small design business from home. The upload speeds are what convinced me to switch from DSL. Very happy with the service so far.", plan:"5G Ultra", useCase:"Business", date:"Jan 2026" },
+  { name:"David Rodriguez", rating:5, verified:true, text:"Over the road trucker here. This keeps me connected the whole route. No more hunting for WiFi at truck stops. Worth every penny.", plan:"4G Plus", useCase:"Trucking", date:"Mar 2026" },
+  { name:"Lisa Johnson", rating:5, verified:true, text:"Have been with Unlimitedville for 18 months now. Customer service is responsive and the service just works. Highly recommend to anyone in rural areas.", plan:"4G Lite", useCase:"Rural Home", date:"Feb 2026" },
+  { name:"Robert Thompson", rating:4, verified:true, text:"Used to struggle with DSL speeds for online gaming. Now I can actually enjoy multiplayer without lag. Great improvement in my setup.", plan:"5G Ultra", useCase:"Gaming", date:"Jan 2026" },
+  { name:"Amanda Foster", rating:5, verified:true, text:"Small business owner in a rural county. This has been essential for video calls and cloud work. Setup took literally 5 minutes.", plan:"5G Ultra", useCase:"Business", date:"Mar 2026" },
+  { name:"Kevin Blake", rating:4, verified:true, text:"Traveling full-time with family. Having reliable internet in our van is huge. The router is easy to use and performs great.", plan:"4G Plus", useCase:"RV & Travel", date:"Feb 2026" },
+  { name:"Patricia Lee", rating:5, verified:true, text:"I switched from another mobile internet provider and the difference is night and day. Customer service here actually helps you solve problems.", plan:"4G Plus", useCase:"Rural Home", date:"Mar 2026" },
+  { name:"Michael Grant", rating:5, verified:true, text:"As an electrician doing site visits, staying connected is critical. This keeps me in touch with dispatch and my customers all day long.", plan:"4G Plus", useCase:"Trucking", date:"Feb 2026" },
+  { name:"Jennifer Moore", rating:4, verified:true, text:"Home internet backup for my business. When my primary connection goes down, this keeps everything running. Great peace of mind.", plan:"4G Lite", useCase:"Business", date:"Jan 2026" },
+  { name:"Carlos Sanchez", rating:5, verified:true, text:"Six months in and still impressed. Speeds are consistent, no hidden fees, and their support team actually answers your questions. Solid service.", plan:"5G Ultra", useCase:"Rural Home", date:"Mar 2026" }
+];
+
+function ReviewsPage() {
+  const { navigate } = useApp();
+  const [selectedFilter, setSelectedFilter] = useState("all");
+
+  useSEO("Reviews - Unlimitedville", "Read 213+ verified reviews from real Unlimitedville members");
+
+  const filteredReviews = selectedFilter === "all" ? PLACEHOLDER_REVIEWS : (
+    selectedFilter === "5" ? PLACEHOLDER_REVIEWS.filter(r => r.rating === 5) :
+    selectedFilter === "4" ? PLACEHOLDER_REVIEWS.filter(r => r.rating === 4) :
+    PLACEHOLDER_REVIEWS.filter(r => r.useCase === selectedFilter)
+  );
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="hero-section" style={{ position:"relative", padding:"60px 20px 80px", background:T.dark, overflow:"hidden", minHeight:"60vh", display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <div style={{ position:"absolute", inset:0, background:`linear-gradient(135deg, rgba(85,182,133,0.04) 0%, rgba(10,10,10,0.6) 100%), url('https://unlimitedville.com/images/hero/rural-interior-room.jpg')`, backgroundSize:"cover", backgroundPosition:"center", backgroundRepeat:"no-repeat", zIndex:0, opacity:0.3 }} />
+        <div style={{ position:"relative", zIndex:1, textAlign:"center", maxWidth:600 }}>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Reviews</p>
+          <h1 style={{ fontSize:48, fontWeight:900, color:T.white, letterSpacing:-1, marginBottom:16 }}>Real members.<br/>Real results.</h1>
+          <p style={{ fontSize:16, color:T.g400, marginBottom:24 }}>Verified reviews from people using Unlimitedville across the country.</p>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, fontSize:15, color:T.g300 }}>
+            <span style={{ display:"flex", gap:4 }}>{[...Array(4)].map((_, i) => <div key={i}>{I.star(16, T.green)}</div>)}{I.starHalf(16, T.green)}</span>
+            <span>4.5 out of 5 from 213+ reviews</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats bar */}
+      <section style={{ padding:"32px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
+        <div className="section-inner" style={{ display:"grid", gridTemplateColumns:"repeat(3, 1fr)", gap:20, textAlign:"center" }}>
+          <div>
+            <p style={{ fontSize:20, fontWeight:800, color:T.white }}>4.5 / 5</p>
+            <p style={{ fontSize:13, color:T.g500, marginTop:4 }}>Average Rating</p>
+          </div>
+          <div>
+            <p style={{ fontSize:20, fontWeight:800, color:T.white }}>213+</p>
+            <p style={{ fontSize:13, color:T.g500, marginTop:4 }}>Verified Reviews</p>
+          </div>
+          <div>
+            <p style={{ fontSize:20, fontWeight:800, color:T.white }}>93%</p>
+            <p style={{ fontSize:13, color:T.g500, marginTop:4 }}>Would Recommend</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Filter bar */}
+      <section className="desktop-section" style={{ padding:"40px 20px", background:T.dark }}>
+        <div className="section-inner">
+          <div style={{ display:"flex", gap:10, flexWrap:"wrap", justifyContent:"center", marginBottom:40 }}>
+            {["all","5","4","Rural Home","RV & Travel","Business"].map((f,i) => (
+              <button key={i} onClick={() => setSelectedFilter(f)} style={{ padding:"8px 18px", borderRadius:20, border:`1px solid ${selectedFilter === f ? "transparent" : T.darkBorder}`, background:selectedFilter === f ? T.green : "transparent", color:selectedFilter === f ? T.dark : T.g400, fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.2s" }}>
+                {f === "all" ? "All Reviews" : f === "5" ? "5 Star" : f === "4" ? "4 Star" : f}
+              </button>
+            ))}
+          </div>
+
+          {/* Reviews grid */}
+          <div className="reviews-grid" style={{ display:"grid", gridTemplateColumns:"repeat(1, 1fr)", gap:16, marginBottom:40 }}>
+            {filteredReviews.map((review, i) => (
+              <div key={i} style={{ padding:24, background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:16, display:"flex", flexDirection:"column" }}>
+                <div style={{ display:"flex", gap:4, marginBottom:12 }}>
+                  {[...Array(Math.floor(review.rating))].map((_, j) => <div key={j}>{I.star(14, T.green)}</div>)}
+                  {review.rating % 1 !== 0 && I.starHalf(14, T.green)}
+                </div>
+                <p style={{ fontSize:15, color:T.g300, marginBottom:16, lineHeight:1.6, fontStyle:"italic" }}>"{review.text}"</p>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+                  <div style={{ width:32, height:32, borderRadius:"50%", background:T.green, display:"flex", alignItems:"center", justifyContent:"center", color:T.dark, fontWeight:700, fontSize:14, flexShrink:0 }}>{review.name[0]}</div>
+                  <div style={{ flex:1 }}>
+                    <p style={{ fontSize:13, fontWeight:600, color:T.white }}>{review.name}</p>
+                    <p style={{ fontSize:11, color:T.g500 }}>Verified Member</p>
+                  </div>
+                </div>
+                <div style={{ display:"flex", gap:8, marginTop:12, paddingTop:12, borderTop:`1px solid ${T.darkBorder}` }}>
+                  <span style={{ fontSize:11, padding:"3px 10px", background:`${T.green}15`, color:T.greenText, borderRadius:8, fontWeight:600 }}>{review.plan}</span>
+                  <span style={{ fontSize:11, padding:"3px 10px", background:"rgba(255,255,255,0.04)", color:T.g400, borderRadius:8 }}>{review.useCase}</span>
+                  <span style={{ fontSize:11, color:T.g600, marginLeft:"auto" }}>{review.date}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, textAlign:"center" }}>
+        <div className="section-inner" style={{ maxWidth:600 }}>
+          <h2 style={{ fontSize:28, fontWeight:900, color:T.white, marginBottom:12 }}>Share your experience</h2>
+          <p style={{ fontSize:15, color:T.g400, marginBottom:24 }}>Already a member? We'd love to hear from you.</p>
+          <button className="btn-primary btn-desktop-auto" style={{ padding:"14px 40px", background:T.green, color:T.dark, fontWeight:700, borderRadius:12, border:"none", fontSize:15 }}>Write a Review</button>
+        </div>
+      </section>
+
+      <FinalCTA />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   SUPPORT PAGE
+   ═══════════════════════════════════════ */
+function SupportPage() {
+  const { navigate } = useApp();
+  const [searchText, setSearchText] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [expandedFAQ, setExpandedFAQ] = useState(null);
+  const [selectedArticleTag, setSelectedArticleTag] = useState("");
+
+  useSEO("Support - Unlimitedville", "Help & FAQs, troubleshooting guides, contact support");
+
+  const SUPPORT_FAQS = [
+    { cat:"Getting Started", q:"How does Unlimitedville work?", a:"We ship you a pre-configured cellular router. Plug it into any outlet, connect your devices to WiFi, and you're online in about 5 minutes. No technician visits needed." },
+    { cat:"Getting Started", q:"What do I need to get started?", a:"Just power and WiFi. We provide the router and all equipment. Most locations in the US are covered. You can check coverage with your address on our website." },
+    { cat:"Getting Started", q:"How long does shipping take?", a:"Standard orders ship within 24 hours. Most customers receive their equipment within 3-5 business days. Expedited options available at checkout." },
+    { cat:"Getting Started", q:"Is there a contract or commitment?", a:"No contracts ever. All plans are month-to-month. You can cancel anytime without penalties or fees. We offer a 21-day money-back guarantee on all plans." },
+    { cat:"Plans & Billing", q:"What's the difference between 4G and 5G plans?", a:"5G offers faster speeds (up to 500 Mbps) and better performance in congested areas. 4G is reliable for most uses. Both include unlimited data and work nationwide." },
+    { cat:"Plans & Billing", q:"Can I change my plan later?", a:"Yes. You can upgrade or downgrade your plan anytime. Changes take effect on your next billing cycle. Just log into your account or contact support." },
+    { cat:"Plans & Billing", q:"How does the 21-day money-back guarantee work?", a:"If you're not satisfied within 21 days, return the equipment and we'll refund the full service charges. No questions asked." },
+    { cat:"Technical", q:"What speeds can I expect?", a:"Speeds vary by location and network congestion. 4G Lite: up to 60 Mbps. 4G Plus: up to 250 Mbps. 5G Ultra: up to 500 Mbps." },
+    { cat:"Technical", q:"How do I set up my router?", a:"After unpacking, connect power, wait 2-3 minutes for the lights to stabilize, then find our WiFi network on your device and connect. Default password is on the back of the unit." },
+    { cat:"Technical", q:"Can I use my own router?", a:"No, our service is optimized for our proprietary router. Using a different router may result in reduced performance or service interruption." },
+    { cat:"Technical", q:"Does it work for gaming and streaming?", a:"Yes, but it depends on speeds. For gaming, 4G Plus or 5G Ultra is recommended for low latency. For 4K streaming, 5G Ultra or 4G Plus work best." },
+    { cat:"Technical", q:"What happens during network congestion?", a:"During peak times, speeds may be reduced if your area is experiencing high network usage. We prioritize consistent service for all members." },
+    { cat:"Shipping & Returns", q:"How do I return my equipment?", a:"Log into your account and request a return label, or contact support. Pack the router and all cables, then ship it back. We'll process your return once received." },
+    { cat:"Shipping & Returns", q:"Do I need to ship back the router?", a:"Yes, the router and all included equipment must be returned to avoid a non-return fee. Your membership ends immediately upon initiating a return." }
+  ];
+
+  const SUPPORT_ARTICLES = [
+    { title:"Router Not Connecting", desc:"Troubleshoot WiFi connection issues and get back online", tags:["Setup","WiFi"] },
+    { title:"Slow Speeds or Buffering", desc:"Diagnose speed problems and optimize your connection", tags:["Speed","Streaming"] },
+    { title:"Weak Signal Troubleshooting", desc:"Improve signal strength through router placement", tags:["Signal","Placement"] },
+    { title:"SIM Card Issues", desc:"Activate or troubleshoot your SIM card", tags:["SIM","Activation"] },
+    { title:"Router Placement Guide", desc:"Find the optimal location for your router", tags:["Setup","Signal"] },
+    { title:"Firmware Update Instructions", desc:"Manually update your router firmware", tags:["Router","Updates"] }
+  ];
+
+  const filteredFAQs = SUPPORT_FAQS.filter(faq =>
+    (selectedCategory === "all" || faq.cat === selectedCategory) &&
+    (searchText === "" || faq.q.toLowerCase().includes(searchText.toLowerCase()) || faq.a.toLowerCase().includes(searchText.toLowerCase()))
+  );
+
+  const filteredArticles = selectedArticleTag === "" ? SUPPORT_ARTICLES : SUPPORT_ARTICLES.filter(a => a.tags.includes(selectedArticleTag));
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="hero-section" style={{ position:"relative", padding:"60px 20px 80px", background:T.dark, overflow:"hidden", minHeight:"60vh", display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <div style={{ position:"absolute", inset:0, background:`linear-gradient(135deg, rgba(85,182,133,0.04) 0%, rgba(10,10,10,0.6) 100%)`, zIndex:0 }} />
+        <div style={{ position:"relative", zIndex:1, textAlign:"center", maxWidth:700, width:"100%" }}>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Support</p>
+          <h1 style={{ fontSize:48, fontWeight:900, color:T.white, letterSpacing:-1, marginBottom:24 }}>How can we help?</h1>
+          <div style={{ position:"relative", maxWidth:480, margin:"0 auto" }}>
+            <input type="text" placeholder="Search for answers..." value={searchText} onChange={(e) => setSearchText(e.target.value)} style={{ width:"100%", padding:"14px 40px 14px 16px", background:"rgba(255,255,255,0.06)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.white, fontSize:15 }} />
+            <div style={{ position:"absolute", right:14, top:"50%", transform:"translateY(-50%)", color:T.g500 }}>{I.search(18, T.g500)}</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick action cards */}
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
+        <div className="section-inner" style={{ display:"grid", gridTemplateColumns:"repeat(1, 1fr)", gap:16 }}>
+          {[
+            { icon:"phone", title:"Call Us", desc:"Talk to a real person", detail:"888.422.2907", meta:"Mon-Fri 9am-6pm CST", link:"tel:+18884222907" },
+            { icon:"mail", title:"Email Support", desc:"Get a response within 24 hours", detail:"support@unlimitedville.com", meta:"We typically respond in hours" },
+            { icon:"user", title:"My Account", desc:"Manage your plan & billing", detail:"Sign in to your account", meta:"View usage, update payment", action:() => navigate("account") }
+          ].map((card, i) => (
+            <div key={i} onClick={card.action} style={{ padding:24, background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:16, display:"flex", alignItems:"flex-start", gap:16, cursor:card.action ? "pointer" : "default", transition:"all 0.2s" }}>
+              <div style={{ width:48, height:48, borderRadius:12, background:`${T.green}15`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                {card.icon === "phone" && I.phone(22, T.greenText)}
+                {card.icon === "mail" && I.mail(22, T.greenText)}
+                {card.icon === "user" && I.user(22, T.greenText)}
+              </div>
+              <div style={{ flex:1 }}>
+                <h3 style={{ fontSize:16, fontWeight:700, color:T.white, marginBottom:4 }}>{card.title}</h3>
+                <p style={{ fontSize:14, color:T.g400, marginBottom:8 }}>{card.desc}</p>
+                {card.link ? (
+                  <a href={card.link} style={{ fontSize:14, fontWeight:600, color:T.greenText, textDecoration:"none" }}>{card.detail}</a>
+                ) : (
+                  <p style={{ fontSize:14, fontWeight:600, color:T.greenText }}>{card.detail}</p>
+                )}
+                <p style={{ fontSize:12, color:T.g600, marginTop:4 }}>{card.meta}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ section */}
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.black }}>
+        <div className="section-inner" style={{ maxWidth:720 }}>
+          <h2 style={{ fontSize:32, fontWeight:900, color:T.white, marginBottom:28, textAlign:"center" }}>Frequently Asked Questions</h2>
+
+          {/* Category pills */}
+          <div style={{ display:"flex", gap:10, flexWrap:"wrap", marginBottom:32, justifyContent:"center" }}>
+            {["all","Getting Started","Plans & Billing","Technical","Shipping & Returns"].map((cat, i) => (
+              <button key={i} onClick={() => setSelectedCategory(cat)} style={{ padding:"8px 18px", borderRadius:20, border:`1px solid ${selectedCategory === cat ? "transparent" : T.darkBorder}`, background:selectedCategory === cat ? T.green : "transparent", color:selectedCategory === cat ? T.dark : T.g400, fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.2s" }}>
+                {cat === "all" ? "All" : cat}
+              </button>
+            ))}
+          </div>
+
+          {/* FAQ items */}
+          <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+            {filteredFAQs.map((item, i) => (
+              <button key={i} onClick={() => setExpandedFAQ(expandedFAQ === i ? null : i)} style={{ padding:"16px 20px", background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:12, textAlign:"left", cursor:"pointer", transition:"all 0.2s" }}>
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                  <p style={{ fontSize:15, fontWeight:600, color:T.white }}>{item.q}</p>
+                  <div style={{ color:T.g500, flexShrink:0 }}>{expandedFAQ === i ? I.chevDown(18, T.g500) : I.chevRight(18, T.g500)}</div>
+                </div>
+                {expandedFAQ === i && (
+                  <p style={{ fontSize:14, color:T.g400, marginTop:12, lineHeight:1.6 }}>{item.a}</p>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Troubleshooting Resources */}
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
+        <div className="section-inner">
+          <h2 style={{ fontSize:32, fontWeight:900, color:T.white, marginBottom:12, textAlign:"center" }}>Troubleshooting Resources</h2>
+          <p style={{ fontSize:16, color:T.g400, marginBottom:32, textAlign:"center" }}>Step-by-step guides to solve common issues</p>
+
+          <div className="support-articles-grid" style={{ display:"grid", gridTemplateColumns:"repeat(1, 1fr)", gap:16 }}>
+            {filteredArticles.map((article, i) => (
+              <div key={i} style={{ padding:24, background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:16, cursor:"pointer", transition:"all 0.2s" }}>
+                <h3 style={{ fontSize:16, fontWeight:700, color:T.white, marginBottom:8 }}>{article.title}</h3>
+                <p style={{ fontSize:14, color:T.g400, marginBottom:12 }}>{article.desc}</p>
+                <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                  {article.tags.map((tag, j) => (
+                    <button key={j} onClick={() => setSelectedArticleTag(tag)} style={{ padding:"4px 12px", background:selectedArticleTag === tag ? T.green : "rgba(255,255,255,0.06)", color:selectedArticleTag === tag ? T.dark : T.g400, fontSize:11, fontWeight:600, borderRadius:8, border:"none", cursor:"pointer", transition:"all 0.2s" }}>{tag}</button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <FinalCTA />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    FOOTER (shared across all pages)
    ═══════════════════════════════════════ */
 function Footer() {
@@ -2785,10 +3060,36 @@ function Footer() {
           <p style={{ fontSize:14, color:T.g500, lineHeight:1.5, maxWidth:300 }}>Wireless home internet that goes where you do. Trusted by thousands since 2016.</p>
         </div>
       </div>
-      <div className="footer-grid" style={{ display:"grid", gap:"12px 0", marginBottom:32 }}>
-        {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"solutions"},{l:"Resources",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Contact Us",p:"support"}].map((link,i) => (
-          <button key={i} onClick={()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:"4px 0", textAlign:"left" }}>{link.l}</button>
-        ))}
+      <div className="footer-links-grid" style={{ marginBottom:32 }}>
+        {/* Plans column */}
+        <div>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:T.greenText, textTransform:"uppercase", marginBottom:14 }}>Plans</p>
+          {[{l:"Plans & Pricing",p:"plans"},{l:"4G LTE Plans",p:"plans"},{l:"5G Home Internet",p:"plans"},{l:"Compare Plans",p:"plans"}].map((link,i) => (
+            <button key={i} onClick={()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:13, padding:"5px 0", textAlign:"left", display:"block", width:"100%" }}>{link.l}</button>
+          ))}
+        </div>
+        {/* Solutions column */}
+        <div>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:T.greenText, textTransform:"uppercase", marginBottom:14 }}>Solutions</p>
+          {[{l:"Rural Home Internet",p:"rural"},{l:"RV & Van Life",p:"rv"},{l:"Business Internet",p:"business"},{l:"Trucking & OTR",p:"trucking"},{l:"Gaming",p:"gaming"},{l:"Failover Backup",p:"failover"}].map((link,i) => (
+            <button key={i} onClick={()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:13, padding:"5px 0", textAlign:"left", display:"block", width:"100%" }}>{link.l}</button>
+          ))}
+        </div>
+        {/* Resources column */}
+        <div>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:T.greenText, textTransform:"uppercase", marginBottom:14 }}>Resources</p>
+          {[{l:"Resource Center",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Coverage Check",p:"plans",scroll:true},{l:"Reviews",p:"reviews"}].map((link,i) => (
+            <button key={i} onClick={link.scroll?()=>document.querySelector('.coverage-dark')?.scrollIntoView({behavior:'smooth',block:'center'}):()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:13, padding:"5px 0", textAlign:"left", display:"block", width:"100%" }}>{link.l}</button>
+          ))}
+        </div>
+        {/* Support column */}
+        <div>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:T.greenText, textTransform:"uppercase", marginBottom:14 }}>Support</p>
+          {[{l:"Help & FAQs",p:"support"},{l:"Contact Us",p:"support"},{l:"My Account",p:"account"}].map((link,i) => (
+            <button key={i} onClick={()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:13, padding:"5px 0", textAlign:"left", display:"block", width:"100%" }}>{link.l}</button>
+          ))}
+          <a href="tel:+18884222907" className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:13, padding:"5px 0", textAlign:"left", display:"block", width:"100%", textDecoration:"none" }}>Call 888.422.2907</a>
+        </div>
       </div>
       <div className="footer-actions" style={{ display:"flex", gap:10, marginBottom:28 }}>
         <button onClick={()=>navigate("login")} className="btn-footer-action" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:8, padding:"13px 14px", background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.g300, fontSize:14, fontWeight:500 }}>
@@ -2982,9 +3283,9 @@ function App() {
       case "plans": return <PlansPage />;
       case "cart": return <CartPage />;
       case "checkout": return <CheckoutPage />;
-      case "reviews": return <PlaceholderPage title="Reviews" subtitle="213+ verified member reviews. Read what real members are saying about Unlimitedville." />;
+      case "reviews": return <ReviewsPage />;
       case "blog": return <BlogPage />;
-      case "support": return <PlaceholderPage title="Support & FAQs" subtitle="Get help with your service, find answers, or talk to a real person at 888.422.2907." />;
+      case "support": return <SupportPage />;
       case "solutions": return <SolutionsHub />;
       case "account": case "login": return <PlaceholderPage title="My Account" subtitle="Sign in to manage your plan, track usage, update billing, and get support." />;
       case "starlink-compare": return <VsStarlinkPage />;
