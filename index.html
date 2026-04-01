@@ -172,6 +172,19 @@
     animation: shimmer 2.5s ease-in-out infinite;
   }
 
+  /* ── Mobile-first: hero bullets wrap ── */
+  @media (max-width: 767px) {
+    .hero-bullets-row { flex-wrap: wrap !important; gap: 8px 16px !important; justify-content: center !important; }
+    .hero-bullet { font-size: 11px !important; }
+    .mobile-nav-cta { display: block !important; }
+    .faq-answer.open { max-height: 500px; }
+    .footer-section { padding-bottom: 100px !important; }
+  }
+  @media (min-width: 768px) {
+    .mobile-nav-cta { display: none !important; }
+    .mobile-sticky-bar { display: none !important; }
+  }
+
   /* ── Base grid defaults (mobile: 2 col) ── */
   .grid-features { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1233,11 +1246,14 @@ function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92s
           <button onClick={ctaAction} className="btn-primary btn-desktop-auto" style={{ width:"100%", maxWidth:320, padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)`, margin:isLanding?undefined:"0 auto" }}>
             {ctaText} {I.arrow(16)}
           </button>
+          <p className="fade-up fade-up-d6" style={{ fontSize:12, color:T.g500, marginTop:12, textAlign:isLanding?"left":"center" }}>
+            {I.shield(11,T.g500)} No credit checks. No contracts. Cancel anytime.
+          </p>
         </div>
         <div style={{ flex:1 }} />
-        <div className="fade-up fade-up-d7" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:isLanding?undefined:"center" }}>
+        <div className="fade-up fade-up-d7 hero-bullets-row" style={{ display:"flex", gap:16, paddingBottom:48, justifyContent:isLanding?undefined:"center" }}>
           {bullets.map((l,i) => (
-            <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5 }}>{I.check(12,T.green)} {l}</span>
+            <span key={i} className="hero-bullet" style={{ fontSize:12, color:T.g400, fontWeight:500, display:"flex", alignItems:"center", gap:5, whiteSpace:"nowrap" }}>{I.check(12,T.green)} {l}</span>
           ))}
         </div>
       </div>
@@ -1261,7 +1277,7 @@ function CoverageCheck() {
         <div style={{ display:"flex", gap:8 }}>
           <AddressInput value={address} onChange={setAddress}
             onSubmit={v=>{setAddressChecked(true);setAddressResult(v.toLowerCase().includes("po box")||v.length<10?"verify":"available");}}
-            inputStyle={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:15, outline:"none" }} />
+            inputStyle={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:T.darkCard, color:T.white, fontSize:16, outline:"none" }} />
           <button onClick={()=>{if(address.length>=5){setAddressChecked(true);setAddressResult(address.toLowerCase().includes("po box")||address.length<10?"verify":"available");}}} className="btn-primary" style={{ padding:"14px 22px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:14, fontWeight:700, opacity:address.length>=5?1:0.35, transition:"opacity 0.2s" }}>Check</button>
         </div>
       ) : addressResult==="verify" ? (
@@ -1437,11 +1453,11 @@ function FinalCTA({ heading="Ready to get connected?", subtitle="Start your 21-d
       <div className="section-inner" style={{ position:"relative", zIndex:1 }}>
         <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:10 }}>{heading}</h2>
         <p style={{ fontSize:15, color:bgImg?T.g300:T.g500, marginBottom:28 }}>{subtitle}</p>
-        <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"18px 36px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
+        <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ width:"100%", padding:"18px 36px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
           {ctaText} {I.arrow(15)}
         </button>
-        <p style={{ fontSize:13, color:bgImg?T.g400:T.g600, marginTop:16, display:"flex", alignItems:"center", gap:6 }}>
-          {I.phone(13,bgImg?T.g400:T.g600)} Or call an expert: <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
+        <p style={{ fontSize:13, color:bgImg?T.g400:T.g600, marginTop:14 }}>
+          Or call <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
         </p>
       </div>
     </section>
@@ -1624,15 +1640,19 @@ function Nav() {
             Support {I.chevRight(14,T.g600)}
           </button>
 
-          {/* Account login */}
-          <div style={{ margin:"10px 20px 0", paddingTop:10, borderTop:`1px solid ${T.darkBorder}` }}>
-            <button onClick={()=>go("account")} style={{ display:"flex", alignItems:"center", gap:10, width:"100%", padding:"12px 0", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left" }}>
-              {I.user(16,T.g400)} My Account
+          {/* Mobile CTA */}
+          <div className="mobile-nav-cta" style={{ margin:"12px 20px 0" }}>
+            <button onClick={()=>go("plans")} className="btn-primary" style={{ width:"100%", padding:"16px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 30px ${T.greenGlow}` }}>
+              View Plans & Pricing {I.arrow(15)}
             </button>
           </div>
-          {/* Phone */}
-          <div style={{ margin:"6px 20px 0", padding:"12px 14px", borderRadius:12, background:`${T.green}06`, border:`1px solid ${T.green}10` }}>
-            <a href="tel:+18884222907" style={{ color:T.g300, fontSize:13, display:"flex", alignItems:"center", gap:8 }}>
+
+          {/* Account login */}
+          <div style={{ margin:"12px 20px 0", paddingTop:12, borderTop:`1px solid ${T.darkBorder}`, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+            <button onClick={()=>go("account")} style={{ display:"flex", alignItems:"center", gap:10, padding:"12px 0", background:"none", border:"none", color:T.g300, fontSize:14, fontWeight:500, textAlign:"left" }}>
+              {I.user(16,T.g400)} My Account
+            </button>
+            <a href="tel:+18884222907" style={{ color:T.g300, fontSize:13, display:"flex", alignItems:"center", gap:8, padding:"12px 0" }}>
               {I.phone(13,T.greenText)} <span style={{color:T.white, fontWeight:600}}>888.422.2907</span>
             </a>
           </div>
@@ -1653,16 +1673,18 @@ function StickyBar() {
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
-  if (!show || page !== "home") return null;
+  // Show on all marketing pages, hide on transactional pages
+  const hidePages = ["cart", "checkout", "account", "login"];
+  if (!show || hidePages.includes(page)) return null;
   return (
-    <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:99, backdropFilter:"blur(20px) saturate(140%)", WebkitBackdropFilter:"blur(20px) saturate(140%)", background:"rgba(15,15,18,0.92)", borderTop:`1px solid rgba(85,182,133,0.15)`, padding:"12px 16px", boxShadow:"0 -4px 30px rgba(0,0,0,0.3)" }}>
+    <div className="mobile-sticky-bar" style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:99, backdropFilter:"blur(20px) saturate(140%)", WebkitBackdropFilter:"blur(20px) saturate(140%)", background:"rgba(15,15,18,0.94)", borderTop:`1px solid rgba(85,182,133,0.15)`, padding:"10px 16px", boxShadow:"0 -4px 30px rgba(0,0,0,0.4)" }}>
       <div className="sticky-bar-inner" style={{ display:"flex", alignItems:"center", gap:12 }}>
-        <div style={{ flex:1 }}>
-          <span style={{ fontSize:12, color:T.g500, display:"block", lineHeight:1.2 }}>Plans from</span>
-          <span style={{ fontSize:26, fontWeight:900, color:T.white, letterSpacing:-1 }}>$69<span style={{ fontSize:13, fontWeight:500, color:T.g400 }}>/mo</span></span>
+        <div style={{ flex:1, minWidth:0 }}>
+          <span style={{ fontSize:11, color:T.g500, display:"block", lineHeight:1.2 }}>Plans from</span>
+          <span style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.1 }}>$69<span style={{ fontSize:13, fontWeight:500, color:T.g400 }}>/mo</span></span>
         </div>
-        <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", gap:6, boxShadow:`0 2px 20px ${T.greenGlow}` }}>
-          View Plans {I.arrow(14)}
+        <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 24px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", gap:6, boxShadow:`0 2px 20px ${T.greenGlow}`, whiteSpace:"nowrap" }}>
+          Get Started {I.arrow(14)}
         </button>
       </div>
     </div>
@@ -1780,13 +1802,22 @@ function HomePage() {
                 </div>
                 <p style={{ fontSize:14, color:sub, marginBottom:18, lineHeight:1.5 }}>Up to {plan.maxSpeed}. {plan.bestFor}.</p>
                 <button onClick={()=>navigate("plans")} className="btn-primary btn-plan-card" style={{ width:"100%", padding:"16px", background:isDark?T.green:T.g900, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:isDark?`0 0 40px ${T.greenGlow}`:"none" }}>
-                  View Details {I.arrow(14)}
+                  Choose {plan.name} {I.arrow(14)}
                 </button>
               </div>
             );
           })}
         </div>
-        <div style={{ marginTop:20, display:"flex", justifyContent:"center" }}>
+        {/* Trust signals */}
+        <div style={{ marginTop:20, display:"flex", justifyContent:"center", gap:16, flexWrap:"wrap" }}>
+          {[
+            {icon:I.shield(13,T.greenText), text:"21-day money-back guarantee"},
+            {icon:I.lock(13,T.greenText), text:"No contracts ever"},
+          ].map((t,i) => (
+            <span key={i} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, fontWeight:600, color:T.g500 }}>{t.icon} {t.text}</span>
+          ))}
+        </div>
+        <div style={{ marginTop:16, display:"flex", justifyContent:"center" }}>
           <button onClick={()=>navigate("plans")} className="btn-outline btn-desktop-auto" style={{ width:"100%", padding:"14px", background:"none", border:`1px solid ${T.g300}`, borderRadius:14, fontSize:14, fontWeight:600, color:T.g700, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
             Compare all plans side-by-side {I.arrow(14,T.g700)}
           </button>
@@ -2078,7 +2109,7 @@ function CartPage() {
         <div style={{ background:T.darkCard, borderRadius:R.lg, border:`1px solid ${T.darkBorder}`, padding:"18px", marginBottom:18 }}>
           <p style={{ fontSize:14, fontWeight:600, color:T.white, marginBottom:12 }}>Promo Code</p>
           <div style={{ display:"flex", gap:10 }}>
-            <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} style={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:15, outline:"none", background:T.dark, color:T.white }} placeholder="Enter code" />
+            <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} style={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:16, outline:"none", background:T.dark, color:T.white }} placeholder="Enter code" />
             <button onClick={()=>{if(promoCode.trim()){setPromoError("Invalid promo code");setPromoApplied(false);}}} style={{ padding:"14px 20px", background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:600, color:T.g300 }}>Apply</button>
           </div>
           {promoError && <p style={{ fontSize:12, color:"#ef4444", marginTop:8 }}>{promoError}</p>}
@@ -2335,7 +2366,8 @@ function PlansPage() {
         <h2 className="section-heading" style={{ fontSize:32, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.8, lineHeight:1.05 }}>Plan Comparison</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:24, textAlign:"center" }}>Your perfect connection -- choose without compromise.</p>
 
-        <div style={{ borderRadius:20, overflow:"hidden", boxShadow:"0 8px 40px rgba(85,182,133,0.12)" }}>
+        <div style={{ borderRadius:20, overflow:"hidden", boxShadow:"0 8px 40px rgba(85,182,133,0.12)", overflowX:"auto", WebkitOverflowScrolling:"touch" }}>
+          <div style={{ minWidth:480 }}>
           {/* Header row */}
           <div style={{ display:"flex", background:"linear-gradient(135deg, #3d9e6e 0%, #55b685 50%, #3d8c63 100%)" }}>
             <div style={{ flex:1.1, padding:"16px 12px", fontSize:13, fontWeight:700, color:"rgba(255,255,255,0.9)" }}>Features</div>
@@ -2378,6 +2410,7 @@ function PlansPage() {
           </div>
         </div>
 
+        </div>
         {/* Starlink comparison */}
         <button onClick={()=>navigate("starlink-compare")} style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, width:"100%", marginTop:16, padding:"12px", background:"none", border:"none", color:T.greenText, fontSize:14, fontWeight:600 }}>
           Compare Unlimitedville to Starlink {I.arrow(14,T.greenText)}
@@ -2563,7 +2596,7 @@ function BlogPage() {
           <div className="blog-cat-scroll" style={{ display:"flex", alignItems:"center", gap:8, overflowX:"auto" }}>
             {BLOG_CATEGORIES.map(cat => (
               <button key={cat} onClick={()=>setActiveCat(cat)} style={{
-                padding:"8px 18px", borderRadius:99, fontSize:13, fontWeight:600, whiteSpace:"nowrap", cursor:"pointer", transition:"all 0.2s",
+                padding:"10px 18px", borderRadius:99, fontSize:13, fontWeight:600, whiteSpace:"nowrap", cursor:"pointer", transition:"all 0.2s", flexShrink:0,
                 background: activeCat===cat ? T.green : "rgba(255,255,255,0.04)",
                 color: activeCat===cat ? T.white : T.g400,
                 border: activeCat===cat ? "none" : `1px solid ${T.darkBorder}`,
@@ -2744,8 +2777,8 @@ function BlogPostPage({ post }) {
             <div style={{ padding:"28px 28px 32px", textAlign:"center" }}>
               <h3 style={{ fontSize:20, fontWeight:800, color:T.white, marginBottom:8 }}>Ready to get connected?</h3>
               <p style={{ fontSize:14, color:T.g400, lineHeight:1.6, maxWidth:400, margin:"0 auto 20px" }}>Check your coverage and find the right plan for your address. Every plan includes a 21-day money-back guarantee.</p>
-              <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:6, boxShadow:`0 0 32px ${T.greenGlow}`, margin:"0 auto" }}>
-                View Plans {I.arrow(14)}
+              <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ width:"100%", padding:"16px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:6, boxShadow:`0 0 32px ${T.greenGlow}`, margin:"0 auto" }}>
+                See Plans & Pricing {I.arrow(14)}
               </button>
             </div>
           </div>
@@ -2870,9 +2903,9 @@ function ReviewsPage() {
       {/* Filter bar */}
       <section className="desktop-section" style={{ padding:"40px 20px", background:T.dark }}>
         <div className="section-inner">
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", flexWrap:"wrap", gap:10, marginBottom:16 }}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"flex-start", gap:8, marginBottom:16, overflowX:"auto", WebkitOverflowScrolling:"touch", paddingBottom:4, scrollbarWidth:"none", msOverflowStyle:"none" }}>
             {["all","5","4","Rural Home","RV & Travel","Business"].map((f,i) => (
-              <button key={i} onClick={() => setSelectedFilter(f)} style={{ padding:"8px 18px", borderRadius:20, border:`1px solid ${selectedFilter === f ? "transparent" : T.darkBorder}`, background:selectedFilter === f ? T.green : "transparent", color:selectedFilter === f ? T.dark : T.g400, fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.2s" }}>
+              <button key={i} onClick={() => setSelectedFilter(f)} style={{ padding:"10px 18px", borderRadius:20, border:`1px solid ${selectedFilter === f ? "transparent" : T.darkBorder}`, background:selectedFilter === f ? T.green : "transparent", color:selectedFilter === f ? T.dark : T.g400, fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.2s", whiteSpace:"nowrap", flexShrink:0 }}>
                 {f === "all" ? "All Reviews" : f === "5" ? "5 Star" : f === "4" ? "4 Star" : f}
               </button>
             ))}
@@ -2953,20 +2986,20 @@ function ReviewsPage() {
                 {/* Name */}
                 <div style={{ marginBottom:16 }}>
                   <label style={{ fontSize:13, fontWeight:600, color:T.g300, display:"block", marginBottom:6 }}>Name</label>
-                  <input type="text" placeholder="Your first name" style={{ width:"100%", padding:"12px 14px", background:"rgba(255,255,255,0.04)", border:`1px solid ${T.darkBorder}`, borderRadius:10, color:T.white, fontSize:14, outline:"none" }} />
+                  <input type="text" placeholder="Your first name" style={{ width:"100%", padding:"14px 16px", background:"rgba(255,255,255,0.04)", border:`1px solid ${T.darkBorder}`, borderRadius:10, color:T.white, fontSize:16, outline:"none", boxSizing:"border-box" }} />
                 </div>
 
                 {/* Email */}
                 <div style={{ marginBottom:16 }}>
                   <label style={{ fontSize:13, fontWeight:600, color:T.g300, display:"block", marginBottom:6 }}>Email</label>
-                  <input type="email" placeholder="your@email.com" style={{ width:"100%", padding:"12px 14px", background:"rgba(255,255,255,0.04)", border:`1px solid ${T.darkBorder}`, borderRadius:10, color:T.white, fontSize:14, outline:"none" }} />
+                  <input type="email" placeholder="your@email.com" style={{ width:"100%", padding:"14px 16px", background:"rgba(255,255,255,0.04)", border:`1px solid ${T.darkBorder}`, borderRadius:10, color:T.white, fontSize:16, outline:"none", boxSizing:"border-box" }} />
                   <p style={{ fontSize:11, color:T.g600, marginTop:4 }}>Not displayed publicly. Used for verification only.</p>
                 </div>
 
                 {/* Review text */}
                 <div style={{ marginBottom:24 }}>
                   <label style={{ fontSize:13, fontWeight:600, color:T.g300, display:"block", marginBottom:6 }}>Your Review</label>
-                  <textarea placeholder="Tell us about your experience..." rows={5} style={{ width:"100%", padding:"12px 14px", background:"rgba(255,255,255,0.04)", border:`1px solid ${T.darkBorder}`, borderRadius:10, color:T.white, fontSize:14, outline:"none", resize:"vertical", lineHeight:1.6, fontFamily:"inherit" }} />
+                  <textarea placeholder="Tell us about your experience..." rows={4} style={{ width:"100%", padding:"14px 16px", background:"rgba(255,255,255,0.04)", border:`1px solid ${T.darkBorder}`, borderRadius:10, color:T.white, fontSize:16, outline:"none", resize:"vertical", lineHeight:1.6, fontFamily:"inherit", boxSizing:"border-box" }} />
                 </div>
 
                 {/* Submit */}
@@ -3048,7 +3081,7 @@ function SupportPage() {
           <p className="fade-up fade-up-d2" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:10 }}>Support</p>
           <h1 className="fade-up fade-up-d3" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1.1, marginBottom:24 }}>How can we help?</h1>
           <div className="fade-up fade-up-d4" style={{ position:"relative", maxWidth:480, margin:"0 auto" }}>
-            <input type="text" placeholder="Search for answers..." value={searchText} onChange={(e) => setSearchText(e.target.value)} style={{ width:"100%", padding:"14px 40px 14px 16px", background:"rgba(255,255,255,0.06)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.white, fontSize:15, outline:"none" }} />
+            <input type="text" placeholder="Search for answers..." value={searchText} onChange={(e) => setSearchText(e.target.value)} style={{ width:"100%", padding:"16px 40px 16px 16px", background:"rgba(255,255,255,0.06)", border:`1px solid ${T.darkBorder}`, borderRadius:12, color:T.white, fontSize:16, outline:"none", boxSizing:"border-box" }} />
             <div style={{ position:"absolute", right:14, top:"50%", transform:"translateY(-50%)", color:T.g500 }}>{I.search(18, T.g500)}</div>
           </div>
         </div>
@@ -3058,8 +3091,8 @@ function SupportPage() {
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
         <div className="section-inner support-contact-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:16 }}>
           {[
-            { icon:"phone", title:"Call Us", desc:"Talk to a real person", detail:"888.422.2907", meta:"Mon-Fri 9am-6pm CST", link:"tel:+18884222907" },
-            { icon:"mail", title:"Email Support", desc:"Get a response within 24 hours", detail:"support@unlimitedville.com", meta:"We typically respond in hours" },
+            { icon:"phone", title:"Call Us", desc:"Talk to a real person", detail:"888.422.2907", meta:"Mon-Fri 9am-6pm CST", link:"tel:+18884222907", action:()=>window.location.href="tel:+18884222907" },
+            { icon:"mail", title:"Email Support", desc:"Get a response within 24 hours", detail:"support@unlimitedville.com", meta:"We typically respond in hours", action:()=>window.location.href="mailto:support@unlimitedville.com" },
             { icon:"user", title:"My Account", desc:"Manage your plan & billing", detail:"Sign in to your account", meta:"View usage, update payment", action:() => navigate("account") }
           ].map((card, i) => (
             <div key={i} onClick={card.action} style={{ padding:24, background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:16, display:"flex", alignItems:"flex-start", gap:16, cursor:card.action ? "pointer" : "default", transition:"all 0.2s" }}>
