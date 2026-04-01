@@ -229,6 +229,7 @@
     .nav-account-icon { display: block !important; }
     .nav-mobile-toggle { display: none !important; }
     .nav-mobile-drawer { display: none !important; }
+    .nav-cta-desktop { display: flex !important; }
     /* Footer */
     .footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
     .footer-links-grid { grid-template-columns: repeat(4, 1fr) !important; }
@@ -285,6 +286,8 @@
     .lp-hero-subtitle { text-align: left !important; }
     /* Landing page: plans button never full-width on desktop */
     .lp-plan-btn { width: 100% !important; }
+    /* Reviews filter: center on tablet+ */
+    .reviews-filter-bar { justify-content: center !important; }
     /* Reviews grid: 2-col on tablet */
     .reviews-grid { grid-template-columns: repeat(2, 1fr) !important; }
     /* Support articles grid: 2-col on tablet */
@@ -295,7 +298,9 @@
     .blog-grid { grid-template-columns: repeat(2, 1fr) !important; }
     .blog-related-grid { grid-template-columns: repeat(2, 1fr) !important; }
     /* Blog: featured post side-by-side layout */
-    .blog-featured-img { padding-top: 45% !important; }
+    .blog-featured-card { flex-direction: row !important; }
+    .blog-featured-img { width: 50% !important; padding-top: 0 !important; min-height: 320px !important; flex-shrink: 0 !important; }
+    .blog-featured-content { flex: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; }
     .blog-featured-title { font-size: 28px !important; }
     .blog-featured-excerpt { font-size: 16px !important; }
     /* Blog: email row horizontal */
@@ -408,7 +413,7 @@
     /* Blog: 3-col grid on desktop */
     .blog-grid { grid-template-columns: repeat(3, 1fr) !important; }
     /* Blog: featured post with side-by-side image+text */
-    .blog-featured-img { padding-top: 40% !important; }
+    .blog-featured-img { min-height: 380px !important; }
     .blog-featured-title { font-size: 32px !important; }
     /* Blog article: wider reading column, bigger type */
     .blog-article-body { max-width: 760px !important; }
@@ -417,6 +422,22 @@
     .blog-h2 { font-size: 26px !important; }
     .blog-p { font-size: 18px !important; line-height: 1.8 !important; }
     .blog-toc { padding: 24px 28px !important; }
+    /* Checkout: 2-column layout on desktop */
+    .checkout-desktop-grid { display: grid !important; grid-template-columns: 1fr 380px !important; gap: 32px !important; align-items: start !important; max-width: 960px !important; margin-left: auto !important; margin-right: auto !important; }
+    .checkout-desktop-grid .checkout-main { max-width: unset !important; margin: unset !important; }
+    .checkout-desktop-grid .checkout-sidebar { position: sticky !important; top: 100px !important; }
+    /* Cart: 2-column layout on desktop */
+    .cart-desktop-grid { display: grid !important; grid-template-columns: 1fr 360px !important; gap: 28px !important; align-items: start !important; max-width: 900px !important; margin-left: auto !important; margin-right: auto !important; }
+    .cart-desktop-grid .cart-sidebar { position: sticky !important; top: 100px !important; }
+    /* Plans page: section headings scale for desktop */
+    .plans-section-heading { font-size: 38px !important; }
+    /* Reviews hero stats: scale up for desktop */
+    .reviews-stats-grid { gap: 40px !important; }
+    .reviews-stats-grid p:first-child { font-size: 28px !important; }
+    /* Support contact cards: equal height on desktop */
+    .support-contact-grid > div { min-height: 160px !important; }
+    /* Login card: slight scale on desktop */
+    .login-card { padding: 48px !important; }
   }
 
   /* ── RESPONSIVE: Wide Desktop (1280px+) ── */
@@ -452,6 +473,25 @@
     .blog-post-title { font-size: 48px !important; letter-spacing: -2px !important; }
     .blog-h2 { font-size: 28px !important; }
     .blog-p { font-size: 18px !important; }
+    /* Plans page: wider plan cards with more breathing room */
+    .grid-plans .card-hover { padding: 32px !important; }
+    .grid-plans { gap: 32px !important; }
+    /* Checkout: 2-column layout on wide desktop */
+    .checkout-desktop-grid { display: grid !important; grid-template-columns: 1fr 400px !important; gap: 40px !important; align-items: start !important; max-width: 1080px !important; }
+    .checkout-desktop-grid .checkout-main { max-width: unset !important; margin: unset !important; }
+    .checkout-desktop-grid .checkout-sidebar { position: sticky !important; top: 100px !important; }
+    /* Cart: 2-column layout on wide desktop */
+    .cart-desktop-grid { display: grid !important; grid-template-columns: 1fr 380px !important; gap: 32px !important; align-items: start !important; max-width: 1000px !important; }
+    .cart-desktop-grid .cart-sidebar { position: sticky !important; top: 100px !important; }
+  }
+
+  /* ── Desktop plan card button: never full width on desktop ── */
+  @media (min-width: 768px) {
+    .grid-plans .btn-primary { transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.15s ease; }
+  }
+  /* ── Comparison table: constrained width on desktop ── */
+  @media (min-width: 1024px) {
+    .comparison-table-wrap { max-width: 800px !important; margin-left: auto !important; margin-right: auto !important; }
   }
 
   /* ── NAV: Desktop links (hidden on mobile) ── */
@@ -1589,7 +1629,10 @@ function Nav() {
           <button onClick={()=>go("blog")}>Resources</button>
           <button onClick={()=>go("support")}>Support</button>
         </div>
-        <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+          <button onClick={()=>go("plans")} className="nav-cta-desktop btn-primary" style={{ padding:"10px 22px", background:T.green, color:T.white, border:"none", borderRadius:10, fontSize:14, fontWeight:700, display:"none", alignItems:"center", gap:6, boxShadow:`0 0 20px ${T.greenGlow}`, whiteSpace:"nowrap" }}>
+            View Plans {I.arrow(12)}
+          </button>
           <button onClick={()=>go("account")} className="nav-account-icon" title="My Account" style={{ background:"none", border:"none", padding:6, cursor:"pointer", opacity:0.7, transition:"opacity 0.2s" }} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=0.7}>
             {I.user(18, T.white)}
           </button>
@@ -2047,79 +2090,91 @@ function CartPage() {
 
   return (
     <div style={{ minHeight:"100vh", background:T.dark, paddingTop:64, paddingBottom:40 }}>
-      <div className="checkout-form" style={{ padding:"28px 20px" }}>
+      <div style={{ padding:"28px 20px", maxWidth:1080, margin:"0 auto" }}>
         <button onClick={()=>navigate("plans")} style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:6, color:T.g400, fontSize:14, fontWeight:500, marginBottom:24 }}>{I.back(16,T.g400)} Back to plans</button>
 
         <h1 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28 }}>Your Order</h1>
 
-        <div style={{ background:T.darkCard, borderRadius:20, border:`1px solid ${T.darkBorder}`, padding:"24px", marginBottom:18 }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:18 }}>
-            <div>
-              <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:cart.color, textTransform:"uppercase", marginBottom:3 }}>{cart.tier}</p>
-              <h2 style={{ fontSize:24, fontWeight:800, color:T.white }}>{cart.name}</h2>
-              <p style={{ fontSize:14, color:T.g400, marginTop:3 }}>{cart.bestFor}</p>
-            </div>
-            <button onClick={()=>navigate("plans")} style={{ background:"none", border:"none", color:T.greenText, fontSize:14, fontWeight:600 }}>Change</button>
-          </div>
-
-          <div style={{ borderTop:`1px solid ${T.darkBorder}`, paddingTop:16 }}>
-            <div style={{ display:"flex", justifyContent:"space-between", padding:"10px 0" }}>
-              <span style={{ fontSize:15, color:T.g400 }}>Monthly service</span>
-              <span style={{ fontSize:15, fontWeight:600, color:T.white }}>${cart.monthly}/mo</span>
-            </div>
-            <div style={{ display:"flex", justifyContent:"space-between", padding:"10px 0" }}>
-              <div>
-                <span style={{ fontSize:15, color:T.g400 }}>One-time activation</span>
-                <p style={{ fontSize:12, color:T.g500, margin:0 }}>Router provided for duration of service</p>
+        <div className="cart-desktop-grid">
+          {/* Main column */}
+          <div>
+            <div style={{ background:T.darkCard, borderRadius:20, border:`1px solid ${T.darkBorder}`, padding:"24px", marginBottom:18 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:18 }}>
+                <div>
+                  <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:cart.color, textTransform:"uppercase", marginBottom:3 }}>{cart.tier}</p>
+                  <h2 style={{ fontSize:24, fontWeight:800, color:T.white }}>{cart.name}</h2>
+                  <p style={{ fontSize:14, color:T.g400, marginTop:3 }}>{cart.bestFor}</p>
+                </div>
+                <button onClick={()=>navigate("plans")} style={{ background:"none", border:"none", color:T.greenText, fontSize:14, fontWeight:600 }}>Change</button>
               </div>
-              <div style={{ textAlign:"right" }}>
-                {cart.activation===0
-                  ? <span style={{ fontSize:15, fontWeight:700, color:T.greenText }}>$0</span>
-                  : <>
-                      <span style={{ fontSize:12, color:T.g500, textDecoration:"line-through" }}>${cart.activationOrig} </span>
-                      <span style={{ fontSize:15, fontWeight:700, color:T.white }}>${cart.activation}</span>
-                    </>
-                }
-              </div>
-            </div>
-            <div style={{ display:"flex", justifyContent:"space-between", padding:"14px 0", marginTop:10, borderTop:`1px solid ${T.darkBorder}` }}>
-              <span style={{ fontSize:16, fontWeight:700, color:T.white }}>Due today</span>
-              <span style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5 }}>${total}</span>
-            </div>
-            <p style={{ fontSize:12, color:T.g500, lineHeight:1.4 }}>Then ${cart.monthly}/mo starting 30 days from activation. Cancel anytime.</p>
-          </div>
-        </div>
 
-        <div style={{ background:T.darkCard, borderRadius:R.lg, border:`1px solid ${T.darkBorder}`, padding:"18px", marginBottom:28 }}>
-          {[
-            {i:I.shield(15,T.green), t:"21-Day Money-Back Guarantee", d:"Not satisfied? Full refund, no questions."},
-            {i:I.lock(15,T.green), t:"Price Lock Guarantee", d:"Your rate never increases. Ever."},
-            {i:I.check(15,T.green), t:"No Contracts", d:"Month-to-month. Cancel anytime."},
-          ].map((g,i) => (
-            <div key={i} style={{ display:"flex", gap:14, padding:"12px 0", borderTop:i?`1px solid ${T.darkBorder}`:"none" }}>
-              <div style={{ minWidth:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center" }}>{g.i}</div>
-              <div>
-                <p style={{ fontSize:14, fontWeight:600, color:T.white, marginBottom:2 }}>{g.t}</p>
-                <p style={{ fontSize:13, color:T.g400 }}>{g.d}</p>
+              <div style={{ borderTop:`1px solid ${T.darkBorder}`, paddingTop:16 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", padding:"10px 0" }}>
+                  <span style={{ fontSize:15, color:T.g400 }}>Monthly service</span>
+                  <span style={{ fontSize:15, fontWeight:600, color:T.white }}>${cart.monthly}/mo</span>
+                </div>
+                <div style={{ display:"flex", justifyContent:"space-between", padding:"10px 0" }}>
+                  <div>
+                    <span style={{ fontSize:15, color:T.g400 }}>One-time activation</span>
+                    <p style={{ fontSize:12, color:T.g500, margin:0 }}>Router provided for duration of service</p>
+                  </div>
+                  <div style={{ textAlign:"right" }}>
+                    {cart.activation===0
+                      ? <span style={{ fontSize:15, fontWeight:700, color:T.greenText }}>$0</span>
+                      : <>
+                          <span style={{ fontSize:12, color:T.g500, textDecoration:"line-through" }}>${cart.activationOrig} </span>
+                          <span style={{ fontSize:15, fontWeight:700, color:T.white }}>${cart.activation}</span>
+                        </>
+                    }
+                  </div>
+                </div>
+                <div style={{ display:"flex", justifyContent:"space-between", padding:"14px 0", marginTop:10, borderTop:`1px solid ${T.darkBorder}` }}>
+                  <span style={{ fontSize:16, fontWeight:700, color:T.white }}>Due today</span>
+                  <span style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5 }}>${total}</span>
+                </div>
+                <p style={{ fontSize:12, color:T.g500, lineHeight:1.4 }}>Then ${cart.monthly}/mo starting 30 days from activation. Cancel anytime.</p>
               </div>
             </div>
-          ))}
-        </div>
 
-        <div style={{ background:T.darkCard, borderRadius:R.lg, border:`1px solid ${T.darkBorder}`, padding:"18px", marginBottom:18 }}>
-          <p style={{ fontSize:14, fontWeight:600, color:T.white, marginBottom:12 }}>Promo Code</p>
-          <div style={{ display:"flex", gap:10 }}>
-            <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} style={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:16, outline:"none", background:T.dark, color:T.white }} placeholder="Enter code" />
-            <button onClick={()=>{if(promoCode.trim()){setPromoError("Invalid promo code");setPromoApplied(false);}}} style={{ padding:"14px 20px", background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:600, color:T.g300 }}>Apply</button>
+            <div style={{ background:T.darkCard, borderRadius:R.lg, border:`1px solid ${T.darkBorder}`, padding:"18px", marginBottom:18 }}>
+              <p style={{ fontSize:14, fontWeight:600, color:T.white, marginBottom:12 }}>Promo Code</p>
+              <div style={{ display:"flex", gap:10 }}>
+                <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} style={{ flex:1, padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:16, outline:"none", background:T.dark, color:T.white }} placeholder="Enter code" />
+                <button onClick={()=>{if(promoCode.trim()){setPromoError("Invalid promo code");setPromoApplied(false);}}} style={{ padding:"14px 20px", background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:12, fontSize:14, fontWeight:600, color:T.g300 }}>Apply</button>
+              </div>
+              {promoError && <p style={{ fontSize:12, color:"#ef4444", marginTop:8 }}>{promoError}</p>}
+              {promoApplied && <p style={{ fontSize:12, color:T.greenText, marginTop:8 }}>Promo code applied!</p>}
+            </div>
+
+            <button onClick={()=>navigate("checkout")} className="btn-primary btn-desktop-auto" style={{ width:"100%", padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, marginBottom:14 }}>
+              Proceed to Checkout {I.arrow(16)}
+            </button>
+            <p style={{ textAlign:"center", fontSize:12, color:T.g500 }}>Secure checkout. Your information is encrypted.</p>
           </div>
-          {promoError && <p style={{ fontSize:12, color:"#ef4444", marginTop:8 }}>{promoError}</p>}
-          {promoApplied && <p style={{ fontSize:12, color:T.greenText, marginTop:8 }}>Promo code applied!</p>}
-        </div>
 
-        <button onClick={()=>navigate("checkout")} className="btn-primary btn-desktop-auto" style={{ width:"100%", padding:"18px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, marginBottom:14 }}>
-          Proceed to Checkout {I.arrow(16)}
-        </button>
-        <p style={{ textAlign:"center", fontSize:12, color:T.g500 }}>Secure checkout. Your information is encrypted.</p>
+          {/* Sidebar - guarantees */}
+          <div className="cart-sidebar">
+            <div style={{ background:T.darkCard, borderRadius:R.lg, border:`1px solid ${T.darkBorder}`, padding:"18px", marginBottom:16 }}>
+              {[
+                {i:I.shield(15,T.green), t:"21-Day Money-Back Guarantee", d:"Not satisfied? Full refund, no questions."},
+                {i:I.lock(15,T.green), t:"Price Lock Guarantee", d:"Your rate never increases. Ever."},
+                {i:I.check(15,T.green), t:"No Contracts", d:"Month-to-month. Cancel anytime."},
+              ].map((g,i) => (
+                <div key={i} style={{ display:"flex", gap:14, padding:"12px 0", borderTop:i?`1px solid ${T.darkBorder}`:"none" }}>
+                  <div style={{ minWidth:36, height:36, borderRadius:10, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center" }}>{g.i}</div>
+                  <div>
+                    <p style={{ fontSize:14, fontWeight:600, color:T.white, marginBottom:2 }}>{g.t}</p>
+                    <p style={{ fontSize:13, color:T.g400 }}>{g.d}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ padding:"16px", borderRadius:14, background:`${T.green}06`, border:`1px solid ${T.green}15` }}>
+              <p style={{ fontSize:13, fontWeight:600, color:T.greenText, marginBottom:4 }}>Need help choosing?</p>
+              <p style={{ fontSize:13, color:T.g400, lineHeight:1.5 }}>Call <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a> and we'll help you pick the right plan.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -2145,94 +2200,129 @@ function CheckoutPage() {
 
   return (
     <div style={{ minHeight:"100vh", background:T.dark, paddingTop:64, paddingBottom:40 }}>
-      <div className="checkout-form" style={{ padding:"28px 20px" }}>
+      <div style={{ padding:"28px 20px", maxWidth:1120, margin:"0 auto" }}>
         <button onClick={()=>navigate("cart")} style={{ background:"none", border:"none", display:"flex", alignItems:"center", gap:6, color:T.g400, fontSize:14, fontWeight:500, marginBottom:24 }}>{I.back(16,T.g400)} Back to cart</button>
 
         <h1 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:6 }}>Checkout</h1>
         <p style={{ fontSize:14, color:T.g400, marginBottom:28 }}>{cart.name} -- ${total} due today</p>
 
-        <div style={{ padding:"16px 18px", borderRadius:14, background:`${T.green}08`, border:`1px solid ${T.green}18`, marginBottom:28, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-          <div>
-            <p style={{ fontSize:14, fontWeight:600, color:T.white }}>{cart.name}</p>
-            <p style={{ fontSize:12, color:T.g400 }}>${cart.monthly}/mo + ${cart.activation} activation</p>
-          </div>
-          <span style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5 }}>${total}</span>
-        </div>
+        <div className="checkout-desktop-grid">
+          {/* Main form column */}
+          <div className="checkout-main">
+            <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Shipping Address</h2>
+            <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
+              <div style={{ display:"flex", gap:12 }}>
+                <div style={{ flex:1 }}><label style={labelStyle}>First Name</label><input style={inputStyle} placeholder="John" /></div>
+                <div style={{ flex:1 }}><label style={labelStyle}>Last Name</label><input style={inputStyle} placeholder="Smith" /></div>
+              </div>
+              <div><label style={labelStyle}>Address</label><input style={inputStyle} placeholder="123 Main St" /></div>
+              <div style={{ display:"flex", gap:12 }}>
+                <div style={{ flex:2 }}><label style={labelStyle}>City</label><input style={inputStyle} placeholder="City" /></div>
+                <div style={{ flex:1 }}><label style={labelStyle}>State</label><input style={inputStyle} placeholder="TN" /></div>
+                <div style={{ flex:1 }}><label style={labelStyle}>ZIP</label><input style={inputStyle} placeholder="37064" /></div>
+              </div>
+              <div><label style={labelStyle}>Email</label><input type="email" style={inputStyle} placeholder="you@email.com" /></div>
+              <div><label style={labelStyle}>Phone</label><input type="tel" style={inputStyle} placeholder="(555) 555-5555" /></div>
+            </div>
 
-        <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Shipping Address</h2>
-        <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
-          <div style={{ display:"flex", gap:12 }}>
-            <div style={{ flex:1 }}><label style={labelStyle}>First Name</label><input style={inputStyle} placeholder="John" /></div>
-            <div style={{ flex:1 }}><label style={labelStyle}>Last Name</label><input style={inputStyle} placeholder="Smith" /></div>
-          </div>
-          <div><label style={labelStyle}>Address</label><input style={inputStyle} placeholder="123 Main St" /></div>
-          <div style={{ display:"flex", gap:12 }}>
-            <div style={{ flex:2 }}><label style={labelStyle}>City</label><input style={inputStyle} placeholder="City" /></div>
-            <div style={{ flex:1 }}><label style={labelStyle}>State</label><input style={inputStyle} placeholder="TN" /></div>
-            <div style={{ flex:1 }}><label style={labelStyle}>ZIP</label><input style={inputStyle} placeholder="37064" /></div>
-          </div>
-          <div><label style={labelStyle}>Email</label><input type="email" style={inputStyle} placeholder="you@email.com" /></div>
-          <div><label style={labelStyle}>Phone</label><input type="tel" style={inputStyle} placeholder="(555) 555-5555" /></div>
-        </div>
+            <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Payment</h2>
+            <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
+              <div><label style={labelStyle}>Card Number</label><input style={inputStyle} placeholder="Card number" /></div>
+              <div style={{ display:"flex", gap:12 }}>
+                <div style={{ flex:1 }}><label style={labelStyle}>Expiration</label><input style={inputStyle} placeholder="MM / YY" /></div>
+                <div style={{ flex:1 }}><label style={labelStyle}>CVC</label><input style={inputStyle} placeholder="123" /></div>
+              </div>
+            </div>
 
-        <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Payment</h2>
-        <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
-          <div><label style={labelStyle}>Card Number</label><input style={inputStyle} placeholder="Card number" /></div>
-          <div style={{ display:"flex", gap:12 }}>
-            <div style={{ flex:1 }}><label style={labelStyle}>Expiration</label><input style={inputStyle} placeholder="MM / YY" /></div>
-            <div style={{ flex:1 }}><label style={labelStyle}>CVC</label><input style={inputStyle} placeholder="123" /></div>
-          </div>
-        </div>
+            <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Service Details</h2>
+            <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
+              <div>
+                <label style={labelStyle}>Where will you primarily use this service?</label>
+                <select value={primaryUse} onChange={e=>setPrimaryUse(e.target.value)} style={selectStyle}>
+                  <option value="" disabled>Select...</option>
+                  <option value="home">Home (primary residence)</option>
+                  <option value="rv">RV / Travel</option>
+                  <option value="business">Business / Commercial</option>
+                  <option value="construction">Construction / Job site</option>
+                  <option value="failover">Backup / Failover connection</option>
+                </select>
+              </div>
+              <div>
+                <label style={labelStyle}>What best describes your usage/location?</label>
+                <select value={usageLocation} onChange={e=>setUsageLocation(e.target.value)} style={selectStyle}>
+                  <option value="" disabled>Select...</option>
+                  <option value="rural">Rural -- no cable/fiber available</option>
+                  <option value="suburban">Suburban -- alternative to cable/DSL</option>
+                  <option value="urban">Urban -- need portable or backup</option>
+                  <option value="mobile">Mobile -- RV, van, or travel</option>
+                  <option value="commercial">Commercial -- fleet, truck, or job site</option>
+                </select>
+              </div>
+            </div>
 
-        <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Service Details</h2>
-        <div style={{ display:"flex", flexDirection:"column", gap:14, marginBottom:32 }}>
-          <div>
-            <label style={labelStyle}>Where will you primarily use this service?</label>
-            <select value={primaryUse} onChange={e=>setPrimaryUse(e.target.value)} style={selectStyle}>
-              <option value="" disabled>Select...</option>
-              <option value="home">Home (primary residence)</option>
-              <option value="rv">RV / Travel</option>
-              <option value="business">Business / Commercial</option>
-              <option value="construction">Construction / Job site</option>
-              <option value="failover">Backup / Failover connection</option>
-            </select>
-          </div>
-          <div>
-            <label style={labelStyle}>What best describes your usage/location?</label>
-            <select value={usageLocation} onChange={e=>setUsageLocation(e.target.value)} style={selectStyle}>
-              <option value="" disabled>Select...</option>
-              <option value="rural">Rural -- no cable/fiber available</option>
-              <option value="suburban">Suburban -- alternative to cable/DSL</option>
-              <option value="urban">Urban -- need portable or backup</option>
-              <option value="mobile">Mobile -- RV, van, or travel</option>
-              <option value="commercial">Commercial -- fleet, truck, or job site</option>
-            </select>
-          </div>
-        </div>
+            <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Promo Code</h2>
+            <div style={{ display:"flex", gap:10, marginBottom:32 }}>
+              <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} style={{ ...inputStyle, flex:1 }} placeholder="Enter promo code" />
+              <button onClick={()=>{if(promoCode.trim()){setPromoError("Invalid promo code");setPromoApplied(false);}}} className="btn-secondary" style={{ padding:"16px 22px", background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:15, fontWeight:600, color:T.g300, whiteSpace:"nowrap" }}>Apply</button>
+            </div>
+            {promoError && <p style={{ fontSize:13, color:"#ef4444", marginTop:-22, marginBottom:28 }}>{promoError}</p>}
+            {promoApplied && <p style={{ fontSize:13, color:T.greenText, marginTop:-22, marginBottom:28 }}>Promo code applied!</p>}
 
-        <h2 style={{ fontSize:17, fontWeight:700, color:T.white, marginBottom:18 }}>Promo Code</h2>
-        <div style={{ display:"flex", gap:10, marginBottom:32 }}>
-          <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} style={{ ...inputStyle, flex:1 }} placeholder="Enter promo code" />
-          <button onClick={()=>{if(promoCode.trim()){setPromoError("Invalid promo code");setPromoApplied(false);}}} className="btn-secondary" style={{ padding:"16px 22px", background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:15, fontWeight:600, color:T.g300, whiteSpace:"nowrap" }}>Apply</button>
-        </div>
-        {promoError && <p style={{ fontSize:13, color:"#ef4444", marginTop:-22, marginBottom:28 }}>{promoError}</p>}
-        {promoApplied && <p style={{ fontSize:13, color:T.greenText, marginTop:-22, marginBottom:28 }}>Promo code applied!</p>}
+            <div style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"18px", borderRadius:14, background:T.darkCard, border:`1px solid ${T.darkBorder}`, marginBottom:28, cursor:"pointer" }} onClick={()=>setTosAgreed(!tosAgreed)}>
+              <div style={{ minWidth:22, height:22, borderRadius:6, border:tosAgreed?`2px solid ${T.green}`:`2px solid ${T.g500}`, background:tosAgreed?T.green:"transparent", display:"flex", alignItems:"center", justifyContent:"center", marginTop:1, transition:"all 0.2s" }}>
+                {tosAgreed && I.check(14,T.white)}
+              </div>
+              <p style={{ fontSize:14, color:T.g400, lineHeight:1.6 }}>
+                I have read and agree to the Unlimitedville <a href="#" onClick={e=>e.stopPropagation()} style={{ color:T.greenText, fontWeight:600 }}>terms of service</a> and agree to uphold such terms until the termination of membership.
+              </p>
+            </div>
 
-        <div style={{ display:"flex", gap:12, alignItems:"flex-start", padding:"18px", borderRadius:14, background:T.darkCard, border:`1px solid ${T.darkBorder}`, marginBottom:28, cursor:"pointer" }} onClick={()=>setTosAgreed(!tosAgreed)}>
-          <div style={{ minWidth:22, height:22, borderRadius:6, border:tosAgreed?`2px solid ${T.green}`:`2px solid ${T.g500}`, background:tosAgreed?T.green:"transparent", display:"flex", alignItems:"center", justifyContent:"center", marginTop:1, transition:"all 0.2s" }}>
-            {tosAgreed && I.check(14,T.white)}
+            <button className="btn-primary btn-desktop-auto" style={{ width:"100%", padding:"18px", background:tosAgreed?T.green:`${T.green}60`, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:tosAgreed?`0 0 40px ${T.greenGlow}`:"none", marginBottom:14, opacity:tosAgreed?1:0.6, cursor:tosAgreed?"pointer":"not-allowed", transition:"all 0.2s" }} disabled={!tosAgreed}>
+              {I.lock(18,T.white)} Submit Order (${total})
+            </button>
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, marginBottom:48 }}>
+              {I.shield(12,T.green)}
+              <span style={{ fontSize:13, color:T.g400 }}>256-bit encryption. 21-day money-back guarantee.</span>
+            </div>
           </div>
-          <p style={{ fontSize:14, color:T.g400, lineHeight:1.6 }}>
-            I have read and agree to the Unlimitedville <a href="#" onClick={e=>e.stopPropagation()} style={{ color:T.greenText, fontWeight:600 }}>terms of service</a> and agree to uphold such terms until the termination of membership.
-          </p>
-        </div>
 
-        <button className="btn-primary btn-desktop-auto" style={{ width:"100%", padding:"18px", background:tosAgreed?T.green:`${T.green}60`, color:T.white, border:"none", borderRadius:14, fontSize:17, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:tosAgreed?`0 0 40px ${T.greenGlow}`:"none", marginBottom:14, opacity:tosAgreed?1:0.6, cursor:tosAgreed?"pointer":"not-allowed", transition:"all 0.2s" }} disabled={!tosAgreed}>
-          {I.lock(18,T.white)} Submit Order (${total})
-        </button>
-        <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, marginBottom:48 }}>
-          {I.shield(12,T.green)}
-          <span style={{ fontSize:13, color:T.g400 }}>256-bit encryption. 21-day money-back guarantee.</span>
+          {/* Sidebar - order summary */}
+          <div className="checkout-sidebar">
+            <div style={{ background:T.darkCard, borderRadius:20, border:`1px solid ${T.darkBorder}`, padding:"24px", marginBottom:16 }}>
+              <h3 style={{ fontSize:15, fontWeight:700, color:T.white, marginBottom:16 }}>Order Summary</h3>
+              <div style={{ padding:"14px 16px", borderRadius:14, background:`${T.green}08`, border:`1px solid ${T.green}18`, marginBottom:16 }}>
+                <p style={{ fontSize:14, fontWeight:600, color:T.white }}>{cart.name}</p>
+                <p style={{ fontSize:12, color:T.g400, marginTop:2 }}>{cart.bestFor}</p>
+              </div>
+              <div style={{ display:"flex", justifyContent:"space-between", padding:"8px 0" }}>
+                <span style={{ fontSize:14, color:T.g400 }}>Monthly service</span>
+                <span style={{ fontSize:14, fontWeight:600, color:T.white }}>${cart.monthly}/mo</span>
+              </div>
+              <div style={{ display:"flex", justifyContent:"space-between", padding:"8px 0" }}>
+                <span style={{ fontSize:14, color:T.g400 }}>Activation</span>
+                <span style={{ fontSize:14, fontWeight:600, color:cart.activation===0?T.greenText:T.white }}>{cart.activation===0?"$0":"$"+cart.activation}</span>
+              </div>
+              <div style={{ display:"flex", justifyContent:"space-between", padding:"14px 0", marginTop:8, borderTop:`1px solid ${T.darkBorder}` }}>
+                <span style={{ fontSize:16, fontWeight:700, color:T.white }}>Due today</span>
+                <span style={{ fontSize:24, fontWeight:900, color:T.white, letterSpacing:-0.5 }}>${total}</span>
+              </div>
+              <p style={{ fontSize:12, color:T.g500, lineHeight:1.4, marginTop:4 }}>Then ${cart.monthly}/mo starting 30 days from activation.</p>
+            </div>
+
+            <div style={{ background:T.darkCard, borderRadius:16, border:`1px solid ${T.darkBorder}`, padding:"16px" }}>
+              {[
+                {i:I.shield(14,T.green), t:"21-day money-back guarantee"},
+                {i:I.lock(14,T.green), t:"Price locked for life"},
+                {i:I.check(14,T.green), t:"No contracts, cancel anytime"},
+                {i:I.zap(14,T.green), t:"Ships within 24 hours"},
+              ].map((g,i) => (
+                <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 0", borderTop:i?`1px solid ${T.darkBorder}`:"none" }}>
+                  {g.i}
+                  <span style={{ fontSize:13, color:T.g400 }}>{g.t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2366,7 +2456,7 @@ function PlansPage() {
         <h2 className="section-heading" style={{ fontSize:32, fontWeight:900, color:T.g900, marginBottom:6, textAlign:"center", letterSpacing:-0.8, lineHeight:1.05 }}>Plan Comparison</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:24, textAlign:"center" }}>Your perfect connection -- choose without compromise.</p>
 
-        <div style={{ borderRadius:20, overflow:"hidden", boxShadow:"0 8px 40px rgba(85,182,133,0.12)", overflowX:"auto", WebkitOverflowScrolling:"touch" }}>
+        <div className="comparison-table-wrap" style={{ borderRadius:20, overflow:"hidden", boxShadow:"0 8px 40px rgba(85,182,133,0.12)", overflowX:"auto", WebkitOverflowScrolling:"touch" }}>
           <div style={{ minWidth:480 }}>
           {/* Header row */}
           <div style={{ display:"flex", background:"linear-gradient(135deg, #3d9e6e 0%, #55b685 50%, #3d8c63 100%)" }}>
@@ -2610,13 +2700,13 @@ function BlogPage() {
       {activeCat === "All" && featured && (
         <section className="desktop-section" style={{ padding:"32px 20px 0", background:T.dark }}>
           <div className="section-inner">
-            <button onClick={()=>navigate("blog/"+featured.slug)} className="card-hover" style={{ display:"flex", flexDirection:"column", width:"100%", overflow:"hidden", borderRadius:20, border:`1px solid ${T.darkBorder}`, background:T.darkCard, cursor:"pointer", textAlign:"left", padding:0 }}>
+            <button onClick={()=>navigate("blog/"+featured.slug)} className="card-hover blog-featured-card" style={{ display:"flex", flexDirection:"column", width:"100%", overflow:"hidden", borderRadius:20, border:`1px solid ${T.darkBorder}`, background:T.darkCard, cursor:"pointer", textAlign:"left", padding:0 }}>
               <div className="blog-featured-img" style={{ position:"relative", width:"100%", paddingTop:"50%", overflow:"hidden" }}>
                 <img src={featured.heroImg} alt={featured.title} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover" }} />
                 <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, transparent 40%, rgba(10,10,10,0.8) 100%)" }} />
                 <span style={{ position:"absolute", top:16, left:16, padding:"6px 14px", borderRadius:99, background:`${T.green}20`, color:T.greenText, fontSize:11, fontWeight:700, letterSpacing:1, textTransform:"uppercase", backdropFilter:"blur(8px)" }}>Featured</span>
               </div>
-              <div style={{ padding:"24px 24px 28px" }}>
+              <div className="blog-featured-content" style={{ padding:"24px 24px 28px" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:12, flexWrap:"wrap" }}>
                   <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:T.g500 }}>{I.tag(12,T.g500)} {featured.category}</span>
                   <span style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:T.g500 }}>{I.calendar(12,T.g500)} {fmtDate(featured.date)}</span>
@@ -2884,7 +2974,7 @@ function ReviewsPage() {
 
       {/* Stats bar */}
       <section style={{ padding:"32px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}`, borderBottom:`1px solid ${T.darkBorder}` }}>
-        <div className="section-inner" style={{ display:"grid", gridTemplateColumns:"repeat(3, 1fr)", gap:20, textAlign:"center" }}>
+        <div className="section-inner reviews-stats-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3, 1fr)", gap:20, textAlign:"center", maxWidth:600, margin:"0 auto" }}>
           <div>
             <p style={{ fontSize:20, fontWeight:800, color:T.white }}>4.5 / 5</p>
             <p style={{ fontSize:13, color:T.g500, marginTop:4 }}>Average Rating</p>
@@ -2903,7 +2993,7 @@ function ReviewsPage() {
       {/* Filter bar */}
       <section className="desktop-section" style={{ padding:"40px 20px", background:T.dark }}>
         <div className="section-inner">
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"flex-start", gap:8, marginBottom:16, overflowX:"auto", WebkitOverflowScrolling:"touch", paddingBottom:4, scrollbarWidth:"none", msOverflowStyle:"none" }}>
+          <div className="reviews-filter-bar" style={{ display:"flex", alignItems:"center", justifyContent:"flex-start", gap:8, marginBottom:16, overflowX:"auto", WebkitOverflowScrolling:"touch", paddingBottom:4, scrollbarWidth:"none", msOverflowStyle:"none" }}>
             {["all","5","4","Rural Home","RV & Travel","Business"].map((f,i) => (
               <button key={i} onClick={() => setSelectedFilter(f)} style={{ padding:"10px 18px", borderRadius:20, border:`1px solid ${selectedFilter === f ? "transparent" : T.darkBorder}`, background:selectedFilter === f ? T.green : "transparent", color:selectedFilter === f ? T.dark : T.g400, fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.2s", whiteSpace:"nowrap", flexShrink:0 }}>
                 {f === "all" ? "All Reviews" : f === "5" ? "5 Star" : f === "4" ? "4 Star" : f}
@@ -3204,7 +3294,7 @@ function LoginPage() {
         </div>
 
         {/* Card */}
-        <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:20, padding:40 }}>
+        <div className="login-card" style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:20, padding:40 }}>
           {/* Heading */}
           <h1 style={{ fontSize:28, fontWeight:900, color:T.white, marginBottom:8, letterSpacing:-0.5, textAlign:"center" }}>Welcome back</h1>
           <p style={{ fontSize:14, color:T.g400, textAlign:"center", marginBottom:28 }}>Sign in to your account</p>
