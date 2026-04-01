@@ -416,14 +416,6 @@ const PLANS = [
   { id:"5g-ultra", name:"5G Ultra", tier:"Fastest", speed:"Fastest", monthly:109, popular:true, activation:199, activationOrig:299, discount:"33% off", maxSpeed:"500 Mbps", latency:"20-40 ms", bestFor:"4K streaming, gaming & remote work", audience:"Large families, power users", features:["Up to 500 Mbps speeds","Unlimited data, zero caps","Premium 5G router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:"#a78bfa", speedDots:3 },
 ];
 
-/* Solution page display order -- controls nav, home page cards, solutions hub, and routing.
-   To add/remove a solution: edit SOLUTION_PAGES above and this array. Everything else updates automatically. */
-const SOLUTION_ORDER = ["rural","rv","trucking","gaming","business","failover"];
-const SOLUTIONS_LIST = SOLUTION_ORDER.map(key => SOLUTION_PAGES[key]);
-
-/* Legacy USE_CASES derived from SOLUTION_PAGES for backward compat */
-const USE_CASES = SOLUTIONS_LIST.map(s => ({ icon: s.navIcon, label: s.navLabel, slug: s.slug, desc: s.navDesc, heroImg: s.heroImg }));
-
 const REVIEWS = [
   { name:"Mike", rating:5, verified:true, text:"We moved further out into the country where wired internet was not available. Unlimitedville has been a game changer for our family.", plan:"4G Plus" },
   { name:"Timothy R.", rating:5, verified:true, text:"This was my last option where I live and I'm glad I got it. Best speeds I've ever seen here.", plan:"5G Ultra" },
@@ -621,6 +613,12 @@ const SOLUTION_PAGES = {
     ]
   }
 };
+
+/* Solution page display order -- controls nav, home page cards, solutions hub, and routing.
+   To add/remove a solution: edit SOLUTION_PAGES above and this array. Everything else updates automatically. */
+const SOLUTION_ORDER = ["rural","rv","trucking","gaming","business","failover"];
+const SOLUTIONS_LIST = SOLUTION_ORDER.map(key => SOLUTION_PAGES[key]);
+const USE_CASES = SOLUTIONS_LIST.map(s => ({ icon: s.navIcon, label: s.navLabel, slug: s.slug, desc: s.navDesc, heroImg: s.heroImg }));
 
 const STARLINK_COMPARE = {
   rows: [
