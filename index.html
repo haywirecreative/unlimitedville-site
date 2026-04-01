@@ -419,11 +419,11 @@ const PLANS = [
 const USE_CASES = [
   { icon: "signal", label: "Rural Home", slug: "rural", desc: "Internet where cable and fiber can't reach", img:"Rural cabin with WiFi router" },
   { icon: "globe", label: "RV & Van Life", slug: "rv", desc: "Stay connected anywhere you park or travel", img:"RV parked at scenic overlook" },
-  { icon: "zap", label: "Fleets & Trucks", slug: "transportation", desc: "Reliable connectivity for vehicles on the go", img:"Commercial vehicle on highway" },
-  { icon: "signal", label: "Rental Properties", slug: "rental", desc: "Give guests fast, reliable WiFi on arrival", img:"Vacation rental cabin interior" },
-  { icon: "globe", label: "Mobile Business", slug: "mobile-biz", desc: "Pop-up shops, food trucks, and businesses on the move", img:"Mobile business setup with WiFi" },
-  { icon: "signal", label: "Urban & Suburban Homes", slug: "urban", desc: "A better alternative to overpriced cable and DSL", img:"Modern home office setup" },
+  { icon: "zap", label: "Trucking & OTR", slug: "trucking", desc: "Reliable connectivity for drivers on the road", img:"Truck cab with WiFi router" },
+  { icon: "zap", label: "Gaming", slug: "gaming", desc: "Low-ping unlimited internet for competitive gaming", img:"Gaming setup with wireless internet" },
+  { icon: "globe", label: "Business", slug: "business", desc: "Portable WiFi for food trucks, job sites, and pop-ups", img:"Mobile business setup with WiFi" },
   { icon: "zap", label: "Failover Backup", slug: "failover", desc: "Automatic backup internet when your primary goes down", img:"Network equipment with backup connection" },
+  { icon: "signal", label: "Urban & Suburban Homes", slug: "urban", desc: "A better alternative to overpriced cable and DSL", img:"Modern home office setup" },
   { icon: "zap", label: "Construction Sites", slug: "construction", desc: "Temporary high-speed internet for remote job sites", img:"Construction site with portable office" },
 ];
 
@@ -501,7 +501,7 @@ const SOLUTION_PAGES = {
     slug: "business",
     heroImg: "https://unlimitedville.com/images/hero/business-coffee-shop.jpg",
     title: <>Business internet.<br/>No installation required.</>,
-    subtitle: "Reliable wireless internet for construction sites, food trucks, vacation rentals, and businesses without wired connections.",
+    subtitle: "Reliable wireless internet for construction sites, food trucks, events, and businesses without wired connections.",
     heroTitle: "biz-hero-title",
     metaTitle: "Business Internet No Contract | Portable WiFi | Unlimitedville",
     metaDesc: "Get wireless business internet with no installation, no contracts. Perfect for food trucks, construction sites, events. Plans from $69/mo.",
@@ -1732,7 +1732,6 @@ function CheckoutPage() {
             <select value={primaryUse} onChange={e=>setPrimaryUse(e.target.value)} style={selectStyle}>
               <option value="" disabled>Select...</option>
               <option value="home">Home (primary residence)</option>
-              <option value="vacation">Vacation / Rental property</option>
               <option value="rv">RV / Travel</option>
               <option value="business">Business / Commercial</option>
               <option value="construction">Construction / Job site</option>
@@ -2252,7 +2251,7 @@ function App() {
       case "failover": return <SolutionPage key="failover" config={SOLUTION_PAGES["failover"]} />;
       default:
         if (page.startsWith("uc-")) {
-          const slugMap = { "uc-rural":"rural", "uc-rv":"rv", "uc-transportation":"trucking", "uc-mobile-biz":"business", "uc-failover":"failover", "uc-urban":"rural" };
+          const slugMap = { "uc-rural":"rural", "uc-rv":"rv", "uc-trucking":"trucking", "uc-gaming":"gaming", "uc-business":"business", "uc-failover":"failover", "uc-urban":"rural", "uc-transportation":"trucking", "uc-mobile-biz":"business" };
           const configKey = slugMap[page];
           if (configKey && SOLUTION_PAGES[configKey]) {
             return <SolutionPage key={configKey} config={SOLUTION_PAGES[configKey]} />;
