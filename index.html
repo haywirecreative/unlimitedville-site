@@ -999,18 +999,24 @@ function LandingFAQ({ items, heading="Frequently asked questions" }) {
   );
 }
 
-function FinalCTA({ heading="Ready to get connected?", subtitle="Start your 21-day risk-free trial today.", ctaText="See Plans & Pricing" }) {
+function FinalCTA({ heading="Ready to get connected?", subtitle="Start your 21-day risk-free trial today.", ctaText="See Plans & Pricing", bgImg }) {
   const { navigate } = useApp();
   return (
-    <section className="desktop-section cta-section" style={{ padding:"48px 20px", background:T.dark, textAlign:"center" }}>
-      <div className="section-inner">
+    <section className="desktop-section cta-section" style={{ padding:bgImg?"64px 20px":"48px 20px", background:T.dark, textAlign:"center", position:"relative", overflow:"hidden" }}>
+      {bgImg && (
+        <>
+          <img src={bgImg} alt="" style={{ position:"absolute", inset:"-20px", width:"calc(100% + 40px)", height:"calc(100% + 40px)", objectFit:"cover", filter:"blur(8px) brightness(0.35)", transform:"scale(1.05)" }} />
+          <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.7) 100%)" }} />
+        </>
+      )}
+      <div className="section-inner" style={{ position:"relative", zIndex:1 }}>
         <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:10 }}>{heading}</h2>
-        <p style={{ fontSize:15, color:T.g500, marginBottom:28 }}>{subtitle}</p>
+        <p style={{ fontSize:15, color:bgImg?T.g300:T.g500, marginBottom:28 }}>{subtitle}</p>
         <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"18px 36px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
           {ctaText} {I.arrow(15)}
         </button>
-        <p style={{ fontSize:13, color:T.g600, marginTop:16, display:"flex", alignItems:"center", gap:6 }}>
-          {I.phone(13,T.g600)} Or call an expert: <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
+        <p style={{ fontSize:13, color:bgImg?T.g400:T.g600, marginTop:16, display:"flex", alignItems:"center", gap:6 }}>
+          {I.phone(13,bgImg?T.g400:T.g600)} Or call an expert: <a href="tel:+18884222907" style={{ color:T.greenText, fontWeight:600 }}>888.422.2907</a>
         </p>
       </div>
     </section>
@@ -2158,7 +2164,7 @@ function SolutionPage({ config }) {
       <SocialProof reviews={c.reviews} />
       <CompactPlans contextLabels={c.planContext} />
       <LandingFAQ items={c.faq} />
-      <FinalCTA />
+      <FinalCTA bgImg={c.heroImg} />
     </div>
   );
 }
@@ -2199,7 +2205,7 @@ function VsStarlinkPage() {
         { name:"Julia G.", text:"We bought our forever home in a rural area. Unlimitedville saved the day when nothing else worked.", verified:true },
       ]} heading="Members who made the switch" />
       <LandingFAQ items={STARLINK_FAQ} />
-      <FinalCTA heading="Put Unlimitedville to the test." subtitle="21-day money-back guarantee. No dish, no contracts, no risk." ctaText="Start Your 21-Day Trial" />
+      <FinalCTA heading="Put Unlimitedville to the test." subtitle="21-day money-back guarantee. No dish, no contracts, no risk." ctaText="Start Your 21-Day Trial" bgImg="https://unlimitedville.com/images/hero/rural-highway.jpg" />
     </div>
   );
 }
