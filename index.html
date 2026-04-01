@@ -269,7 +269,6 @@
     .blog-featured-title { font-size: 28px !important; }
     .blog-featured-excerpt { font-size: 16px !important; }
     /* Blog: email row horizontal */
-    .blog-email-row { flex-direction: row !important; }
     /* Blog article: larger title */
     .blog-post-title { font-size: 38px !important; }
     .blog-h2 { font-size: 24px !important; }
@@ -1541,7 +1540,7 @@ function Nav() {
             )}
           </div>
           <button onClick={()=>go("reviews")}>Reviews</button>
-          <button onClick={()=>go("blog")}>Blog</button>
+          <button onClick={()=>go("blog")}>Resources</button>
           <button onClick={()=>go("support")}>Support</button>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:14 }}>
@@ -1589,7 +1588,7 @@ function Nav() {
             Reviews {I.chevRight(14,T.g600)}
           </button>
           <button onClick={()=>go("blog")} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", width:"100%", padding:"15px 20px", background:"none", border:"none", color:T.white, fontSize:15, fontWeight:500, textAlign:"left" }}>
-            Blog {I.chevRight(14,T.g600)}
+            Resources {I.chevRight(14,T.g600)}
           </button>
           <button onClick={()=>go("support")} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", width:"100%", padding:"15px 20px", background:"none", border:"none", color:T.white, fontSize:15, fontWeight:500, textAlign:"left" }}>
             Support {I.chevRight(14,T.g600)}
@@ -2489,7 +2488,7 @@ function useSEO(title, description) {
 function BlogPage() {
   const { navigate } = useApp();
   const [activeCat, setActiveCat] = useState("All");
-  useSEO("Blog - Wireless Internet Guides & Tips | Unlimitedville", "Expert guides on rural internet, RV connectivity, remote work, and choosing the right wireless internet plan. Tips from Unlimitedville.");
+  useSEO("Resources - Wireless Internet Guides & Tips | Unlimitedville", "Expert guides on rural internet, RV connectivity, remote work, and choosing the right wireless internet plan. Tips from Unlimitedville.");
 
   /* BreadcrumbList schema */
   useEffect(() => {
@@ -2497,7 +2496,7 @@ function BlogPage() {
     script.type = "application/ld+json"; script.id = "blog-breadcrumb";
     script.textContent = JSON.stringify({ "@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[
       { "@type":"ListItem", "position":1, "name":"Home", "item":"https://unlimitedville.com/" },
-      { "@type":"ListItem", "position":2, "name":"Blog", "item":"https://unlimitedville.com/blog" }
+      { "@type":"ListItem", "position":2, "name":"Resources", "item":"https://unlimitedville.com/resources" }
     ]});
     document.head.appendChild(script);
     return () => { const el = document.getElementById("blog-breadcrumb"); if(el) el.remove(); };
@@ -2515,9 +2514,10 @@ function BlogPage() {
     <div style={{ background:T.dark, minHeight:"100vh" }}>
       {/* Hero */}
       <section style={{ position:"relative", overflow:"hidden", background:T.dark }}>
-        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.95) 100%)" }} />
+        <img src="https://unlimitedville.com/images/hero/rural-highway.jpg" alt="" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", opacity:0.25 }} />
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.95) 100%)" }} />
         <div style={{ position:"relative", zIndex:1, padding:"120px 24px 48px", maxWidth:800, margin:"0 auto", textAlign:"center" }}>
-          <p className="fade-up fade-up-d2" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:12 }}>Blog</p>
+          <p className="fade-up fade-up-d2" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:12 }}>Resources</p>
           <h1 className="fade-up fade-up-d3" style={{ fontSize:38, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1.1, marginBottom:16 }}>
             Guides, tips, and news about<br/>wireless internet.
           </h1>
@@ -2528,9 +2528,9 @@ function BlogPage() {
       </section>
 
       {/* Category filter */}
-      <section style={{ padding:"0 20px 8px", background:T.dark, borderBottom:`1px solid ${T.darkBorder}` }}>
+      <section style={{ padding:"16px 20px", background:T.dark, borderBottom:`1px solid ${T.darkBorder}` }}>
         <div className="section-inner">
-          <div className="blog-cat-scroll" style={{ display:"flex", gap:8, overflowX:"auto", paddingBottom:16 }}>
+          <div className="blog-cat-scroll" style={{ display:"flex", alignItems:"center", gap:8, overflowX:"auto" }}>
             {BLOG_CATEGORIES.map(cat => (
               <button key={cat} onClick={()=>setActiveCat(cat)} style={{
                 padding:"8px 18px", borderRadius:99, fontSize:13, fontWeight:600, whiteSpace:"nowrap", cursor:"pointer", transition:"all 0.2s",
@@ -2545,7 +2545,7 @@ function BlogPage() {
 
       {/* Featured post */}
       {activeCat === "All" && featured && (
-        <section className="desktop-section" style={{ padding:"40px 20px", background:T.dark }}>
+        <section className="desktop-section" style={{ padding:"32px 20px 0", background:T.dark }}>
           <div className="section-inner">
             <button onClick={()=>navigate("blog/"+featured.slug)} className="card-hover" style={{ display:"flex", flexDirection:"column", width:"100%", overflow:"hidden", borderRadius:20, border:`1px solid ${T.darkBorder}`, background:T.darkCard, cursor:"pointer", textAlign:"left", padding:0 }}>
               <div className="blog-featured-img" style={{ position:"relative", width:"100%", paddingTop:"50%", overflow:"hidden" }}>
@@ -2569,7 +2569,7 @@ function BlogPage() {
       )}
 
       {/* Post grid */}
-      <section className="desktop-section" style={{ padding: activeCat==="All" && featured ? "0 20px 48px" : "40px 20px 48px", background:T.dark }}>
+      <section className="desktop-section" style={{ padding: activeCat==="All" && featured ? "32px 20px 48px" : "32px 20px 48px", background:T.dark }}>
         <div className="section-inner">
           {activeCat !== "All" && (
             <h2 style={{ fontSize:22, fontWeight:800, color:T.white, letterSpacing:-0.3, marginBottom:24 }}>{activeCat}</h2>
@@ -2599,21 +2599,6 @@ function BlogPage() {
         </div>
       </section>
 
-      {/* Newsletter signup */}
-      <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
-        <div className="section-inner" style={{ maxWidth:600, textAlign:"center" }}>
-          <div style={{ width:48, height:48, borderRadius:14, background:`${T.green}10`, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>
-            {I.msg(22,T.greenText)}
-          </div>
-          <h2 style={{ fontSize:24, fontWeight:800, color:T.white, letterSpacing:-0.3, marginBottom:8 }}>Stay connected.</h2>
-          <p style={{ fontSize:15, color:T.g400, lineHeight:1.6, marginBottom:24 }}>Get new articles, coverage updates, and exclusive tips delivered to your inbox. No spam, unsubscribe anytime.</p>
-          <div className="blog-email-row" style={{ display:"flex", flexDirection:"column", gap:10, maxWidth:440, margin:"0 auto" }}>
-            <input type="email" placeholder="your@email.com" style={{ flex:1, padding:"14px 18px", borderRadius:12, border:`1px solid ${T.darkBorder}`, background:"rgba(255,255,255,0.04)", color:T.white, fontSize:15, outline:"none" }} />
-            <button className="btn-primary btn-desktop-auto" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:6, boxShadow:`0 0 32px ${T.greenGlow}` }}>Subscribe {I.arrow(14)}</button>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <FinalCTA />
     </div>
@@ -2625,7 +2610,7 @@ function BlogPage() {
    ═══════════════════════════════════════ */
 function BlogPostPage({ post }) {
   const { navigate } = useApp();
-  useSEO(post.title + " | Unlimitedville Blog", post.excerpt);
+  useSEO(post.title + " | Unlimitedville Resources", post.excerpt);
 
   /* Inject JSON-LD Article schema */
   useEffect(() => {
@@ -2669,8 +2654,8 @@ function BlogPostPage({ post }) {
         <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.95) 85%, rgba(18,18,20,1) 100%)" }} />
         <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"0 24px 32px" }}>
           <div className="blog-article-header" style={{ maxWidth:720, margin:"0 auto" }}>
-            <button onClick={()=>navigate("blog")} style={{ display:"flex", alignItems:"center", gap:6, background:"none", border:"none", color:T.g400, fontSize:13, fontWeight:500, cursor:"pointer", marginBottom:16, padding:0 }}>
-              {I.back(14,T.g400)} All articles
+            <button onClick={()=>navigate("blog")} style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,0,0,0.5)", backdropFilter:"blur(8px)", border:"none", color:T.white, fontSize:13, fontWeight:600, cursor:"pointer", marginBottom:16, padding:"8px 14px", borderRadius:99 }}>
+              {I.back(14,T.white)} All resources
             </button>
             <span style={{ display:"inline-block", padding:"5px 12px", borderRadius:6, background:`${T.green}15`, color:T.greenText, fontSize:11, fontWeight:700, letterSpacing:0.5, textTransform:"uppercase", marginBottom:12 }}>{post.category}</span>
             <h1 className="blog-post-title" style={{ fontSize:32, fontWeight:900, color:T.white, letterSpacing:-1, lineHeight:1.15, marginBottom:16 }}>{post.title}</h1>
@@ -2684,7 +2669,7 @@ function BlogPostPage({ post }) {
       </section>
 
       {/* Article body */}
-      <article className="desktop-section" style={{ padding:"40px 24px 48px" }}>
+      <article className="desktop-section" style={{ padding:"24px 24px 48px" }}>
         <div className="blog-article-body" style={{ maxWidth:720, margin:"0 auto" }}>
           {/* Table of contents */}
           {headings.length > 2 && (
@@ -2721,12 +2706,18 @@ function BlogPostPage({ post }) {
           })}
 
           {/* Inline CTA */}
-          <div style={{ marginTop:48, padding:"32px 28px", borderRadius:18, background:"rgba(255,255,255,0.02)", border:`1px solid ${T.darkBorder}`, textAlign:"center" }}>
-            <h3 style={{ fontSize:20, fontWeight:800, color:T.white, marginBottom:8 }}>Ready to get connected?</h3>
-            <p style={{ fontSize:14, color:T.g400, lineHeight:1.6, marginBottom:20, maxWidth:400, margin:"0 auto 20px" }}>Check your coverage and find the right plan for your address. Every plan includes a 21-day money-back guarantee.</p>
-            <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:6, boxShadow:`0 0 32px ${T.greenGlow}`, margin:"0 auto" }}>
-              View Plans {I.arrow(14)}
-            </button>
+          <div style={{ marginTop:48, borderRadius:18, overflow:"hidden", border:`1px solid ${T.darkBorder}`, background:T.darkCard }}>
+            <div style={{ position:"relative", width:"100%", height:140, overflow:"hidden" }}>
+              <img src="https://unlimitedville.com/images/hero/rural-interior-room.jpg" alt="Get connected with Unlimitedville" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.7) 100%)" }} />
+            </div>
+            <div style={{ padding:"28px 28px 32px", textAlign:"center" }}>
+              <h3 style={{ fontSize:20, fontWeight:800, color:T.white, marginBottom:8 }}>Ready to get connected?</h3>
+              <p style={{ fontSize:14, color:T.g400, lineHeight:1.6, maxWidth:400, margin:"0 auto 20px" }}>Check your coverage and find the right plan for your address. Every plan includes a 21-day money-back guarantee.</p>
+              <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:6, boxShadow:`0 0 32px ${T.greenGlow}`, margin:"0 auto" }}>
+                View Plans {I.arrow(14)}
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -2794,7 +2785,7 @@ function Footer() {
         </div>
       </div>
       <div className="footer-grid" style={{ display:"grid", gap:"12px 0", marginBottom:32 }}>
-        {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"solutions"},{l:"Blog",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Contact Us",p:"support"}].map((link,i) => (
+        {[{l:"Plans & Pricing",p:"plans"},{l:"Help & FAQs",p:"support"},{l:"Reviews",p:"reviews"},{l:"Use Cases",p:"solutions"},{l:"Resources",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Contact Us",p:"support"}].map((link,i) => (
           <button key={i} onClick={()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:14, fontWeight:500, padding:"4px 0", textAlign:"left" }}>{link.l}</button>
         ))}
       </div>
