@@ -4,13 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script>
-// GitHub Pages SPA redirect handler -- restores clean URL from 404.html redirect
-(function(l) {
+// Set base href for proper relative URL resolution with clean URL routing
+// GitHub Pages deploys to /unlimitedville-site/, production to /
+(function() {
+  var isGH = location.hostname.indexOf('github.io') !== -1;
+  var base = document.createElement('base');
+  base.href = isGH ? '/unlimitedville-site/' : '/';
+  document.head.appendChild(base);
+  // SPA redirect handler -- restores clean URL from 404.html redirect
+  var l = window.location;
   if (l.search[1] === '/') {
     var decoded = l.search.slice(1).split('&').map(function(s) { return s.replace(/~and~/g, '&'); }).join('?');
-    window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+    window.history.replaceState(null, null, base.href.replace(/\/$/, '') + decoded + l.hash);
   }
-}(window.location));
+})();
 </script>
 <title>Unlimitedville - Wireless Home Internet | No Contracts, Unlimited Data</title>
 <meta name="description" content="Get fast wireless home internet anywhere in the US. No contracts, unlimited data, 5-minute setup. Plans from $69/mo with a 21-day money-back guarantee. Works where cable and fiber don't." />
@@ -515,7 +522,7 @@
 <div id="root"></div>
 
 <script type="text/babel">
-const { useState, useEffect, useRef, createContext, useContext } = React;
+const { useState, useEffect, useRef, useMemo, createContext, useContext } = React;
 
 /* ═══════════════════════════════════════
    TOKENS
@@ -3012,6 +3019,9 @@ function BlogPostPage({ post }) {
             if (block.type === "h2") {
               return <h2 key={i} id={"section-"+sectionIdx} className="blog-h2" style={{ fontSize:22, fontWeight:800, color:T.white, letterSpacing:-0.3, marginTop:40, marginBottom:16, lineHeight:1.2, scrollMarginTop:100 }}>{block.text}</h2>;
             }
+            if (block.type === "h3") {
+              return <h3 key={i} className="blog-h3" style={{ fontSize:18, fontWeight:700, color:T.g100, letterSpacing:-0.2, marginTop:28, marginBottom:12, lineHeight:1.3 }}>{block.text}</h3>;
+            }
             if (block.type === "p") {
               return <p key={i} className="blog-p" style={{ fontSize:16, color:T.g300, lineHeight:1.75, marginBottom:20 }}>{block.text}</p>;
             }
@@ -4048,7 +4058,11 @@ function getPage() {
   // Support both clean URLs and legacy hash URLs
   const hash = window.location.hash.replace("#/","").replace("#","");
   if (hash) return hash;
-  const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "");
+  const base = document.querySelector("base");
+  const basePath = base ? new URL(base.href).pathname : "/";
+  let path = window.location.pathname;
+  if (path.startsWith(basePath)) path = path.slice(basePath.length);
+  path = path.replace(/^\//, "").replace(/\/$/, "").replace(/^index\.html$/, "");
   return path || "home";
 }
 
@@ -4259,6 +4273,12 @@ function App() {
   const [addressResult, setAddressResult] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
+  // Compute base path once for routing
+  const basePath = useMemo(() => {
+    const base = document.querySelector("base");
+    return base ? new URL(base.href).pathname.replace(/\/$/, "") : "";
+  }, []);
+
   // Sync browser back/forward -> state (supports both popstate and legacy hashchange)
   useEffect(() => {
     const onNav = () => { const p = getPage(); setPage(p); window.scrollTo({top:0,behavior:"instant"}); };
@@ -4268,7 +4288,7 @@ function App() {
     if (window.location.hash) {
       const h = window.location.hash.replace("#/","").replace("#","");
       if (h) {
-        const cleanPath = h === "home" ? "/" : "/" + h;
+        const cleanPath = h === "home" ? basePath + "/" : basePath + "/" + h;
         window.history.replaceState(null, "", cleanPath);
       }
     }
@@ -4276,7 +4296,7 @@ function App() {
   }, []);
 
   function navigate(p) {
-    const cleanPath = p === "home" ? "/" : "/" + p;
+    const cleanPath = p === "home" ? basePath + "/" : basePath + "/" + p;
     window.history.pushState(null, "", cleanPath);
     setPage(p);
     window.scrollTo({ top:0, behavior:"instant" });

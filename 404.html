@@ -5,7 +5,9 @@
 <script>
 // Single-page app routing for GitHub Pages
 // Redirects all 404s to index.html while preserving the path
-var pathSegmentsToKeep = 0;
+// pathSegmentsToKeep = 1 for GitHub Pages (keeps repo name segment)
+var isGH = location.hostname.indexOf('github.io') !== -1;
+var pathSegmentsToKeep = isGH ? 1 : 0;
 var l = window.location;
 l.replace(
   l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
