@@ -1262,7 +1262,7 @@ const SITE_IMG = "assets/images/hero.jpg";
 
 function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:sx }) {
   return (
-    <div className="relative w-full rounded-none overflow-hidden" style={{aspectRatio:aspect}}>
+    <div className="relative w-full rounded-none overflow-hidden" style={{aspectRatio:aspect, ...sx}}>
       <img src={SITE_IMG} alt={label||""} className="absolute w-full h-full object-cover" style={{inset:0}} />
       {overlay && <div className="absolute" style={{inset:0, background:overlay}} />}
       {!overlay && dark && <div className="absolute bg-uv-black/40" style={{inset:0}} />}
@@ -2065,7 +2065,7 @@ function HomePage() {
           Tesla-style: dramatic image with overlaid text
           ═══════════════════════════════════ */}
       <section className="lifestyle-break relative overflow-hidden max-h-[520px]">
-        <ImageBlock aspect="9/16" className="max-h-[520px]" dark={true} overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
+        <ImageBlock aspect="9/16" style={{maxHeight:520}} dark={true} overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
           <div className="section-inner absolute bottom-10 left-6 right-6 text-left">
             <h2 className="lifestyle-title text-[32px] font-black text-white tracking-[-0.8px] leading-[1.08] mb-2.5">Your home<br/>internet,<br/>everywhere.</h2>
             <p className="lifestyle-desc text-[15px] text-zinc-300 leading-normal mb-5 max-w-[400px]">Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
