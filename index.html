@@ -1277,7 +1277,7 @@ function ProblemSolution({ features, label="How it helps", title }) {
   return (
     <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
       <div className="section-inner">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>{label}</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>{label}</p>
         {title && <h2 className="section-heading" style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:32, textAlign:"center", lineHeight:1.1 }}>{title}</h2>}
         <div className="lp-features-grid" style={{ display:"flex", flexDirection:"column", gap:16 }}>
           {features.map((f,i) => (
@@ -1329,7 +1329,7 @@ function CompactPlans({ contextLabels, heading="Pick your plan." }) {
   return (
     <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
       <div className="section-inner">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>Plans</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>Plans</p>
         <h2 className="section-heading" style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:6, textAlign:"center", lineHeight:1.1 }}>{heading}</h2>
         <p style={{ fontSize:14, color:T.g500, marginBottom:8, textAlign:"center" }}>Unlimited data on every plan. No contracts, ever.</p>
         <div style={{ display:"flex", justifyContent:"center", marginBottom:28 }}>
@@ -1386,7 +1386,7 @@ function LandingFAQ({ items, heading="Frequently asked questions" }) {
   return (
     <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
       <div className="section-inner lp-faq">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>FAQ</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>FAQ</p>
         <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>{heading}</h2>
         <div style={{ display:"flex", flexDirection:"column", gap:2 }}>
           {items.map((item,i) => (
@@ -1441,7 +1441,7 @@ function KeyDifferences() {
   return (
     <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
       <div className="section-inner">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>Key differences</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>Key differences</p>
         <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center", lineHeight:1.1 }}>Why members choose<br/>Unlimitedville over Starlink</h2>
         <div className="lp-keydiff-grid" style={{ display:"flex", flexDirection:"column", gap:14 }}>
           {cards.map((c,i) => (
@@ -1465,7 +1465,7 @@ function ComparisonTable() {
   return (
     <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
       <div className="section-inner">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>Side-by-side</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>Side-by-side</p>
         <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:28, textAlign:"center" }}>Full plan comparison</h2>
         <div style={{ overflowX:"auto", borderRadius:16, border:`1px solid ${T.darkBorder}` }}>
           <table style={{ width:"100%", minWidth:640, borderCollapse:"collapse", fontSize:13 }}>
@@ -1697,7 +1697,7 @@ function HomePage() {
           ═══════════════════════════════════ */}
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.white }}>
         <div className="section-inner">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>How it works</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>How it works</p>
         <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:12, textAlign:"center", lineHeight:1.05 }}>Online in minutes,<br/>not days.</h2>
         <p className="section-subheading" style={{ fontSize:15, color:T.g500, textAlign:"center", marginBottom:36, maxWidth:380, marginLeft:"auto", marginRight:"auto", lineHeight:1.5 }}>Three steps. No technicians. No wait.</p>
 
@@ -1729,7 +1729,7 @@ function HomePage() {
           ═══════════════════════════════════ */}
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.g50 }}>
         <div className="section-inner">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>Plans</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>Plans</p>
         <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, marginBottom:6, textAlign:"center", lineHeight:1.05 }}>Simple plans.<br/>Honest pricing.</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:8, textAlign:"center" }}>Unlimited data on every plan. No contracts, ever.</p>
         <div style={{ display:"flex", justifyContent:"center", marginBottom:28 }}>
@@ -1876,7 +1876,7 @@ function HomePage() {
       <section className="desktop-section" style={{ padding:"48px 0", background:T.white }}>
         <div className="section-inner">
         <div style={{ padding:"0 24px", marginBottom:32 }}>
-          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>Solutions</p>
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>Solutions</p>
           <h2 className="section-heading" style={{ fontSize:36, fontWeight:900, color:T.g900, letterSpacing:-1, textAlign:"center", lineHeight:1.05 }}>Built for how<br/>you live.</h2>
         </div>
         {/* Vertical stack of full-width feature rows */}
@@ -1911,7 +1911,7 @@ function HomePage() {
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-inner">
         <div style={{ textAlign:"center", marginBottom:32 }}>
-          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16 }}>Reviews</p>
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20 }}>Reviews</p>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:4 }}>
             <span style={{ fontSize:40, fontWeight:900, color:T.g900, letterSpacing:-1 }}>4.5</span>
             <div style={{ textAlign:"left" }}>
@@ -1949,7 +1949,7 @@ function HomePage() {
           ═══════════════════════════════════ */}
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-wide faq-section">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>FAQ</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>FAQ</p>
         <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.g900, letterSpacing:-0.5, marginBottom:32, textAlign:"center" }}>Common questions</h2>
         {FAQ.map((item,i) => (
           <div key={i} style={{ borderRadius:14, overflow:"hidden", background:T.white, border:`1px solid ${faqOpen===i?T.green+"30":T.g200}`, marginBottom:8, transition:"border-color 0.2s" }}>
@@ -2397,7 +2397,7 @@ function PlansPage() {
       {/* ── GUARANTEES ── */}
       <div className="desktop-section" style={{ padding:"48px 20px", background:T.g50, borderTop:`1px solid ${T.g200}` }}>
         <div className="section-wide">
-        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>Why Unlimitedville</p>
+        <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>Why Unlimitedville</p>
         <h2 className="section-heading" style={{ fontSize:34, fontWeight:900, color:T.g900, marginBottom:8, textAlign:"center", letterSpacing:-0.8, lineHeight:1.05 }}>Sounds too good<br/>to be true?</h2>
         <p style={{ fontSize:15, color:T.g500, marginBottom:28, textAlign:"center", lineHeight:1.5 }}>We get it. Here's why thousands of members trust us.</p>
         <div className="guarantees-grid" style={{ display:"flex", flexDirection:"column", gap:12 }}>
@@ -3173,7 +3173,7 @@ function SolutionsHub() {
       {/* Solution cards grid */}
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark }}>
         <div className="section-inner">
-          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16, textAlign:"center" }}>All solutions</p>
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20, textAlign:"center" }}>All solutions</p>
           <h2 className="section-heading" style={{ fontSize:30, fontWeight:900, color:T.white, letterSpacing:-0.8, marginBottom:32, textAlign:"center", lineHeight:1.1 }}>Find the right fit.</h2>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(300px, 1fr))", gap:20 }}>
             {SOLUTIONS_LIST.map((s,i) => (
@@ -3201,7 +3201,7 @@ function SolutionsHub() {
       {/* Starlink comparison callout */}
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.black, borderTop:`1px solid ${T.darkBorder}` }}>
         <div className="section-inner" style={{ maxWidth:720, textAlign:"center" }}>
-          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:16 }}>Compare</p>
+          <p className="section-label" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:20 }}>Compare</p>
           <h2 className="section-heading" style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:12, lineHeight:1.1 }}>Considering Starlink?</h2>
           <p style={{ fontSize:15, color:T.g400, lineHeight:1.6, marginBottom:28 }}>See how Unlimitedville compares on price, portability, setup, and performance.</p>
           <button onClick={()=>navigate("starlink-compare")} className="btn-primary btn-desktop-auto" style={{ padding:"16px 32px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
