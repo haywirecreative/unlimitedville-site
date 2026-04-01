@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<script>
+// GitHub Pages SPA redirect handler -- restores clean URL from 404.html redirect
+(function(l) {
+  if (l.search[1] === '/') {
+    var decoded = l.search.slice(1).split('&').map(function(s) { return s.replace(/~and~/g, '&'); }).join('?');
+    window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+  }
+}(window.location));
+</script>
 <title>Unlimitedville - Wireless Home Internet | No Contracts, Unlimited Data</title>
 <meta name="description" content="Get fast wireless home internet anywhere in the US. No contracts, unlimited data, 5-minute setup. Plans from $69/mo with a 21-day money-back guarantee. Works where cable and fiber don't." />
 <meta property="og:title" content="Unlimitedville - Wireless Home Internet That Goes Where You Do" />
@@ -574,6 +583,9 @@ const SOLUTION_PAGES = {
       { q:"What if there's no cell coverage at my address?", a:"Start with our 21-day trial. If the service doesn't work at your location, return the router for a full refund. No risk." },
       { q:"Is there a data cap?", a:"No. All plans include truly unlimited data with no overage fees, no throttling thresholds, and no fine print." },
       { q:"Do I need a technician to install it?", a:"No. We ship a pre-configured router. Plug it in, connect your devices, and you're online in under 5 minutes." },
+      { q:"Is this better than Starlink for rural areas?", a:"Unlimitedville offers lower monthly costs, no dish installation, and full portability. Starlink requires a $599 dish and a clear view of the sky. Both work in rural areas, but Unlimitedville starts at $69/mo vs. Starlink's $120/mo." },
+      { q:"How many devices can I connect?", a:"Our routers support 250+ simultaneous WiFi connections. Your whole household -- phones, laptops, smart TVs, security cameras, and smart home devices -- on one network." },
+      { q:"Can I use it for remote work and video calls?", a:"Yes. Our 5G Ultra plan provides up to 500 Mbps and 20-40 ms latency, which is more than enough for Zoom, Teams, Google Meet, and other video conferencing tools." },
     ]
   },
   "rv": {
@@ -604,6 +616,9 @@ const SOLUTION_PAGES = {
       { q:"How does it compare to campground WiFi?", a:"Campground WiFi is shared by hundreds of people, resulting in slow, unreliable connections. Unlimitedville gives you your own private network with dedicated bandwidth." },
       { q:"Do I need a separate plan for home and travel?", a:"No. One plan works everywhere. Use the same router at your home base and on the road." },
       { q:"Is there an outdoor antenna?", a:"No exterior hardware required. Our routers have built-in high-gain antennas. For the 5G Ultra plan, the router is IP65 weatherproof for outdoor placement." },
+      { q:"What's the best RV internet plan for full-time travelers?", a:"For full-time RV life with streaming, remote work, and multiple devices, we recommend the 5G Ultra plan. It offers up to 500 Mbps, 20-40 ms latency, and a weatherproof router built for life on the road." },
+      { q:"Is Unlimitedville better than campground WiFi?", a:"Yes. Campground WiFi is shared among hundreds of guests and rarely supports streaming or video calls. Unlimitedville gives you a private, dedicated connection with speeds up to 500 Mbps." },
+      { q:"Does it work in national parks and remote areas?", a:"Unlimitedville works anywhere with 4G LTE or 5G signal. Most national parks have nearby cell towers, but coverage in extremely remote wilderness areas may be limited. Our 21-day trial lets you test your regular travel routes risk-free." },
     ]
   },
   "business": {
@@ -634,6 +649,8 @@ const SOLUTION_PAGES = {
       { q:"Is this suitable for construction sites?", a:"Our 5G Ultra router is IP65 weatherproof and runs on 12v or 110v power. Designed for harsh environments." },
       { q:"Do you offer multi-location or fleet pricing?", a:"Contact us at 888.422.2907 for multi-device and fleet pricing. We can customize a package for your business." },
       { q:"What about uptime and reliability?", a:"Cellular networks provide 99.9%+ uptime in covered areas. Unlike wired connections, there are no cables to cut and no weather-related outages from downed lines." },
+      { q:"Can I use it for a temporary office or job site?", a:"Yes. No installation, no contracts, and fully portable. Set up a temporary office with reliable internet in minutes. Take it to the next site when the job is done." },
+      { q:"Is there a business or multi-device discount?", a:"Yes. Contact us at 888.422.2907 for multi-device and fleet pricing. We work with businesses of all sizes to create custom packages." },
     ]
   },
   "trucking": {
@@ -664,6 +681,9 @@ const SOLUTION_PAGES = {
       { q:"How does it compare to phone hotspot tethering?", a:"Phone hotspots have strict data caps and carrier throttling. Unlimitedville provides truly unlimited data with no throttling thresholds." },
       { q:"Does it work in every state?", a:"We use nationwide 4G/5G networks. Coverage is available across all 48 contiguous states. Start with a 21-day trial to test your regular routes." },
       { q:"Can I stream and game during resets?", a:"Absolutely. With up to 500 Mbps and 20-40 ms latency on our 5G Ultra plan, you can stream 4K, game online, and video call family without issues." },
+      { q:"Is this better than OTR Mobile or phone tethering?", a:"OTR Mobile starts at $119/mo. Unlimitedville starts at $69/mo with the same unlimited data and no contracts. Phone tethering has strict carrier data caps and throttling -- Unlimitedville has none." },
+      { q:"Can my co-driver use it too?", a:"Yes. The router creates a private WiFi network inside your cab. Multiple people and devices can connect at the same time -- phones, tablets, laptops, and streaming devices." },
+      { q:"What happens in dead zones or tunnels?", a:"The router reconnects automatically as soon as cellular signal returns. Brief drops in tunnels or deep valleys are normal with any cellular service, but reconnection is instant." },
     ]
   },
   "gaming": {
@@ -694,6 +714,8 @@ const SOLUTION_PAGES = {
       { q:"Can I stream on Twitch while gaming?", a:"Yes. With up to 500 Mbps on our 5G Ultra plan, you have enough bandwidth for simultaneous gaming and streaming." },
       { q:"How does this compare to a phone hotspot?", a:"Phone hotspots throttle after hitting data caps and have higher latency. Unlimitedville provides dedicated, unlimited bandwidth with lower, more consistent ping." },
       { q:"Which plan is best for gaming?", a:"We recommend the 5G Ultra plan for serious gaming. It offers the lowest latency (20-40 ms) and fastest speeds (up to 500 Mbps)." },
+      { q:"Can I use this for cloud gaming (Xbox Cloud, GeForce Now)?", a:"Yes. Cloud gaming services like Xbox Cloud Gaming and GeForce Now work well on our 5G Ultra plan. The 20-40 ms latency and speeds up to 500 Mbps provide a smooth experience without input lag." },
+      { q:"Is this good enough for competitive ranked play?", a:"Many of our members play competitive FPS, battle royale, and fighting games. The 5G Ultra plan's 20-40 ms latency is competitive with most wired broadband connections and far better than satellite internet." },
     ]
   },
   "failover": {
@@ -724,6 +746,9 @@ const SOLUTION_PAGES = {
       { q:"Can I use it as primary and backup?", a:"Yes. Many members use Unlimitedville as both their primary internet and as backup for a wired connection." },
       { q:"What's the cost of downtime vs. this service?", a:"The average small business loses $427 per minute of internet downtime. At $69-109/mo, Unlimitedville pays for itself after preventing just one outage." },
       { q:"Do I need special equipment?", a:"No. Our router works standalone. For automatic failover, connect it to a dual-WAN router or configure your existing router to use it as a backup gateway." },
+      { q:"Does it work during power outages?", a:"The router needs power to operate. Pair it with a UPS (uninterruptible power supply) or battery backup to maintain internet during power outages. Our 5G Ultra router draws minimal power and works well with small UPS units." },
+      { q:"Can I use this as both primary and backup internet?", a:"Absolutely. Many members start with Unlimitedville as a backup and end up using it as their primary connection because the speeds and reliability exceed their wired ISP." },
+      { q:"Is this suitable for small business POS systems?", a:"Yes. POS terminals, cloud apps, and payment processing all work reliably over our cellular connection. The automatic failover ensures you never lose a sale due to an internet outage." },
     ]
   }
 };
@@ -758,6 +783,9 @@ const STARLINK_FAQ = [
   { q:"Does Unlimitedville require a dish or drilling?", a:"No. Unlimitedville is 100% plug-and-play. No dish, no cables, no drilling, no outdoor hardware of any kind." },
   { q:"Can I use Unlimitedville in an RV?", a:"Yes. Every Unlimitedville plan works at home and on the road. Starlink Residential is locked to one fixed address. Starlink Roam allows mobility but costs $165/mo." },
   { q:"How do I choose between Unlimitedville and Starlink?", a:"If you have usable cellular coverage, Unlimitedville is simpler, more portable, and less expensive. If you're in a zero-cell-coverage area, Starlink may be a better fit. Test risk-free for 21 days." },
+  { q:"What is the best Starlink alternative in 2026?", a:"For areas with cellular coverage, Unlimitedville is the top-rated Starlink alternative. It offers similar or faster speeds, lower cost ($69/mo vs $120/mo), no dish required, and full portability. Other alternatives include T-Mobile 5G Home Internet (address-locked) and Nomad Internet." },
+  { q:"Is cellular internet better than satellite internet?", a:"In areas with 4G/5G coverage, cellular internet is typically faster, cheaper, more portable, and less affected by weather than satellite. Satellite is better in areas with zero cell coverage." },
+  { q:"Can I switch from Starlink to Unlimitedville?", a:"Yes. Order an Unlimitedville plan and test it alongside Starlink during your 21-day trial. If you're satisfied, cancel Starlink and return their equipment. No overlap required -- you can run both simultaneously." },
 ];
 
 const FAQ = [
@@ -819,6 +847,11 @@ const BLOG_POSTS = [
       { type:"p", text:"Fiber internet is the gold standard, but it's still rare in truly rural areas. Government BEAD program funding is expanding it, but most rural areas won't see widespread fiber until 2027-2030." },
       { type:"p", text:"A good strategy is to use cellular home internet now, and switch to fiber when it arrives. Your internet needs are real today." },
       { type:"p", text:"The days of being stuck with whatever DSL speed you could get are over. You have choices. Pick the one that actually works for you." },
+    ],
+    relatedSolutions: [
+      { slug: "rural", label: "Rural Internet Solutions" },
+      { slug: "starlink-compare", label: "Unlimitedville vs Starlink" },
+      { slug: "coverage", label: "Check Your Coverage" },
     ]
   },
   {
@@ -858,6 +891,11 @@ const BLOG_POSTS = [
       { type:"h2", text:"The Bottom Line" },
       { type:"p", text:"You don't have to guess. Both services offer trial periods. If you're leaning toward cellular, Unlimitedville's 21-day money-back guarantee removes the risk. Order a kit, test it in real conditions, and if it doesn't deliver, send it back. No contract, no penalty." },
       { type:"p", text:"The best internet is the one that works reliably at a price you're comfortable paying." },
+    ],
+    relatedSolutions: [
+      { slug: "starlink-compare", label: "Full Unlimitedville vs Starlink Comparison" },
+      { slug: "rural", label: "Rural Internet Solutions" },
+      { slug: "plans", label: "View Plans & Pricing" },
     ]
   },
   {
@@ -894,6 +932,11 @@ const BLOG_POSTS = [
       { type:"h2", text:"The Internet Landscape Has Changed" },
       { type:"p", text:"In 2026, the situation is fundamentally different from five years ago. Cellular coverage is nearly everywhere. New satellites are launching. You're not stuck with old technology anymore." },
       { type:"p", text:"If your current connection isn't cutting it, Unlimitedville's 21-day risk-free trial lets you test a cellular connection with your actual work setup before you commit. You deserve an internet setup that supports your freedom." },
+    ],
+    relatedSolutions: [
+      { slug: "rural", label: "Rural Internet Solutions" },
+      { slug: "business", label: "Business Internet Solutions" },
+      { slug: "failover", label: "Backup Internet / Failover" },
     ]
   },
   {
@@ -940,6 +983,11 @@ const BLOG_POSTS = [
       { type:"p", text:"Slow rural internet usually isn't your fault. It's the result of infrastructure that was never designed to serve your area at modern speeds. But the situation in 2026 is dramatically different from five years ago." },
       { type:"p", text:"If you have cell signal at your address, cellular home internet might be worth a look. Unlimitedville offers a 21-day money-back guarantee, so you can test it without risk. Just check if we're available at your address first." },
       { type:"p", text:"Your slow connection doesn't have to be permanent. The infrastructure supporting rural internet is finally catching up." },
+    ],
+    relatedSolutions: [
+      { slug: "rural", label: "Rural Internet Solutions" },
+      { slug: "starlink-compare", label: "Unlimitedville vs Starlink" },
+      { slug: "coverage", label: "Check Your Coverage" },
     ]
   },
   {
@@ -1021,6 +1069,11 @@ const BLOG_POSTS = [
       { type:"p", text:"Place your cellular router near a window facing the nearest cell tower for best signal. Use ethernet for your work computer if possible -- it eliminates WiFi interference. Set up QoS (Quality of Service) on your router to prioritize video call traffic over streaming and downloads." },
       { type:"h2", text:"What Plan Do You Need?" },
       { type:"p", text:"For a single remote worker, Unlimitedville's 4G Plus plan ($99/mo, 75-250 Mbps) is more than enough. If multiple people in your household work or learn from home simultaneously, the 5G Ultra plan ($109/mo, 100-500 Mbps) provides extra headroom." },
+    ],
+    relatedSolutions: [
+      { slug: "rural", label: "Rural Internet Solutions" },
+      { slug: "coverage", label: "Check Your Coverage" },
+      { slug: "plans", label: "View Plans & Pricing" },
     ]
   },
   {
@@ -1046,6 +1099,11 @@ const BLOG_POSTS = [
       { type:"p", text:"Starlink Roam ($165/mo + $599 dish) delivers decent speeds but requires setting up and leveling a dish at each stop, a clear sky view, and consumes significant power. The dish is bulky and fragile for road travel." },
       { type:"h2", text:"Our Recommendation" },
       { type:"p", text:"For most RVers, a cellular router provides the best balance of speed, convenience, cost, and coverage. It works while driving, sets up instantly at each stop, and doesn't require any exterior equipment." },
+    ],
+    relatedSolutions: [
+      { slug: "rv", label: "RV & Van Life Internet" },
+      { slug: "plans", label: "View Plans & Pricing" },
+      { slug: "starlink-compare", label: "Unlimitedville vs Starlink" },
     ]
   },
   {
@@ -1069,6 +1127,11 @@ const BLOG_POSTS = [
       { type:"p", text:"The 4G Plus plan ($99/mo) hits the sweet spot: 75-250 Mbps speeds, nationwide 4G LTE coverage, and enough bandwidth for everything from Netflix to FaceTime. If you're in an area with 5G coverage, the Ultra plan ($109/mo) delivers even faster speeds." },
       { type:"h2", text:"Setup Tips for Your Cab" },
       { type:"p", text:"Mount the router on your dashboard or in a window-facing position for best signal. The device runs on standard 110V power, so plug it into your cab's inverter. It creates its own WiFi network -- connect your phone, tablet, laptop, and smart TV." },
+    ],
+    relatedSolutions: [
+      { slug: "trucking", label: "Trucking & OTR Internet" },
+      { slug: "plans", label: "View Plans & Pricing" },
+      { slug: "coverage", label: "Check Your Coverage" },
     ]
   },
   {
@@ -1092,6 +1155,11 @@ const BLOG_POSTS = [
       { type:"callout", text:"Not sure which network is best at your address? Check your coverage to see available Unlimitedville plans and expected speeds for your location." },
       { type:"h2", text:"Common Concerns Addressed" },
       { type:"p", text:"Data caps? Unlimitedville plans are truly unlimited with no throttling. Weather? Cellular signals are barely affected by rain or snow, unlike satellite. Shared bandwidth? Cell towers dynamically allocate capacity, so your speeds stay consistent even during peak hours." },
+    ],
+    relatedSolutions: [
+      { slug: "rural", label: "Rural Internet Solutions" },
+      { slug: "coverage", label: "Check Your Coverage" },
+      { slug: "starlink-compare", label: "Unlimitedville vs Starlink" },
     ]
   }
 ];
@@ -2091,6 +2159,7 @@ function CartPage() {
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState("");
+  useSEO("Your Cart | Unlimitedville", "Review your Unlimitedville plan selection before checkout.", "cart", { noindex: true });
   if (!cart) { navigate("plans"); return null; }
   const total = cart.monthly + cart.activation;
 
@@ -2193,6 +2262,7 @@ function CheckoutPage() {
   const { cart, navigate } = useApp();
   const [primaryUse, setPrimaryUse] = useState("");
   const [usageLocation, setUsageLocation] = useState("");
+  useSEO("Checkout | Unlimitedville", "Complete your Unlimitedville order.", "checkout", { noindex: true });
   const [tosAgreed, setTosAgreed] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
@@ -2657,7 +2727,8 @@ function PlansPage() {
 /* ═══════════════════════════════════════
    BLOG LANDING PAGE
    ═══════════════════════════════════════ */
-function useSEO(title, description, path) {
+function useSEO(title, description, path, opts) {
+  const noindex = opts && opts.noindex;
   useEffect(() => {
     const prev = document.title;
     document.title = title;
@@ -2677,14 +2748,24 @@ function useSEO(title, description, path) {
     const canonical = document.querySelector('link[rel="canonical"]');
     const prevCanonical = canonical ? canonical.href : "";
     if (canonical && path) canonical.href = "https://unlimitedville.com/" + path;
+    // Robots noindex
+    let robots = document.querySelector('meta[name="robots"]');
+    const prevRobots = robots ? robots.content : "";
+    if (noindex) {
+      if (!robots) { robots = document.createElement("meta"); robots.name = "robots"; document.head.appendChild(robots); }
+      robots.content = "noindex, nofollow";
+    } else if (robots) {
+      robots.content = "index, follow";
+    }
     return () => {
       document.title = prev;
       if (meta) meta.content = prevDesc;
       if (ogTitle) ogTitle.content = prevOgTitle;
       if (ogDesc) ogDesc.content = prevOgDesc;
       if (canonical) canonical.href = prevCanonical;
+      if (robots) robots.content = prevRobots;
     };
-  }, [title, description, path]);
+  }, [title, description, path, noindex]);
 }
 
 /* Dynamic schema injection helper */
@@ -2943,6 +3024,20 @@ function BlogPostPage({ post }) {
             }
             return null;
           })}
+
+          {/* Related solution pages -- internal links for SEO */}
+          {post.relatedSolutions && post.relatedSolutions.length > 0 && (
+            <div style={{ marginTop:40, padding:"24px", borderRadius:16, background:"rgba(255,255,255,0.02)", border:`1px solid ${T.darkBorder}` }}>
+              <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:T.g500, textTransform:"uppercase", marginBottom:14 }}>Related pages</p>
+              <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                {post.relatedSolutions.map((sol, i) => (
+                  <button key={i} onClick={()=>navigate(sol.slug)} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"12px 16px", borderRadius:10, background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`, color:T.g200, fontSize:14, fontWeight:600, cursor:"pointer", textAlign:"left" }}>
+                    {sol.label} {I.arrow(12,T.greenText)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Inline CTA */}
           <div style={{ marginTop:48, borderRadius:18, overflow:"hidden", border:`1px solid ${T.darkBorder}`, background:T.darkCard }}>
@@ -3366,6 +3461,7 @@ function LoginPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rememberMe, setRememberMe] = React.useState(false);
+  useSEO("Member Login | Unlimitedville", "Sign in to your Unlimitedville account.", "login", { noindex: true });
 
   useSEO("Sign In | Unlimitedville", "Sign in to your Unlimitedville account to manage your plan, track usage, and update billing.");
 
@@ -3479,7 +3575,7 @@ function MyAccountPage() {
   const { navigate } = useApp();
   const [activeTab, setActiveTab] = React.useState("subscriptions");
 
-  useSEO("My Account | Unlimitedville", "Manage your subscription, billing, account settings, and get support.");
+  useSEO("My Account | Unlimitedville", "Manage your subscription, billing, account settings, and get support.", "account", { noindex: true });
 
   const tabBarStyle = {
     display:"flex",
@@ -3826,8 +3922,8 @@ function Footer() {
         {/* Resources column */}
         <div>
           <p style={{ fontSize:12, fontWeight:700, letterSpacing:2, color:T.greenText, textTransform:"uppercase", marginBottom:14 }}>Resources</p>
-          {[{l:"Resource Center",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Coverage Check",p:"plans",scroll:true},{l:"Reviews",p:"reviews"}].map((link,i) => (
-            <button key={i} onClick={link.scroll?()=>document.querySelector('.coverage-dark')?.scrollIntoView({behavior:'smooth',block:'center'}):()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:13, padding:"5px 0", textAlign:"left", display:"block", width:"100%" }}>{link.l}</button>
+          {[{l:"Resource Center",p:"blog"},{l:"Starlink vs Unlimitedville",p:"starlink-compare"},{l:"Coverage Check",p:"coverage"},{l:"Reviews",p:"reviews"}].map((link,i) => (
+            <button key={i} onClick={()=>navigate(link.p)} className="footer-link" style={{ background:"none", border:"none", color:T.g400, fontSize:13, padding:"5px 0", textAlign:"left", display:"block", width:"100%" }}>{link.l}</button>
           ))}
         </div>
         {/* Support column */}
@@ -3865,9 +3961,95 @@ function Footer() {
 /* ═══════════════════════════════════════
    APP ROUTER
    ═══════════════════════════════════════ */
-function getHashPage() {
-  const h = window.location.hash.replace("#/","").replace("#","");
-  return h || "home";
+/* ═══════════════════════════════════════
+   COVERAGE PAGE -- Standalone coverage checker with SEO
+   ═══════════════════════════════════════ */
+function CoveragePage() {
+  const { navigate } = useApp();
+  useSEO(
+    "Check Internet Coverage at Your Address | Unlimitedville",
+    "Enter your address to check Unlimitedville wireless internet availability. 4G and 5G coverage across all 48 contiguous states. Instant results.",
+    "coverage"
+  );
+  useSchema("coverage-breadcrumb", {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://unlimitedville.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Check Coverage", "item": "https://unlimitedville.com/coverage" }
+    ]
+  });
+
+  const coverageFaq = [
+    { q:"What networks does Unlimitedville use?", a:"We operate on major nationwide 4G LTE and 5G networks. Your router automatically connects to the strongest available signal at your location." },
+    { q:"What if there's no coverage at my address?", a:"Every plan includes a 21-day money-back guarantee. If the service doesn't perform well at your location, return the router for a full refund -- no questions asked." },
+    { q:"Does coverage vary by plan?", a:"Yes. The 4G Lite and 4G Plus plans use 4G LTE networks. The 5G Ultra plan uses both 5G and 4G networks, providing faster speeds and lower latency where 5G is available." },
+    { q:"Can I check coverage for an RV or travel route?", a:"Our service works anywhere with cellular signal. Check your home base address here, then take the router with you. The 21-day trial lets you test your regular routes and destinations." },
+  ];
+  useSchema("coverage-faq-schema", {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": coverageFaq.map(f => ({
+      "@type": "Question", "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  });
+
+  const [faqOpen, setFaqOpen] = useState(null);
+
+  return (
+    <div style={{ minHeight:"100vh", background:T.g50 }}>
+      {/* Hero */}
+      <section style={{ background:T.dark, padding:"120px 20px 48px", textAlign:"center" }}>
+        <div style={{ maxWidth:600, margin:"0 auto" }}>
+          <p className="fade-up" style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.greenText, textTransform:"uppercase", marginBottom:12 }}>Coverage Checker</p>
+          <h1 className="fade-up fade-up-d2" style={{ fontSize:36, fontWeight:900, color:T.white, letterSpacing:-1.5, lineHeight:1.1, marginBottom:16 }}>Check internet availability<br/>at your address.</h1>
+          <p className="fade-up fade-up-d3" style={{ fontSize:16, color:T.g400, lineHeight:1.6 }}>Enter your address below to see if Unlimitedville wireless internet is available in your area. Coverage spans all 48 contiguous states on 4G LTE and 5G networks.</p>
+        </div>
+      </section>
+
+      <CoverageCheck />
+
+      {/* Info section */}
+      <section className="desktop-section" style={{ padding:"48px 20px" }}>
+        <div className="section-wide" style={{ maxWidth:700, margin:"0 auto" }}>
+          <h2 style={{ fontSize:26, fontWeight:800, color:T.g900, letterSpacing:-0.5, marginBottom:20 }}>How coverage works</h2>
+          <p style={{ fontSize:15, color:T.g600, lineHeight:1.7, marginBottom:16 }}>Unlimitedville uses nationwide 4G LTE and 5G cellular networks to deliver wireless internet to your home, RV, truck, or business. Unlike cable or fiber, there's no installation appointment and no wiring -- just plug in the router and connect.</p>
+          <p style={{ fontSize:15, color:T.g600, lineHeight:1.7, marginBottom:16 }}>Our routers are pre-configured and automatically connect to the strongest available tower in your area. If you're in a location with 5G coverage and have the 5G Ultra plan, you'll get the fastest speeds and lowest latency available.</p>
+          <p style={{ fontSize:15, color:T.g600, lineHeight:1.7, marginBottom:32 }}>Not sure if it'll work for you? Every plan comes with a <strong>21-day money-back guarantee</strong>. Test the service risk-free at your location -- if it doesn't meet your needs, return the router for a full refund.</p>
+
+          <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
+            <button onClick={()=>navigate("plans")} className="btn-primary" style={{ padding:"14px 28px", background:T.green, color:T.white, border:"none", borderRadius:12, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", gap:8, boxShadow:`0 0 32px ${T.greenGlow}` }}>View Plans & Pricing {I.arrow(14)}</button>
+            <button onClick={()=>navigate("support")} className="btn-outline" style={{ padding:"14px 28px", background:"none", border:`1px solid ${T.g300}`, borderRadius:12, fontSize:14, fontWeight:600, color:T.g700 }}>Contact Support</button>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="desktop-section" style={{ padding:"0 20px 64px" }}>
+        <div className="section-wide" style={{ maxWidth:700, margin:"0 auto" }}>
+          <h2 style={{ fontSize:22, fontWeight:800, color:T.g900, letterSpacing:-0.5, marginBottom:20 }}>Coverage FAQs</h2>
+          {coverageFaq.map((item, i) => (
+            <div key={i} style={{ borderBottom:`1px solid ${T.g200}` }}>
+              <button onClick={()=>setFaqOpen(faqOpen===i?null:i)} style={{ width:"100%", display:"flex", justifyContent:"space-between", alignItems:"center", padding:"18px 0", background:"none", border:"none", cursor:"pointer" }}>
+                <span style={{ fontSize:15, fontWeight:600, color:T.g900, textAlign:"left" }}>{item.q}</span>
+                <span style={{ color:T.g400, fontSize:18, flexShrink:0, marginLeft:16 }}>{faqOpen===i?"-":"+"}</span>
+              </button>
+              {faqOpen===i && <div style={{ paddingBottom:18, fontSize:15, color:T.g600, lineHeight:1.65 }}>{item.a}</div>}
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function getPage() {
+  // Support both clean URLs and legacy hash URLs
+  const hash = window.location.hash.replace("#/","").replace("#","");
+  if (hash) return hash;
+  const path = window.location.pathname.replace(/^\//, "").replace(/\/$/, "");
+  return path || "home";
 }
 
 function SolutionPage({ config }) {
@@ -3988,8 +4170,8 @@ function SolutionsHub() {
 function VsStarlinkPage() {
   const { navigate } = useApp();
   useSEO(
-    "Unlimitedville vs Starlink 2026: Price, Speed & Setup Compared | Unlimitedville",
-    "Compare Unlimitedville vs Starlink side by side. See which rural internet provider wins on price, speed, portability, and setup. No dish required. 21-day trial.",
+    "Unlimitedville vs Starlink 2026: Best Starlink Alternative | Price, Speed & Setup Compared",
+    "Looking for a Starlink alternative? Compare Unlimitedville vs Starlink side by side on price, speed, portability, and setup. No dish, no contract. 21-day money-back guarantee.",
     "starlink-compare"
   );
   useSchema("starlink-compare-faq", {
@@ -4028,6 +4210,35 @@ function VsStarlinkPage() {
         <p style={{ marginBottom:16 }}>Satellite dishes need stationary alignment and clear sky visibility. Unlimitedville does not require any exterior hardware or sky access.</p>
         <p>Every Unlimitedville plan works at home and on the road. Starlink Residential is locked to one address. Starlink Roam allows mobility at $165/mo -- $56/mo more than Unlimitedville 5G Ultra.</p>
       </UseCaseSection>
+      {/* Starlink Alternatives section -- targets "starlink alternatives 2026" keywords */}
+      <section className="desktop-section" style={{ padding:"48px 20px", background:T.g50 }}>
+        <div className="section-wide" style={{ maxWidth:800, margin:"0 auto" }}>
+          <p style={{ fontSize:12, fontWeight:700, letterSpacing:3, color:T.green, textTransform:"uppercase", marginBottom:12 }}>Starlink Alternatives 2026</p>
+          <h2 style={{ fontSize:30, fontWeight:900, color:T.g900, letterSpacing:-1, lineHeight:1.1, marginBottom:20 }}>Why people are switching from Starlink to cellular internet</h2>
+          <p style={{ fontSize:15, color:T.g600, lineHeight:1.7, marginBottom:16 }}>Starlink was a breakthrough for rural internet. But as cellular 5G networks have expanded, many Starlink users are finding that cellular home internet delivers better value -- especially if you have cell signal at your address.</p>
+          <p style={{ fontSize:15, color:T.g600, lineHeight:1.7, marginBottom:24 }}>Here's why Unlimitedville has become one of the most popular Starlink alternatives in 2026:</p>
+          <div style={{ display:"grid", gap:16 }}>
+            {[
+              { title: "No dish installation", desc: "Starlink requires a $349-$599 dish mounted outdoors with a clear view of the sky. Unlimitedville is a plug-in router -- no outdoor hardware, no roof mounting, no installation." },
+              { title: "Lower total cost", desc: "Starlink Residential is $120/mo plus equipment. Unlimitedville starts at $69/mo with $0 equipment on the Lite plan. Over 2 years, that's up to $1,573 in savings." },
+              { title: "True portability", desc: "Starlink Residential is address-locked. Starlink Roam costs $165/mo. Every Unlimitedville plan works at home and on the road at no extra cost." },
+              { title: "Better weather performance", desc: "Satellite signals degrade in rain, snow, and heavy clouds. Cellular towers are ground-based and rarely affected by weather." },
+              { title: "No equipment to buy or lose", desc: "If you cancel Starlink, you own a $349+ dish with no resale value. Unlimitedville equipment is included with your membership -- just return it if you cancel." },
+              { title: "21-day risk-free trial", desc: "Test Unlimitedville at your location for 21 days. If it doesn't work, return the router for a full refund. Starlink's return window is 30 days, but you've already paid for the dish." },
+            ].map((item, i) => (
+              <div key={i} style={{ padding:"20px 24px", borderRadius:14, background:T.white, border:`1px solid ${T.g200}` }}>
+                <h3 style={{ fontSize:16, fontWeight:700, color:T.g900, marginBottom:6 }}>{item.title}</h3>
+                <p style={{ fontSize:14, color:T.g600, lineHeight:1.6, margin:0 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop:28, textAlign:"center" }}>
+            <button onClick={()=>navigate("plans")} className="btn-primary btn-desktop-auto" style={{ padding:"16px 32px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:15, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", gap:8, boxShadow:`0 0 40px ${T.greenGlow}`, margin:"0 auto" }}>
+              See Plans & Pricing {I.arrow(14)}
+            </button>
+          </div>
+        </div>
+      </section>
       <CoverageCheck />
       <SocialProof reviews={[
         { name:"Amir", text:"I tried satellite and point-to-point microwave and the best I could do was 12 Mbps for $150/mo. Unlimitedville changed everything.", verified:false },
@@ -4041,22 +4252,32 @@ function VsStarlinkPage() {
 }
 
 function App() {
-  const [page, setPage] = useState(getHashPage);
+  const [page, setPage] = useState(getPage);
   const [cart, setCart] = useState(null);
   const [address, setAddress] = useState("");
   const [addressChecked, setAddressChecked] = useState(false);
   const [addressResult, setAddressResult] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-  // Sync hash -> state (back/forward buttons)
+  // Sync browser back/forward -> state (supports both popstate and legacy hashchange)
   useEffect(() => {
-    const onHash = () => { const p = getHashPage(); setPage(p); window.scrollTo({top:0,behavior:"instant"}); };
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
+    const onNav = () => { const p = getPage(); setPage(p); window.scrollTo({top:0,behavior:"instant"}); };
+    window.addEventListener("popstate", onNav);
+    window.addEventListener("hashchange", onNav);
+    // Redirect legacy hash URLs to clean URLs
+    if (window.location.hash) {
+      const h = window.location.hash.replace("#/","").replace("#","");
+      if (h) {
+        const cleanPath = h === "home" ? "/" : "/" + h;
+        window.history.replaceState(null, "", cleanPath);
+      }
+    }
+    return () => { window.removeEventListener("popstate", onNav); window.removeEventListener("hashchange", onNav); };
   }, []);
 
   function navigate(p) {
-    window.location.hash = "#/" + p;
+    const cleanPath = p === "home" ? "/" : "/" + p;
+    window.history.pushState(null, "", cleanPath);
     setPage(p);
     window.scrollTo({ top:0, behavior:"instant" });
   }
@@ -4076,6 +4297,7 @@ function App() {
       case "login": return <LoginPage />;
       case "account": return <MyAccountPage />;
       case "starlink-compare": return <VsStarlinkPage />;
+      case "coverage": return <CoveragePage />;
       default:
         /* Blog post routing -- blog/slug */
         if (page.startsWith("blog/")) {
