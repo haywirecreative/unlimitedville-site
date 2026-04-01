@@ -1372,11 +1372,11 @@ function PressStrip({ border=false }) {
    PageHero + CoverageCheck -- used by Home, Plans, and future landing pages.
    One styling change here updates every page.
    ═══════════════════════════════════════ */
-function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92svh", heroTitleClass="hero-title", heroSubClass="hero-subtitle", imgAlt="", heroImg, landing=false }) {
+function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92svh", heroTitleClass="hero-title", heroSubClass="hero-subtitle", imgAlt="", heroImg, landing=false, imgStyle }) {
   const isLanding = landing || (heroTitleClass !== "hero-title" && heroTitleClass !== "plans-hero-title");
   return (
     <section className="hero-section flex flex-col relative overflow-hidden bg-uv-dark" style={{minHeight}}>
-      <img src={heroImg || SITE_IMG} alt={imgAlt} className="absolute w-full h-full object-cover" style={{inset:0, objectPosition:"center 60%"}} />
+      <img src={heroImg || SITE_IMG} alt={imgAlt} className="absolute w-full h-full object-cover" style={{inset:0, objectPosition:"center 60%", ...imgStyle}} />
       <div className={`${isLanding ? "lp-hero-gradient" : ""} absolute`} style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.3) 30%, rgba(10,10,10,0.35) 55%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.9) 100%)"}} />
       <div className={`${isLanding ? "lp-hero-inner" : ""} flex-1 flex flex-col relative z-[1] py-0 px-6`} style={{alignItems:isLanding?undefined:"center", textAlign:isLanding?undefined:"center"}}>
         {/* Reviews badge */}
@@ -2520,7 +2520,9 @@ function PlansPage() {
         minHeight="72svh"
         heroTitleClass="plans-hero-title"
         heroSubClass="plans-hero-subtitle"
-        imgAlt="Unlimitedville plans and pricing - wireless internet with no contracts"
+        heroImg="assets/images/hero-plans.jpg?v=1"
+        imgStyle={{objectPosition:"15% 60%"}}
+        imgAlt="Unlimitedville router in a bright living room with people streaming on tablet and working on laptop"
       />
       <PressStrip border={true} />
       <CoverageCheck />
