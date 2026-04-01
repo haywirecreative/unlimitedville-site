@@ -1260,10 +1260,10 @@ function LogoFull({h=26, inverted=true}) {
    ═══════════════════════════════════════ */
 const SITE_IMG = "assets/images/hero.jpg";
 
-function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:sx, src }) {
+function ImageBlock({ aspect="16/9", label, dark=true, children, overlay, style:sx, src, imgStyle }) {
   return (
     <div className="relative w-full rounded-none overflow-hidden" style={{aspectRatio:aspect, ...sx}}>
-      <img src={src || SITE_IMG} alt={label||""} className="absolute w-full h-full object-cover" style={{inset:0}} />
+      <img src={src || SITE_IMG} alt={label||""} className="absolute w-full h-full object-cover" style={{inset:0, ...imgStyle}} />
       {overlay && <div className="absolute" style={{inset:0, background:overlay}} />}
       {!overlay && dark && <div className="absolute bg-uv-black/40" style={{inset:0}} />}
       <div className="absolute flex flex-col items-center justify-center p-5 z-[1]" style={{inset:0}}>
@@ -1376,7 +1376,7 @@ function PageHero({ title, subtitle, ctaText, ctaAction, bullets, minHeight="92s
   const isLanding = landing || (heroTitleClass !== "hero-title" && heroTitleClass !== "plans-hero-title");
   return (
     <section className="hero-section flex flex-col relative overflow-hidden bg-uv-dark" style={{minHeight}}>
-      <img src={heroImg || SITE_IMG} alt={imgAlt} className="absolute w-full h-full object-cover" style={{inset:0}} />
+      <img src={heroImg || SITE_IMG} alt={imgAlt} className="absolute w-full h-full object-cover" style={{inset:0, objectPosition:"center 60%"}} />
       <div className={`${isLanding ? "lp-hero-gradient" : ""} absolute`} style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.3) 30%, rgba(10,10,10,0.35) 55%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.9) 100%)"}} />
       <div className={`${isLanding ? "lp-hero-inner" : ""} flex-1 flex flex-col relative z-[1] py-0 px-6`} style={{alignItems:isLanding?undefined:"center", textAlign:isLanding?undefined:"center"}}>
         {/* Reviews badge */}
@@ -2066,7 +2066,7 @@ function HomePage() {
           Tesla-style: dramatic image with overlaid text
           ═══════════════════════════════════ */}
       <section className="lifestyle-break relative overflow-hidden max-h-[520px]">
-        <ImageBlock aspect="9/16" style={{maxHeight:520}} dark={true} src="assets/images/lifestyle-break.jpg" label="Unlimitedville router on a picnic table at a mountain campsite with laptop" overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
+        <ImageBlock aspect="9/16" style={{maxHeight:520}} dark={true} src="assets/images/lifestyle-break.jpg" imgStyle={{objectPosition:"center 65%"}} label="Unlimitedville router on a picnic table at a mountain campsite with laptop" overlay="linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)">
           <div className="section-inner absolute bottom-10 left-6 right-6 text-left">
             <h2 className="lifestyle-title text-[32px] font-black text-white tracking-[-0.8px] leading-[1.08] mb-2.5">Your home<br/>internet,<br/>everywhere.</h2>
             <p className="lifestyle-desc text-[15px] text-zinc-300 leading-normal mb-5 max-w-[400px]">Take it from your cabin to the campground, the RV park, or the job site. Same plan, same speed, fully portable.</p>
