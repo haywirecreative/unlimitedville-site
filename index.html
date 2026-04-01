@@ -177,6 +177,13 @@
   .footer-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 20px; }
 
+  /* ── Account page grids (mobile: 1 col) ── */
+  .account-sub-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .referral-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .account-info-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .account-support-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .account-tabs { scroll-behavior: smooth; }
+
   /* ── RESPONSIVE: Full-width section with contained inner content ── */
   .section-inner { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
   .section-wide { max-width: 960px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
@@ -282,6 +289,10 @@
     .blog-post-title { font-size: 38px !important; }
     .blog-h2 { font-size: 24px !important; }
     .blog-p { font-size: 17px !important; }
+    /* Account page: 2-col grids on tablet+ */
+    .referral-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .account-info-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .account-support-grid { grid-template-columns: repeat(2, 1fr) !important; }
   }
 
   /* ── RESPONSIVE: Desktop (1024px+) ── */
@@ -2947,17 +2958,6 @@ function ReviewsPage() {
                   <p style={{ fontSize:11, color:T.g600, marginTop:4 }}>Not displayed publicly. Used for verification only.</p>
                 </div>
 
-                {/* Plan select */}
-                <div style={{ marginBottom:16 }}>
-                  <label style={{ fontSize:13, fontWeight:600, color:T.g300, display:"block", marginBottom:6 }}>Your Plan</label>
-                  <select style={{ width:"100%", padding:"12px 14px", background:"rgba(255,255,255,0.04)", border:`1px solid ${T.darkBorder}`, borderRadius:10, color:T.g300, fontSize:14, outline:"none", appearance:"none" }}>
-                    <option value="">Select your plan</option>
-                    <option value="4g-lite">4G Lite</option>
-                    <option value="4g-plus">4G Plus</option>
-                    <option value="5g-ultra">5G Ultra</option>
-                  </select>
-                </div>
-
                 {/* Review text */}
                 <div style={{ marginBottom:24 }}>
                   <label style={{ fontSize:13, fontWeight:600, color:T.g300, display:"block", marginBottom:6 }}>Your Review</label>
@@ -3132,6 +3132,434 @@ function SupportPage() {
       </section>
 
       <FinalCTA bgImg="https://unlimitedville.com/images/hero/business-coffee-shop.jpg" />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   LOGIN PAGE
+   ═══════════════════════════════════════ */
+function LoginPage() {
+  const { navigate } = useApp();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [rememberMe, setRememberMe] = React.useState(false);
+
+  useSEO("Sign In | Unlimitedville", "Sign in to your Unlimitedville account to manage your plan, track usage, and update billing.");
+
+  const handleSignIn = () => {
+    // Simulate login - navigate to account page
+    if (email && password) {
+      navigate("account");
+    }
+  };
+
+  const inputStyle = { width:"100%", padding:"16px 18px", borderRadius:14, border:`1px solid ${T.darkBorder}`, fontSize:16, outline:"none", background:T.darkCard, color:T.white, transition:"border-color 0.2s" };
+  const labelStyle = { fontSize:12, fontWeight:600, color:T.g400, marginBottom:6, display:"block" };
+
+  return (
+    <div style={{ minHeight:"100vh", background:T.dark, paddingTop:120, paddingBottom:60, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+      <div style={{ maxWidth:420, width:"100%", padding:"0 20px" }}>
+        {/* Logomark */}
+        <div onClick={()=>navigate("home")} style={{ cursor:"pointer", display:"flex", justifyContent:"center", marginBottom:40 }}>
+          <Logomark h={48} />
+        </div>
+
+        {/* Card */}
+        <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:20, padding:40 }}>
+          {/* Heading */}
+          <h1 style={{ fontSize:28, fontWeight:900, color:T.white, marginBottom:8, letterSpacing:-0.5, textAlign:"center" }}>Welcome back</h1>
+          <p style={{ fontSize:14, color:T.g400, textAlign:"center", marginBottom:28 }}>Sign in to your account</p>
+
+          {/* Email Input */}
+          <div style={{ marginBottom:20 }}>
+            <label style={labelStyle}>Email address</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+              style={inputStyle}
+            />
+          </div>
+
+          {/* Password Input */}
+          <div style={{ marginBottom:6 }}>
+            <label style={labelStyle}>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              style={inputStyle}
+            />
+          </div>
+
+          {/* Remember Me & Forgot Password */}
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:28, fontSize:13 }}>
+            <label style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", color:T.g400 }}>
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                style={{ cursor:"pointer" }}
+              />
+              Remember me
+            </label>
+            <a href="#" onClick={(e) => { e.preventDefault(); }} style={{ color:T.green, textDecoration:"none" }}>
+              Forgot password?
+            </a>
+          </div>
+
+          {/* Sign In Button */}
+          <button
+            onClick={handleSignIn}
+            className="btn-primary btn-desktop-auto"
+            style={{ width:"100%", padding:"16px", background:T.green, color:T.white, border:"none", borderRadius:14, fontSize:16, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", boxShadow:`0 0 40px ${T.greenGlow}, 0 4px 24px rgba(0,0,0,0.4)` }}
+          >
+            Sign In
+          </button>
+
+          {/* Divider */}
+          <div style={{ display:"flex", alignItems:"center", gap:12, margin:"24px 0", opacity:0.4 }}>
+            <div style={{ flex:1, height:"1px", background:T.darkBorder }} />
+            <span style={{ fontSize:12, color:T.g500 }}>or</span>
+            <div style={{ flex:1, height:"1px", background:T.darkBorder }} />
+          </div>
+
+          {/* Create Account Button */}
+          <button
+            onClick={() => navigate("signup")}
+            style={{ width:"100%", padding:"16px", background:"none", border:`1px solid ${T.darkBorder}`, borderRadius:14, fontSize:16, fontWeight:700, color:T.g300, display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", transition:"all 0.2s" }}
+          >
+            Create Account
+          </button>
+        </div>
+
+        {/* Help Text */}
+        <div style={{ textAlign:"center", marginTop:32 }}>
+          <p style={{ fontSize:13, color:T.g500 }}>
+            Need help? Call{" "}
+            <a href="tel:888-422-2907" style={{ color:T.green, textDecoration:"none" }}>
+              888-422-2907
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   MY ACCOUNT PAGE (Dashboard)
+   ═══════════════════════════════════════ */
+function MyAccountPage() {
+  const { navigate } = useApp();
+  const [activeTab, setActiveTab] = React.useState("subscriptions");
+
+  useSEO("My Account | Unlimitedville", "Manage your subscription, billing, account settings, and get support.");
+
+  const tabBarStyle = {
+    display:"flex",
+    gap:0,
+    borderBottom:`1px solid ${T.darkBorder}`,
+    overflow:"auto",
+    WebkitOverflowScrolling:"touch",
+  };
+
+  const tabStyle = (active) => ({
+    padding:"16px 20px",
+    fontSize:12,
+    fontWeight:700,
+    letterSpacing:1,
+    textTransform:"uppercase",
+    color:active ? T.white : T.g500,
+    borderBottom:active ? `3px solid ${T.green}` : "none",
+    cursor:"pointer",
+    whiteSpace:"nowrap",
+    transition:"all 0.2s",
+    background:"none",
+    border:"none",
+    marginBottom:"-1px",
+  });
+
+  return (
+    <div style={{ minHeight:"100vh", background:T.dark, paddingBottom:80 }}>
+      {/* Hero Header */}
+      <div style={{ background:T.darkCard, borderBottom:`1px solid ${T.darkBorder}`, padding:"40px 20px" }}>
+        <div className="section-inner" style={{ display:"flex", alignItems:"center", gap:16 }}>
+          {I.user(32, T.green)}
+          <div>
+            <h1 style={{ fontSize:28, fontWeight:900, color:T.white, letterSpacing:-0.5, marginBottom:4 }}>My Account</h1>
+            <p style={{ fontSize:14, color:T.g500 }}>Manage your plan, billing, and account settings</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab Bar */}
+      <div style={tabBarStyle} className="account-tabs">
+        {["subscriptions", "referral", "account-info", "support"].map((tab) => {
+          const labels = {
+            subscriptions: "Subscriptions",
+            referral: "Referral Program",
+            "account-info": "Account Info",
+            support: "Support",
+          };
+          const icons = {
+            subscriptions: I.calendar(14, activeTab === tab ? T.green : T.g500),
+            referral: I.star(12),
+            "account-info": I.user(14, activeTab === tab ? T.green : T.g500),
+            support: I.shield(13, activeTab === tab ? T.green : T.g500),
+          };
+          return (
+            <button key={tab} onClick={() => setActiveTab(tab)} style={tabStyle(activeTab === tab)}>
+              <span style={{ display:"flex", alignItems:"center", gap:8 }}>
+                {icons[tab]}
+                {labels[tab]}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Tab Content */}
+      <div className="section-inner" style={{ paddingTop:40, paddingBottom:40 }}>
+        {/* SUBSCRIPTIONS TAB */}
+        {activeTab === "subscriptions" && (
+          <div>
+            <h2 style={{ fontSize:13, fontWeight:700, letterSpacing:2, textTransform:"uppercase", color:T.white, marginBottom:4, display:"flex", alignItems:"center", gap:8 }}>
+              <span style={{ display:"inline-block", width:3, height:16, background:T.green, borderRadius:1.5 }} />
+              Subscriptions
+            </h2>
+            <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Manage your active subscriptions and billing</p>
+
+            {/* Subscriptions Grid/Cards */}
+            <div className="account-sub-grid" style={{ display:"flex", flexDirection:"column", gap:16 }}>
+              {/* Subscription 1 */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:20 }}>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr auto", gap:16, alignItems:"center" }}>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Plan</p>
+                    <p style={{ fontSize:15, fontWeight:700, color:T.white, marginTop:4 }}>5G Ultra</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Device</p>
+                    <p style={{ fontSize:14, color:T.g300, marginTop:4 }}>Nighthawk M6 Pro</p>
+                    <p style={{ fontSize:12, color:T.g600, marginTop:2 }}>PTN 5551234567</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Next Bill</p>
+                    <p style={{ fontSize:14, color:T.g300, marginTop:4 }}>Apr 15, 2026</p>
+                    <p style={{ fontSize:14, fontWeight:700, color:T.white, marginTop:2 }}>109.00</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Card</p>
+                    <p style={{ fontSize:15, fontWeight:700, color:T.g300, marginTop:4 }}>**** 4242</p>
+                  </div>
+                  <div style={{ textAlign:"right" }}>
+                    <span style={{ display:"inline-block", background:T.green, color:T.black, padding:"4px 12px", borderRadius:8, fontSize:11, fontWeight:700 }}>Active</span>
+                    <button style={{ display:"block", marginTop:12, background:"none", border:"none", color:T.green, cursor:"pointer", fontSize:13, fontWeight:600 }}>Manage</button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Subscription 2 */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:20 }}>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr auto", gap:16, alignItems:"center" }}>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Plan</p>
+                    <p style={{ fontSize:15, fontWeight:700, color:T.white, marginTop:4 }}>4G Plus</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Device</p>
+                    <p style={{ fontSize:14, color:T.g300, marginTop:4 }}>SIM ONLY (Red)</p>
+                    <p style={{ fontSize:12, color:T.g600, marginTop:2 }}>PTN 2316552158</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Next Bill</p>
+                    <p style={{ fontSize:14, color:T.g600, marginTop:4 }}>(canceled)</p>
+                    <p style={{ fontSize:14, fontWeight:700, color:T.white, marginTop:2 }}>0.00</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase" }}>Card</p>
+                    <p style={{ fontSize:15, color:T.g600, marginTop:4 }}>-</p>
+                  </div>
+                  <div style={{ textAlign:"right" }}>
+                    <span style={{ display:"inline-block", background:T.g700, color:T.g300, padding:"4px 12px", borderRadius:8, fontSize:11, fontWeight:700 }}>Canceled</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* REFERRAL PROGRAM TAB */}
+        {activeTab === "referral" && (
+          <div>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:28 }}>
+              <div>
+                <h2 style={{ fontSize:13, fontWeight:700, letterSpacing:2, textTransform:"uppercase", color:T.white, display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ display:"inline-block", width:3, height:16, background:T.green, borderRadius:1.5 }} />
+                  Referral Program
+                </h2>
+              </div>
+              <div style={{ textAlign:"right" }}>
+                <p style={{ fontSize:12, color:T.g500, textTransform:"uppercase", fontWeight:600 }}>Current Membership Credit</p>
+                <p style={{ fontSize:18, fontWeight:700, color:T.green, marginTop:4 }}>0.00</p>
+              </div>
+            </div>
+
+            <p style={{ fontSize:14, color:T.g300, marginBottom:28, lineHeight:1.6 }}>Earn 100 dollars off your service for every friend you refer. Your friend also gets 100 dollars off when they sign up with your referral code. No limits -- refer as many people as you want.</p>
+
+            {/* Referral Grid */}
+            <div className="referral-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:20, marginBottom:0 }}>
+              {/* Referral Code */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:24 }}>
+                <p style={{ fontSize:12, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:12 }}>My Referral Code</p>
+                <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                  <code style={{ fontSize:20, fontWeight:700, color:T.green, fontFamily:"monospace", flex:1 }}>ZTPCH3J</code>
+                  <button style={{ padding:"10px 20px", background:T.green, color:T.black, border:"none", borderRadius:10, fontSize:13, fontWeight:700, cursor:"pointer" }}>Copy</button>
+                </div>
+              </div>
+
+              {/* Referral Link */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:24 }}>
+                <p style={{ fontSize:12, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:12 }}>My Shareable Referral Link</p>
+                <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                  <code style={{ fontSize:14, color:T.green, fontFamily:"monospace", flex:1, wordBreak:"break-all" }}>https://unlimitedville.com/r/ZTPCH3J</code>
+                  <button style={{ padding:"10px 20px", background:T.green, color:T.black, border:"none", borderRadius:10, fontSize:13, fontWeight:700, cursor:"pointer", whiteSpace:"nowrap" }}>Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ACCOUNT INFO TAB */}
+        {activeTab === "account-info" && (
+          <div>
+            <h2 style={{ fontSize:13, fontWeight:700, letterSpacing:2, textTransform:"uppercase", color:T.white, marginBottom:4, display:"flex", alignItems:"center", gap:8 }}>
+              <span style={{ display:"inline-block", width:3, height:16, background:T.green, borderRadius:1.5 }} />
+              Account Info
+            </h2>
+            <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Update your personal and billing information</p>
+
+            {/* Address Cards */}
+            <div className="account-info-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:20, marginBottom:32 }}>
+              {/* Shipping Address */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:24 }}>
+                <h3 style={{ fontSize:12, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:T.white, marginBottom:12, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <span>Shipping Address</span>
+                  <button style={{ background:"none", border:"none", color:T.green, cursor:"pointer", fontSize:12, fontWeight:600 }}>Edit</button>
+                </h3>
+                <p style={{ fontSize:14, color:T.g300 }}>5532 Pinewood Rd, Franklin, TN 37064</p>
+              </div>
+
+              {/* Billing Address */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:24 }}>
+                <h3 style={{ fontSize:12, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:T.white, marginBottom:12, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <span>Billing Address</span>
+                  <button style={{ background:"none", border:"none", color:T.green, cursor:"pointer", fontSize:12, fontWeight:600 }}>Edit</button>
+                </h3>
+                <p style={{ fontSize:14, color:T.g300 }}>5532 Pinewood Rd, Franklin, TN 37064</p>
+              </div>
+            </div>
+
+            {/* Update Password */}
+            <div style={{ marginBottom:32 }}>
+              <h3 style={{ fontSize:12, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:T.white, marginBottom:16, display:"flex", alignItems:"center", gap:8 }}>
+                <span style={{ display:"inline-block", width:3, height:16, background:T.green, borderRadius:1.5 }} />
+                Update Login Password
+              </h3>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr", gap:16, maxWidth:400 }}>
+                <input type="password" placeholder="Current password" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:14, outline:"none", background:T.darkCard, color:T.white }} />
+                <input type="password" placeholder="New password" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:14, outline:"none", background:T.darkCard, color:T.white }} />
+                <button className="btn-primary btn-desktop-auto" style={{ padding:"12px 28px", background:T.green, color:T.black, border:"none", borderRadius:10, fontSize:14, fontWeight:700, cursor:"pointer", width:"auto" }}>Update Password</button>
+              </div>
+            </div>
+
+            {/* Update Email */}
+            <div>
+              <h3 style={{ fontSize:12, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:T.white, marginBottom:16, display:"flex", alignItems:"center", gap:8 }}>
+                <span style={{ display:"inline-block", width:3, height:16, background:T.green, borderRadius:1.5 }} />
+                Update Email
+              </h3>
+              <div style={{ display:"grid", gridTemplateColumns:"1fr", gap:16, maxWidth:400 }}>
+                <div>
+                  <p style={{ fontSize:12, fontWeight:600, color:T.g500, marginBottom:8, textTransform:"uppercase" }}>Current Email</p>
+                  <p style={{ fontSize:14, color:T.g300 }}>nolan@example.com</p>
+                </div>
+                <input type="email" placeholder="New email address" style={{ padding:"14px 16px", borderRadius:12, border:`1px solid ${T.darkBorder}`, fontSize:14, outline:"none", background:T.darkCard, color:T.white }} />
+                <button className="btn-primary btn-desktop-auto" style={{ padding:"12px 28px", background:T.green, color:T.black, border:"none", borderRadius:10, fontSize:14, fontWeight:700, cursor:"pointer", width:"auto" }}>Update Email</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SUPPORT TAB */}
+        {activeTab === "support" && (
+          <div>
+            <h2 style={{ fontSize:13, fontWeight:700, letterSpacing:2, textTransform:"uppercase", color:T.white, marginBottom:4, display:"flex", alignItems:"center", gap:8 }}>
+              <span style={{ display:"inline-block", width:3, height:16, background:T.green, borderRadius:1.5 }} />
+              Support
+            </h2>
+            <p style={{ fontSize:13, color:T.g500, marginBottom:28 }}>Contact our support team for help</p>
+
+            {/* Important Notice */}
+            <div style={{ background:"rgba(220, 38, 38, 0.08)", border:"1px solid rgba(220, 38, 38, 0.3)", borderLeft:`4px solid #dc2626`, borderRadius:12, padding:20, marginBottom:28 }}>
+              <p style={{ fontSize:14, color:T.g300, lineHeight:1.6 }}>
+                <strong style={{ color:"#fca5a5" }}>IMPORTANT:</strong> DO NOT CONTACT THE CARRIER FOR SUPPORT. The account your line is on is not under your name and you do not have access to modify it directly. Please contact Unlimitedville support for all questions and issues.
+              </p>
+            </div>
+
+            {/* Support Contacts Grid */}
+            <div className="account-support-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:20 }}>
+              {/* Member Services */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:24 }}>
+                <h3 style={{ fontSize:12, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:T.white, marginBottom:16 }}>Member Services</h3>
+                <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Email</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>support@unlimitedville.com</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Live Chat</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>Unlimitedville.com</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Call</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>888-422-2907</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Text/SMS</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>888-422-2907</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Technical Support */}
+              <div style={{ background:T.darkCard, border:`1px solid ${T.darkBorder}`, borderRadius:14, padding:24 }}>
+                <h3 style={{ fontSize:12, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:T.white, marginBottom:16 }}>Technical Support</h3>
+                <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Email</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>support@unlimitedville.com</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize:11, fontWeight:600, color:T.g500, textTransform:"uppercase", marginBottom:4 }}>Call</p>
+                    <p style={{ fontSize:14, color:T.g300 }}>888-422-2907 Ext. 112</p>
+                    <p style={{ fontSize:12, color:T.g600 }}>M-F 9-5 CDT</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -3379,7 +3807,8 @@ function App() {
       case "blog": return <BlogPage />;
       case "support": return <SupportPage />;
       case "solutions": return <SolutionsHub />;
-      case "account": case "login": return <PlaceholderPage title="My Account" subtitle="Sign in to manage your plan, track usage, update billing, and get support." />;
+      case "login": return <LoginPage />;
+      case "account": return <MyAccountPage />;
       case "starlink-compare": return <VsStarlinkPage />;
       default:
         /* Blog post routing -- blog/slug */
