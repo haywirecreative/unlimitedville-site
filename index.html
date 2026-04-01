@@ -2850,12 +2850,17 @@ function ReviewsPage() {
       {/* Filter bar */}
       <section className="desktop-section" style={{ padding:"40px 20px", background:T.dark }}>
         <div className="section-inner">
-          <div style={{ display:"flex", gap:10, flexWrap:"wrap", justifyContent:"center", marginBottom:40 }}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", flexWrap:"wrap", gap:10, marginBottom:16 }}>
             {["all","5","4","Rural Home","RV & Travel","Business"].map((f,i) => (
               <button key={i} onClick={() => setSelectedFilter(f)} style={{ padding:"8px 18px", borderRadius:20, border:`1px solid ${selectedFilter === f ? "transparent" : T.darkBorder}`, background:selectedFilter === f ? T.green : "transparent", color:selectedFilter === f ? T.dark : T.g400, fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.2s" }}>
                 {f === "all" ? "All Reviews" : f === "5" ? "5 Star" : f === "4" ? "4 Star" : f}
               </button>
             ))}
+          </div>
+          <div style={{ textAlign:"center", marginBottom:40 }}>
+            <button onClick={() => document.getElementById("write-review")?.scrollIntoView({behavior:"smooth",block:"center"})} style={{ background:"none", border:"none", color:T.greenText, fontSize:14, fontWeight:600, cursor:"pointer", display:"inline-flex", alignItems:"center", gap:6 }}>
+              Write a Review {I.arrow(12,T.greenText)}
+            </button>
           </div>
 
           {/* Reviews grid */}
@@ -2888,7 +2893,7 @@ function ReviewsPage() {
       {/* Share + CTA */}
       <section className="desktop-section" style={{ padding:"48px 20px", background:T.dark, borderTop:`1px solid ${T.darkBorder}` }}>
         <div className="section-inner" style={{ maxWidth:640, margin:"0 auto" }}>
-          <div style={{ padding:"36px 28px", borderRadius:20, background:`${T.green}08`, border:`1px solid ${T.green}20`, textAlign:"center" }}>
+          <div id="write-review" style={{ padding:"36px 28px", borderRadius:20, background:`${T.green}08`, border:`1px solid ${T.green}20`, textAlign:"center" }}>
             <div style={{ width:48, height:48, borderRadius:14, background:`${T.green}15`, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>
               {I.msg(22,T.greenText)}
             </div>
