@@ -2652,7 +2652,7 @@ function BlogPostPage({ post }) {
       <section style={{ position:"relative", overflow:"hidden" }}>
         <img src={post.heroImg} alt={post.title} style={{ width:"100%", height:360, objectFit:"cover", display:"block" }} />
         <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.95) 85%, rgba(18,18,20,1) 100%)" }} />
-        <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"0 24px 32px" }}>
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"0 24px 20px" }}>
           <div className="blog-article-header" style={{ maxWidth:720, margin:"0 auto" }}>
             <button onClick={()=>navigate("blog")} style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,0,0,0.5)", backdropFilter:"blur(8px)", border:"none", color:T.white, fontSize:13, fontWeight:600, cursor:"pointer", marginBottom:16, padding:"8px 14px", borderRadius:99 }}>
               {I.back(14,T.white)} All resources
@@ -2669,7 +2669,7 @@ function BlogPostPage({ post }) {
       </section>
 
       {/* Article body */}
-      <article className="desktop-section" style={{ padding:"8px 24px 48px" }}>
+      <article className="desktop-section" style={{ padding:"0 24px 48px" }}>
         <div className="blog-article-body" style={{ maxWidth:720, margin:"0 auto" }}>
           {/* Table of contents */}
           {headings.length > 2 && (
