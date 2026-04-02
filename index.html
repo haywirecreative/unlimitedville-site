@@ -576,9 +576,9 @@ const R = { sm:10, md:14, lg:20, full:99 };
    DATA
    ═══════════════════════════════════════ */
 const PLANS = [
-  { id:"4g-lite", name:"4G Lite", tier:"Fast", speed:"Fast", monthly:69, activation:0, activationOrig:299, discount:"Waived", maxSpeed:"60 Mbps", latency:"40-80 ms", bestFor:"Browsing, email & casual streaming", audience:"1-2 people, light use", features:["Up to 60 Mbps speeds","Unlimited data, zero caps","4G LTE dual-band router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:T.g400, speedDots:1 },
-  { id:"4g-plus", name:"4G Plus", tier:"Faster", speed:"Faster", monthly:99, activation:99, activationOrig:299, discount:"67% off", maxSpeed:"250 Mbps", latency:"30-60 ms", bestFor:"Streaming, video calls & gaming", audience:"Households, multi-device", features:["Up to 250 Mbps speeds","Unlimited data, zero caps","4.5G Cat12 dual-band router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:T.green, speedDots:2 },
-  { id:"5g-ultra", name:"5G Ultra", tier:"Fastest", speed:"Fastest", monthly:109, popular:true, activation:199, activationOrig:299, discount:"33% off", maxSpeed:"500 Mbps", latency:"20-40 ms", bestFor:"4K streaming, gaming & remote work", audience:"Large families, power users", features:["Up to 500 Mbps speeds","Unlimited data, zero caps","Premium 5G router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:"#a78bfa", speedDots:3 },
+  { id:"4g-lite", name:"4G Lite", tier:"Fast", speed:"Fast", monthly:69, activation:0, activationOrig:299, discount:"Waived", maxSpeed:"60 Mbps", latency:"40-80 ms", bestFor:"Browsing, email & casual streaming", audience:"1-2 people, light use", features:["Up to 60 Mbps speeds","Unlimited data included","4G LTE dual-band router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:T.g400, speedDots:1 },
+  { id:"4g-plus", name:"4G Plus", tier:"Faster", speed:"Faster", monthly:99, activation:99, activationOrig:299, discount:"67% off", maxSpeed:"250 Mbps", latency:"30-60 ms", bestFor:"Streaming, video calls & gaming", audience:"Households, multi-device", features:["Up to 250 Mbps speeds","Unlimited data included","4.5G Cat12 dual-band router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:T.green, speedDots:2 },
+  { id:"5g-ultra", name:"5G Ultra", tier:"Fastest", speed:"Fastest", monthly:109, popular:true, activation:199, activationOrig:299, discount:"33% off", maxSpeed:"500 Mbps", latency:"20-40 ms", bestFor:"4K streaming, gaming & remote work", audience:"Large families, power users", features:["Up to 500 Mbps speeds","Unlimited data included","Premium 5G router included","No contracts -- cancel anytime","Price Lock Guarantee"], color:"#a78bfa", speedDots:3 },
 ];
 
 const REVIEWS = [
@@ -611,7 +611,7 @@ const SOLUTION_PAGES = {
     features: [
       { icon: "wifi", title: "Stream & Watch TV", desc: "Buffer-free HD and 4K on every device. Replace satellite TV and slow DSL with speeds up to 500 Mbps." },
       { icon: "signal", title: "Work & Learn From Home", desc: "Video calls, file uploads, and online classes without drops. 20-40 ms latency on our 5G Ultra plan." },
-      { icon: "zap", title: "Game Without Lag", desc: "Competitive gaming with low ping and unlimited data. Download 100 GB updates overnight, no caps." }
+      { icon: "zap", title: "Game Without Lag", desc: "Competitive gaming with low ping and unlimited data. Download large updates without overage fees." }
     ],
     planContext: ["Light browsing and email", "Streaming, video calls, and gaming", "4K streaming, competitive gaming, remote work"],
     reviews: [
@@ -623,7 +623,7 @@ const SOLUTION_PAGES = {
       { q:"Does Unlimitedville work in rural areas?", a:"Yes. We use 4G and 5G cellular towers to deliver internet where cable and fiber can't reach. If you have cell signal at your address, Unlimitedville can likely serve you." },
       { q:"How fast is it compared to satellite?", a:"Our 5G Ultra plan delivers up to 500 Mbps with 20-40 ms latency. Satellite internet typically tops out at 100-200 Mbps with 25-75 ms latency and requires outdoor dish installation." },
       { q:"What if there's no cell coverage at my address?", a:"Start with our 21-day trial. If the service doesn't work at your location, return the router for a full refund. No risk." },
-      { q:"Is there a data cap?", a:"No. All plans include truly unlimited data with no overage fees, no throttling thresholds, and no fine print." },
+      { q:"Is there a data cap?", a:"No. All plans include unlimited data with no overage fees and no throttling." },
       { q:"Do I need a technician to install it?", a:"No. We ship a pre-configured router. Plug it in, connect your devices, and you're online in under 5 minutes." },
       { q:"Is this better than Starlink for rural areas?", a:"Unlimitedville offers lower monthly costs, no dish installation, and full portability. Starlink requires a $599 dish and a clear view of the sky. Both work in rural areas, but Unlimitedville starts at $69/mo vs. Starlink's $120/mo." },
       { q:"How many devices can I connect?", a:"Our routers support 250+ simultaneous WiFi connections. Your whole household -- phones, laptops, smart TVs, security cameras, and smart home devices -- on one network." },
@@ -720,7 +720,7 @@ const SOLUTION_PAGES = {
     faq: [
       { q:"Does it run on 12v truck power?", a:"Yes. Our routers run on both 12v DC and 110v AC. Plug directly into your truck's power outlet." },
       { q:"Will it keep my ELD connected?", a:"Yes. The router provides always-on cellular internet for ELD log syncing, even in areas with weak phone signal." },
-      { q:"How does it compare to phone hotspot tethering?", a:"Phone hotspots have strict data caps and carrier throttling. Unlimitedville provides truly unlimited data with no throttling thresholds." },
+      { q:"How does it compare to phone hotspot tethering?", a:"Phone hotspots have strict data caps and carrier throttling. Unlimitedville provides unlimited data with no throttling." },
       { q:"Does it work in every state?", a:"We use nationwide 4G/5G networks. Coverage is available across all 48 contiguous states. Start with a 21-day trial to test your regular routes." },
       { q:"Can I stream and game during resets?", a:"Absolutely. With up to 500 Mbps and 20-40 ms latency on our 5G Ultra plan, you can stream 4K, game online, and video call family without issues." },
       { q:"Is this better than OTR Mobile or phone tethering?", a:"OTR Mobile starts at $119/mo. Unlimitedville starts at $69/mo with the same unlimited data and no contracts. Phone tethering has strict carrier data caps and throttling -- Unlimitedville has none." },
@@ -735,13 +735,13 @@ const SOLUTION_PAGES = {
     navDesc: "Low-ping unlimited internet for competitive gaming",
     heroImg: "assets/images/hero-gaming.jpg?v=1",
     title: <>Low-ping unlimited internet.<br/>Game without limits.</>,
-    subtitle: "20-40 ms latency, up to 500 Mbps, and truly unlimited data. Download 100 GB updates. No caps, no throttling.",
+    subtitle: "20-40 ms latency, up to 500 Mbps, and unlimited data. No throttling, no overage fees.",
     heroTitle: "gaming-hero-title",
     metaTitle: "Best Gaming Internet 2026 | Unlimited Data, Low Ping | Unlimitedville",
-    metaDesc: "Unlimited gaming internet with 20-40ms latency and up to 500 Mbps. No data caps, no throttling. Download 100GB updates without limits. Plans from $69/mo.",
+    metaDesc: "Unlimited gaming internet with 20-40ms latency and up to 500 Mbps. No throttling, no overage fees. Plans from $69/mo.",
     features: [
       { icon: "zap", title: "20-40 ms Latency", desc: "Low enough for competitive FPS, battle royale, and fighting games. Beats satellite by a mile." },
-      { icon: "wifi", title: "Unlimited Downloads", desc: "100 GB game updates? No problem. Truly unlimited data with no throttling thresholds or overage fees." },
+      { icon: "wifi", title: "Unlimited Downloads", desc: "Unlimited data with no overage fees. Download massive updates without worrying about caps." },
       { icon: "signal", title: "Stream While You Play", desc: "Twitch, Discord, and game at the same time. Enough bandwidth for your entire setup." }
     ],
     planContext: ["Casual gaming and web browsing", "Online gaming, streaming, and downloads", "Competitive gaming, 4K streaming, Twitch"],
@@ -752,7 +752,7 @@ const SOLUTION_PAGES = {
     ],
     faq: [
       { q:"Is the latency low enough for competitive gaming?", a:"Our 5G Ultra plan averages 20-40 ms latency, which is suitable for competitive FPS, battle royale, and most online games." },
-      { q:"Will large game downloads be throttled?", a:"No. All plans include truly unlimited data. Download as many 100 GB updates as you need without speed reductions." },
+      { q:"Will large game downloads be throttled?", a:"No. All plans include unlimited data with no throttling. Download large game updates without speed reductions." },
       { q:"Can I stream on Twitch while gaming?", a:"Yes. With up to 500 Mbps on our 5G Ultra plan, you have enough bandwidth for simultaneous gaming and streaming." },
       { q:"How does this compare to a phone hotspot?", a:"Phone hotspots throttle after hitting data caps and have higher latency. Unlimitedville provides dedicated, unlimited bandwidth with lower, more consistent ping." },
       { q:"Which plan is best for gaming?", a:"We recommend the 5G Ultra plan for serious gaming. It offers the lowest latency (20-40 ms) and fastest speeds (up to 500 Mbps)." },
@@ -878,7 +878,7 @@ const BLOG_POSTS = [
       { type:"p", text:"You need a line of sight to the WISP's tower, and speeds vary wildly depending on the provider. Search for \"fixed wireless internet\" plus your county name, or check broadbandnow.com." },
       { type:"h2", text:"5G/4G Cellular Home Internet" },
       { type:"p", text:"Cellular home internet is the newest major category. A provider sends a 5G or 4G signal to a small router in your house that gives you WiFi throughout your home." },
-      { type:"p", text:"Carrier-direct services like T-Mobile 5G Home Internet cost $50/month but are only available at specific addresses. Cellular ISPs like Unlimitedville use the same networks but offer service at more addresses, starting at $69/month with truly unlimited data and no throttling." },
+      { type:"p", text:"Carrier-direct services like T-Mobile 5G Home Internet cost $50/month but are only available at specific addresses. Cellular ISPs like Unlimitedville use the same networks but offer service at more addresses, starting at $69/month with unlimited data and no throttling." },
       { type:"p", text:"Typical speeds range from 25 to 300+ Mbps with latency between 20 and 50 milliseconds. Setup takes minutes -- plug in the router and you're done. No technician visit, no contracts." },
       { type:"p", text:"For the majority of rural homes with at least decent cell signal, cellular home internet is the fastest, cheapest, and easiest option available right now." },
       { type:"h2", text:"How to Choose the Right Option" },
@@ -968,7 +968,7 @@ const BLOG_POSTS = [
       { type:"p", text:"Identify when your connection is slowest. Test your speeds at different times of day. Schedule large downloads for off-peak hours." },
       { type:"h2", text:"When Your Connection Can't Keep Up" },
       { type:"p", text:"If you've optimized and you're still having problems, you need a new provider. T-Mobile 5G Home Internet costs around $50/month where available. Starlink is available almost everywhere at $120/month plus $349 equipment." },
-      { type:"p", text:"Cellular home internet providers like Unlimitedville use 4G and 5G towers starting at $69/month with no contracts and truly unlimited data. The latency is low (30-60ms), meaning video calls feel natural and VPN connections are responsive. Speeds average 100-300 Mbps in areas with good coverage." },
+      { type:"p", text:"Cellular home internet providers like Unlimitedville use 4G and 5G towers starting at $69/month with no contracts and unlimited data. The latency is low (30-60ms), meaning video calls feel natural and VPN connections are responsive. Speeds average 100-300 Mbps in areas with good coverage." },
       { type:"h2", text:"The Backup Plan Every Remote Worker Needs" },
       { type:"p", text:"Your employer expects reliability. Your primary connection will eventually fail. Keep your phone hotspot ready as a backup. Identify a secondary work location. For mission-critical work, consider a secondary internet connection." },
       { type:"h2", text:"The Internet Landscape Has Changed" },
@@ -1019,7 +1019,7 @@ const BLOG_POSTS = [
       { type:"p", text:"Background downloads, cloud backups, streaming services can quietly consume all available bandwidth. Check your router settings to see which devices are using the most." },
       { type:"h2", text:"When Quick Fixes Aren't Enough" },
       { type:"p", text:"If you've tried the basics and your connection is still slow, you need a different provider. Options have expanded dramatically." },
-      { type:"p", text:"Fixed wireless, LEO satellite (Starlink), and cellular home internet all offer real alternatives. Cellular home internet providers like Unlimitedville use 4G LTE and 5G networks with plans starting at $69/month -- no contracts, truly unlimited data, no throttling." },
+      { type:"p", text:"Fixed wireless, LEO satellite (Starlink), and cellular home internet all offer real alternatives. Cellular home internet providers like Unlimitedville use 4G LTE and 5G networks with plans starting at $69/month -- no contracts, unlimited data, no throttling." },
       { type:"p", text:"The main limitation is that you need adequate cellular signal. But if you have even moderate cell signal, this is often faster and more reliable than DSL, with much lower latency than satellite." },
       { type:"h2", text:"The Bottom Line" },
       { type:"p", text:"Slow rural internet usually isn't your fault. It's the result of infrastructure that was never designed to serve your area at modern speeds. But the situation in 2026 is dramatically different from five years ago." },
@@ -1048,7 +1048,7 @@ const BLOG_POSTS = [
       { type:"p", text:"We evaluated each option across five criteria that matter most to rural households: typical download speeds, monthly cost, data limits, installation complexity, and availability. Real-world performance -- not advertised maximums -- drove our rankings." },
       { type:"h2", text:"1. 5G Fixed Wireless (Cellular Home Internet)" },
       { type:"p", text:"Cellular home internet has emerged as the top choice for rural homes in 2026. Providers like Unlimitedville deliver 100-500 Mbps over 5G and 4G LTE networks with zero installation -- just plug in a router and connect. No dishes, no drilling, no technician visits." },
-      { type:"callout", text:"Unlimitedville plans start at $69/mo with truly unlimited data and no throttling. Every plan includes a 21-day money-back guarantee." },
+      { type:"callout", text:"Unlimitedville plans start at $69/mo with unlimited data and no throttling. Every plan includes a 21-day money-back guarantee." },
       { type:"h2", text:"2. Starlink Satellite Internet" },
       { type:"p", text:"SpaceX's low-earth orbit satellite service delivers 50-200 Mbps in most areas. The $599 upfront hardware cost and $120-165/mo pricing make it more expensive than cellular options, but it reaches extremely remote locations where even cell towers are sparse." },
       { type:"h2", text:"3. Fixed Wireless (WISP)" },
@@ -1135,7 +1135,7 @@ const BLOG_POSTS = [
       { type:"h2", text:"Phone Hotspot: Convenient but Limited" },
       { type:"p", text:"Your phone's hotspot works in a pinch, but carrier data caps (15-50 GB on most plans) make it impractical for daily use. Stream a few movies and you'll blow through your monthly allotment." },
       { type:"h2", text:"Cellular Routers: The Sweet Spot" },
-      { type:"p", text:"A dedicated cellular router like Unlimitedville's gives you a proper WiFi network powered by 4G LTE or 5G. Truly unlimited data, no throttling, and enough speed for streaming, work, and staying connected. It travels with you and works at home too." },
+      { type:"p", text:"A dedicated cellular router like Unlimitedville's gives you a proper WiFi network powered by 4G LTE or 5G. Unlimited data, no throttling, and enough speed for streaming, work, and staying connected. It travels with you and works at home too." },
       { type:"callout", text:"Unlimitedville plans work at home and on the road. No need to switch plans or pay extra for mobile use." },
       { type:"h2", text:"Starlink for RVs" },
       { type:"p", text:"Starlink Roam ($165/mo + $599 dish) delivers decent speeds but requires setting up and leveling a dish at each stop, a clear sky view, and consumes significant power. The dish is bulky and fragile for road travel." },
@@ -1164,7 +1164,7 @@ const BLOG_POSTS = [
       { type:"p", text:"Public WiFi at truck stops is slow, unreliable, and a security risk. Hundreds of devices sharing one connection means speeds drop to near zero during peak hours. And unsecured networks leave your personal data exposed." },
       { type:"h2", text:"What Truckers Actually Need" },
       { type:"p", text:"A reliable connection that works while driving and parked. Enough data for GPS, ELD, streaming, and video calls. Low latency for real-time applications. And something that doesn't require setup at every stop." },
-      { type:"callout", text:"Unlimitedville's portable router rides in your cab and delivers internet anywhere you get cell signal. Truly unlimited data with no throttling." },
+      { type:"callout", text:"Unlimitedville's portable router rides in your cab and delivers internet anywhere you get cell signal. Unlimited data with no throttling." },
       { type:"h2", text:"Recommended Plan for Truckers" },
       { type:"p", text:"The 4G Plus plan ($99/mo) hits the sweet spot: 75-250 Mbps speeds, nationwide 4G LTE coverage, and enough bandwidth for everything from Netflix to FaceTime. If you're in an area with 5G coverage, the Ultra plan ($109/mo) delivers even faster speeds." },
       { type:"h2", text:"Setup Tips for Your Cab" },
@@ -1196,7 +1196,7 @@ const BLOG_POSTS = [
       { type:"p", text:"Carriers are aggressively expanding 5G coverage and upgrading existing 4G towers. Each new tower and spectrum upgrade increases speeds and reduces congestion for everyone in the area. Rural coverage has improved dramatically since 2023." },
       { type:"callout", text:"Not sure which network is best at your address? Check your coverage to see available Unlimitedville plans and expected speeds for your location." },
       { type:"h2", text:"Common Concerns Addressed" },
-      { type:"p", text:"Data caps? Unlimitedville plans are truly unlimited with no throttling. Weather? Cellular signals are barely affected by rain or snow, unlike satellite. Shared bandwidth? Cell towers dynamically allocate capacity, so your speeds stay consistent even during peak hours." },
+      { type:"p", text:"Data caps? Unlimitedville plans include unlimited data with no throttling. Weather? Cellular signals are barely affected by rain or snow, unlike satellite. Shared bandwidth? Cell towers dynamically allocate capacity, so your speeds stay consistent even during peak hours." },
     ],
     relatedSolutions: [
       { slug: "rural", label: "Rural Internet Solutions" },
@@ -2680,7 +2680,7 @@ function PlansPage() {
             { t:"21-Day Money-Back", d:"Try risk-free, return if not satisfied", icon:I.back(20,T.green) },
             { t:"Price Lock Guarantee", d:"Your rate never increases. Ever.", icon:I.lock(20,T.green) },
             { t:"No Contracts", d:"Month-to-month, no credit checks", icon:I.check(20,T.green) },
-            { t:"Unlimited Data", d:"No caps, no throttling, no overages", icon:I.signal(20,T.green) },
+            { t:"Unlimited Data", d:"No throttling, no overage fees", icon:I.signal(20,T.green) },
             { t:"5-Minute Setup", d:"No technician, no appointments", icon:I.zap(20,T.green) },
             { t:"24/7 USA Support", d:"Real humans, always available", icon:I.phone(20,T.green) },
             { t:"Fully Portable", d:"Use it at home, on the road, anywhere", icon:I.globe(20,T.green) },
