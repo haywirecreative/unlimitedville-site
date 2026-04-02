@@ -2901,7 +2901,7 @@ function BlogPage() {
 
       {/* Featured post */}
       {activeCat === "All" && featured && (
-        <section className="desktop-section bg-uv-dark" style={{padding:"32px 20px 0"}}>
+        <section className="bg-uv-dark" style={{padding:"32px 20px 0"}}>
           <div className="section-inner">
             <button onClick={()=>navigate("blog/"+featured.slug)} className="card-hover blog-featured-card flex flex-col w-full overflow-hidden rounded-uv-lg bg-zinc-900 cursor-pointer text-left p-0" style={{border:`1px solid ${T.darkBorder}`}}>
               <div className="blog-featured-img relative w-full overflow-hidden" style={{paddingTop:"50%"}}>
@@ -2925,7 +2925,7 @@ function BlogPage() {
       )}
 
       {/* Post grid */}
-      <section className="desktop-section bg-uv-dark" style={{padding:activeCat==="All" && featured ? "32px 20px 48px" : "32px 20px 48px"}}>
+      <section className={activeCat==="All" && featured ? "bg-uv-dark" : "desktop-section bg-uv-dark"} style={{padding:activeCat==="All" && featured ? "20px 20px 48px" : "32px 20px 48px"}}>
         <div className="section-inner">
           {activeCat !== "All" && (
             <h2 className="text-[22px] font-extrabold text-white tracking-[-0.3px] mb-6">{activeCat}</h2>
