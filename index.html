@@ -284,6 +284,8 @@ tailwind.config = {
     /* Footer */
     .footer-grid { grid-template-columns: repeat(3, 1fr) !important; }
     .footer-links-grid { grid-template-columns: repeat(4, 1fr) !important; }
+    .footer-top-row { flex-direction: row !important; align-items: center !important; justify-content: space-between !important; gap: 24px !important; }
+    .footer-top-row .footer-actions { flex: 0 0 auto !important; max-width: none !important; }
     /* Forms */
     .checkout-form { max-width: 600px; margin-left: auto; margin-right: auto; }
     /* How It Works */
@@ -307,8 +309,8 @@ tailwind.config = {
     /* Hero bullets scale up */
     .hero-bullet { font-size: 13px !important; gap: 6px !important; }
     .rural-hero-title, .rv-hero-title, .biz-hero-title, .truck-hero-title, .gaming-hero-title, .failover-hero-title { font-size: 44px !important; }
-    /* Footer action buttons constrained */
-    .footer-actions { max-width: 480px !important; }
+    /* Footer action buttons */
+    .footer-actions { max-width: none !important; }
     /* Reviews card hover */
     .review-card { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease; }
     .review-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.08) !important; }
@@ -452,8 +454,8 @@ tailwind.config = {
     .btn-desktop-auto { min-width: 260px !important; }
     /* Hero bullets */
     .hero-bullet { font-size: 14px !important; gap: 7px !important; }
-    /* Footer actions narrower on desktop */
-    .footer-actions { max-width: 400px !important; }
+    /* Footer actions */
+    .footer-actions { max-width: none !important; }
     /* Section spacing -- generous vertical breathing on desktop */
     .desktop-section { padding-top: 80px !important; padding-bottom: 80px !important; }
     .desktop-section-sm { padding-top: 48px !important; padding-bottom: 48px !important; }
@@ -3950,12 +3952,20 @@ function Footer() {
   return (
     <footer className="footer-section bg-uv-black" style={{padding:"48px 20px 140px", borderTop:`1px solid rgba(255,255,255,0.06)`}}>
       <div className="section-inner">
-      <div className="flex flex-col gap-7 mb-8">
+      <div className="footer-top-row flex flex-col gap-7 mb-8">
         <div>
           <div onClick={()=>navigate("home")} className="mb-2 cursor-pointer inline-block">
             <LogoFull h={32} />
           </div>
           <p className="text-sm text-zinc-500 leading-normal max-w-[300px]">Wireless home internet that goes where you do. Trusted by thousands for over a decade.</p>
+        </div>
+        <div className="footer-actions flex gap-2.5">
+          <button onClick={()=>navigate("login")} className="btn-footer-action flex-1 flex items-center justify-center gap-2 py-[13px] px-3.5 bg-white/5 rounded-xl text-zinc-300 text-sm font-medium" style={{border:`1px solid ${T.darkBorder}`}}>
+            {I.user(15,T.green)} My Account
+          </button>
+          <a href="tel:+18884222907" className="btn-footer-action flex-1 flex items-center justify-center gap-2 py-[13px] px-3.5 bg-white/5 rounded-xl text-zinc-300 text-sm font-medium no-underline" style={{border:`1px solid ${T.darkBorder}`}}>
+            {I.phone(13,T.green)} 888.422.2907
+          </a>
         </div>
       </div>
       <div className="footer-links-grid mb-8">
@@ -3988,14 +3998,6 @@ function Footer() {
           ))}
           <a href="tel:+18884222907" className="footer-link bg-none border-0 text-zinc-400 text-[13px] py-[5px] px-0 text-left block w-full no-underline">Call 888.422.2907</a>
         </div>
-      </div>
-      <div className="footer-actions flex gap-2.5 mb-7">
-        <button onClick={()=>navigate("login")} className="btn-footer-action flex-1 flex items-center justify-center gap-2 py-[13px] px-3.5 bg-white/5 rounded-xl text-zinc-300 text-sm font-medium" style={{border:`1px solid ${T.darkBorder}`}}>
-          {I.user(15,T.green)} My Account
-        </button>
-        <a href="tel:+18884222907" className="btn-footer-action flex-1 flex items-center justify-center gap-2 py-[13px] px-3.5 bg-white/5 rounded-xl text-zinc-300 text-sm font-medium" style={{border:`1px solid ${T.darkBorder}`}}>
-          {I.phone(13,T.green)} 888.422.2907
-        </a>
       </div>
       <div className="pt-6" style={{borderTop:`1px solid ${T.darkBorder}`}}>
         <p className="text-[13px] text-zinc-600 leading-loose">Unlimitedville is a membership-based wireless internet service. All equipment remains property of Unlimitedville for the duration of your membership. Speeds vary by location. 21-day money-back guarantee applies to all plans.</p>
