@@ -2067,7 +2067,7 @@ function HomePage() {
           Tesla-style: dramatic image with overlaid text
           ═══════════════════════════════════ */}
       <section className="lifestyle-break relative overflow-hidden h-[520px]">
-        <img src="assets/images/lifestyle-break.jpg?v=4" alt="Unlimitedville router on a picnic table at a mountain campsite with laptop" className="absolute w-full h-full object-cover" style={{inset:0, objectPosition:"center 55%"}} />
+        <img src="assets/images/lifestyle-break.jpg?v=4" alt="Unlimitedville router on a picnic table at a mountain campsite with laptop" className="absolute w-full h-full object-cover" loading="lazy" style={{inset:0, objectPosition:"center 55%"}} />
         <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.88) 100%)"}} />
         <div className="section-inner absolute bottom-10 left-6 right-6 text-left z-[2]">
           <h2 className="lifestyle-title text-[32px] font-black text-white tracking-[-0.8px] leading-[1.08] mb-2.5">Your home<br/>internet,<br/>everywhere.</h2>
@@ -2092,7 +2092,7 @@ function HomePage() {
           {SOLUTIONS_LIST.slice(0,4).map((s,i) => (
             <button key={i} onClick={()=>navigate(s.slug)} className="uc-card w-full relative overflow-hidden bg-white border-0 cursor-pointer p-0 text-left">
               <div className="relative w-full overflow-hidden" style={{paddingTop:"56%"}}>
-                <img src={s.heroImg || SITE_IMG} alt={s.navLabel} className="absolute top-0 left-0 w-full h-full object-cover" />
+                <img src={s.heroImg || SITE_IMG} alt={s.navLabel} className="absolute top-0 left-0 w-full h-full object-cover" loading="lazy" />
                 <div className="uc-overlay absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.7) 80%, rgba(10,10,10,0.85) 100%)"}} />
                 <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between" style={{padding:"24px"}}>
                   <div>
@@ -2177,7 +2177,7 @@ function HomePage() {
       <section className="relative overflow-hidden">
         {/* Background image */}
         <div className="absolute" style={{inset:0}}>
-          <img src="assets/images/cta-desk.jpg" alt="Unlimitedville router on desk with laptop, coffee, and notebook" className="w-full h-full object-cover" />
+          <img src="assets/images/cta-desk.jpg" alt="Unlimitedville router on desk with laptop, coffee, and notebook" className="w-full h-full object-cover" loading="lazy" />
           <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.92) 100%)"}} />
         </div>
         {/* Content -- not absolute, flows naturally */}
@@ -2398,7 +2398,7 @@ function CheckoutPage() {
 
             <h2 className="text-[17px] font-bold text-white mb-[18px]">Promo Code</h2>
             <div className="flex gap-2.5 mb-8">
-              <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} className="flex-1" placeholder="Enter promo code" />
+              <input value={promoCode} onChange={e=>{setPromoCode(e.target.value.toUpperCase());setPromoError("");setPromoApplied(false);}} className="flex-1 py-3.5 px-4 rounded-xl text-base bg-uv-dark text-white" style={{border:`1px solid ${T.darkBorder}`, outline:"none"}} placeholder="Enter promo code" />
               <button onClick={()=>{if(promoCode.trim()){setPromoError("Invalid promo code");setPromoApplied(false);}}} className="btn-secondary py-4 px-[22px] bg-zinc-900 rounded-uv-md text-[15px] font-semibold text-zinc-300 whitespace-nowrap" style={{border:`1px solid ${T.darkBorder}`}}>Apply</button>
             </div>
             {promoError && <p className="text-[13px] mt-[-22px] mb-7" style={{color:"#ef4444"}}>{promoError}</p>}
@@ -2409,7 +2409,7 @@ function CheckoutPage() {
                 {tosAgreed && I.check(14,T.white)}
               </div>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                I have read and agree to the Unlimitedville <a href="#" onClick={e=>e.stopPropagation()} className="text-uv-green-text font-semibold">terms of service</a> and agree to uphold such terms until the termination of membership.
+                I have read and agree to the Unlimitedville <a href="https://unlimitedville.com/terms" target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-uv-green-text font-semibold">terms of service</a> and agree to uphold such terms until the termination of membership.
               </p>
             </div>
 
@@ -2595,9 +2595,6 @@ function PlansPage() {
                       {expanded===plan.id && (
                         <div className="pt-1">
                           {plan.features.slice(3).map((f,i) => <div key={i} className="flex items-center gap-2 py-1.5 px-0">{I.check(13,T.green)}<span className="text-sm" style={{color:isDark?T.g300:T.g700}}>{f}</span></div>)}
-                          <div className="mt-3 py-3 px-3.5 rounded-uv-sm text-xs leading-relaxed" style={{background:cbg, color:sub, fontFamily:"monospace"}}>
-                            Max: {plan.maxSpeed} | Latency: {plan.latency}{plan.id==="5g-ultra"?" | IP65 Weatherproof":""}
-                          </div>
                         </div>
                       )}
                     </>
@@ -2768,7 +2765,7 @@ function PlansPage() {
       {/* ── BOTTOM CTA ── */}
       <div className="relative overflow-hidden">
         <div className="absolute" style={{inset:0}}>
-          <img src={SITE_IMG} alt="Get connected with Unlimitedville wireless internet" className="w-full h-full object-cover" />
+          <img src={SITE_IMG} alt="Get connected with Unlimitedville wireless internet" className="w-full h-full object-cover" loading="lazy" />
           <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.92) 100%)"}} />
         </div>
         <div className="desktop-section relative z-[1] py-12 px-5 text-center">
@@ -2875,7 +2872,7 @@ function BlogPage() {
     <div className="bg-uv-dark min-h-screen">
       {/* Hero */}
       <section className="relative overflow-hidden bg-uv-dark">
-        <img src="https://unlimitedville.com/images/hero/rural-highway.jpg" alt="Rural highway with open sky - wireless internet blog and guides" className="absolute w-full h-full object-cover opacity-[0.35]" style={{inset:0}} />
+        <img src="https://unlimitedville.com/images/hero/rural-highway.jpg" alt="Rural highway with open sky - wireless internet blog and guides" className="absolute w-full h-full object-cover opacity-[0.35]" loading="lazy" style={{inset:0}} />
         <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.9) 100%)"}} />
         <div className="relative z-[1] max-w-[800px] mx-auto text-center" style={{padding:"120px 24px 48px"}}>
           <p className="fade-up fade-up-d2 text-xs font-bold tracking-[3.0px] text-uv-green-text uppercase mb-3">Resources</p>
@@ -2891,7 +2888,7 @@ function BlogPage() {
       {/* Category filter */}
       <section className="py-4 px-5 bg-uv-dark" style={{borderBottom:`1px solid ${T.darkBorder}`}}>
         <div className="section-inner">
-          <div className="blog-cat-scroll flex items-center gap-2 overflow-x-auto">
+          <div className="blog-cat-scroll flex items-center justify-center gap-2 overflow-x-auto">
             {BLOG_CATEGORIES.map(cat => (
               <button key={cat} onClick={()=>setActiveCat(cat)} className="py-2.5 px-[18px] rounded-full text-[13px] font-semibold whitespace-nowrap cursor-pointer shrink-0" style={{transition:"all 0.2s", background:activeCat===cat ? T.green : "rgba(255,255,255,0.04)", color:activeCat===cat ? T.white : T.g400, border:activeCat===cat ? "none" : `1px solid ${T.darkBorder}`}}>{cat}</button>
             ))}
@@ -2905,7 +2902,7 @@ function BlogPage() {
           <div className="section-inner">
             <button onClick={()=>navigate("blog/"+featured.slug)} className="card-hover blog-featured-card flex flex-col w-full overflow-hidden rounded-uv-lg bg-zinc-900 cursor-pointer text-left p-0" style={{border:`1px solid ${T.darkBorder}`}}>
               <div className="blog-featured-img relative w-full overflow-hidden" style={{paddingTop:"50%"}}>
-                <img src={featured.heroImg} alt={featured.title} className="absolute top-0 left-0 w-full h-full object-cover" />
+                <img src={featured.heroImg} alt={featured.title} className="absolute top-0 left-0 w-full h-full object-cover" loading="lazy" />
                 <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, transparent 40%, rgba(10,10,10,0.8) 100%)"}} />
                 <span className="absolute top-4 left-4 py-1.5 px-3.5 rounded-full text-uv-green-text text-[11px] font-bold tracking-[1.0px] uppercase" style={{background:`${T.green}20`, backdropFilter:"blur(8px)"}}>Featured</span>
               </div>
@@ -2934,7 +2931,7 @@ function BlogPage() {
             {(activeCat==="All" ? BLOG_POSTS.filter(p=>!p.featured) : filtered).map((post,i) => (
               <button key={post.slug} onClick={()=>navigate("blog/"+post.slug)} className="card-hover flex flex-col overflow-hidden rounded-2xl bg-zinc-900 cursor-pointer text-left p-0" style={{border:`1px solid ${T.darkBorder}`}}>
                 <div className="blog-card-img relative w-full overflow-hidden" style={{paddingTop:"52%"}}>
-                  <img src={post.heroImg} alt={post.title} className="absolute top-0 left-0 w-full h-full object-cover" />
+                  <img src={post.heroImg} alt={post.title} className="absolute top-0 left-0 w-full h-full object-cover" loading="lazy" />
                   <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.6) 100%)"}} />
                 </div>
                 <div className="flex-1 flex flex-col" style={{padding:"20px 20px 24px"}}>
@@ -3027,7 +3024,7 @@ function BlogPostPage({ post }) {
     <div className="bg-uv-dark min-h-screen">
       {/* Article hero */}
       <section className="relative overflow-hidden">
-        <img src={post.heroImg} alt={post.title} className="w-full h-[360px] object-cover block" />
+        <img src={post.heroImg} alt={post.title} className="w-full h-[360px] object-cover block" loading="lazy" />
         <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.95) 85%, rgba(18,18,20,1) 100%)"}} />
         <div className="absolute bottom-0 left-0 right-0" style={{padding:"0 24px 20px"}}>
           <div className="blog-article-header max-w-[720px] mx-auto">
@@ -3102,7 +3099,7 @@ function BlogPostPage({ post }) {
           {/* Inline CTA */}
           <div className="mt-12 rounded-[18px] overflow-hidden bg-zinc-900" style={{border:`1px solid ${T.darkBorder}`}}>
             <div className="relative w-full h-[140px] overflow-hidden">
-              <img src="https://unlimitedville.com/images/hero/rural-interior-room.jpg" alt="Get connected with Unlimitedville" className="w-full h-full object-cover" />
+              <img src="https://unlimitedville.com/images/hero/rural-interior-room.jpg" alt="Get connected with Unlimitedville" className="w-full h-full object-cover" loading="lazy" />
               <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.7) 100%)"}} />
             </div>
             <div className="text-center" style={{padding:"28px 28px 32px"}}>
@@ -3126,7 +3123,7 @@ function BlogPostPage({ post }) {
               {relatedPosts.map(rp => (
                 <button key={rp.slug} onClick={()=>navigate("blog/"+rp.slug)} className="card-hover flex flex-col overflow-hidden rounded-2xl bg-zinc-900 cursor-pointer text-left p-0" style={{border:`1px solid ${T.darkBorder}`}}>
                   <div className="relative w-full overflow-hidden" style={{paddingTop:"50%"}}>
-                    <img src={rp.heroImg} alt={rp.title} className="absolute top-0 left-0 w-full h-full object-cover" />
+                    <img src={rp.heroImg} alt={rp.title} className="absolute top-0 left-0 w-full h-full object-cover" loading="lazy" />
                     <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.6) 100%)"}} />
                   </div>
                   <div className="flex-1 flex flex-col" style={{padding:"20px 20px 24px"}}>
@@ -3204,7 +3201,7 @@ function ReviewsPage() {
     <div>
       {/* Hero */}
       <section className="relative bg-uv-dark overflow-hidden" style={{padding:"120px 20px 48px"}}>
-        <img src="https://unlimitedville.com/images/hero/rural-interior-room.jpg" alt="Rural home interior with wireless internet connection" className="absolute w-full h-full object-cover opacity-[0.35]" style={{inset:0}} />
+        <img src="https://unlimitedville.com/images/hero/rural-interior-room.jpg" alt="Rural home interior with wireless internet connection" className="absolute w-full h-full object-cover opacity-[0.35]" loading="lazy" style={{inset:0}} />
         <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.9) 100%)"}} />
         <div className="relative z-[1] text-center max-w-[600px] mx-auto">
           <p className="fade-up fade-up-d2 text-xs font-bold tracking-[3.0px] text-uv-green-text uppercase mb-2.5">Reviews</p>
@@ -3414,7 +3411,7 @@ function SupportPage() {
     <div>
       {/* Hero */}
       <section className="relative bg-uv-dark overflow-hidden" style={{padding:"120px 20px 48px"}}>
-        <img src="https://unlimitedville.com/images/hero/business-coffee-shop.jpg" alt="Coffee shop using portable business internet from Unlimitedville" className="absolute w-full h-full object-cover opacity-[0.35]" style={{inset:0}} />
+        <img src="https://unlimitedville.com/images/hero/business-coffee-shop.jpg" alt="Coffee shop using portable business internet from Unlimitedville" className="absolute w-full h-full object-cover opacity-[0.35]" loading="lazy" style={{inset:0}} />
         <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.9) 100%)"}} />
         <div className="relative z-[1] text-center max-w-[700px] w-full mx-auto">
           <p className="fade-up fade-up-d2 text-xs font-bold tracking-[3.0px] text-uv-green-text uppercase mb-2.5">Support</p>
@@ -3521,9 +3518,7 @@ function LoginPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rememberMe, setRememberMe] = React.useState(false);
-  useSEO("Member Login | Unlimitedville", "Sign in to your Unlimitedville account.", "login", { noindex: true });
-
-  useSEO("Sign In | Unlimitedville", "Sign in to your Unlimitedville account to manage your plan, track usage, and update billing.");
+  useSEO("Member Login | Unlimitedville", "Sign in to your Unlimitedville account to manage your plan, track usage, and update billing.", "login", { noindex: true });
 
   const handleSignIn = () => {
     // Simulate login - navigate to account page
@@ -4194,7 +4189,7 @@ function SolutionsHub() {
             {SOLUTIONS_LIST.map((s,i) => (
               <button key={i} onClick={()=>navigate(s.slug)} className="card-hover relative overflow-hidden rounded-[18px] bg-zinc-900 cursor-pointer p-0 text-left flex flex-col" style={{border:`1px solid ${T.darkBorder}`}}>
                 <div className="relative w-full overflow-hidden" style={{paddingTop:"50%"}}>
-                  <img src={s.heroImg || SITE_IMG} alt={s.navLabel} className="absolute top-0 left-0 w-full h-full object-cover" />
+                  <img src={s.heroImg || SITE_IMG} alt={s.navLabel} className="absolute top-0 left-0 w-full h-full object-cover" loading="lazy" />
                   <div className="absolute" style={{inset:0, background:"linear-gradient(180deg, transparent 30%, rgba(10,10,10,0.7) 100%)"}} />
                 </div>
                 <div className="flex-1 flex flex-col" style={{padding:"20px 24px 24px"}}>
