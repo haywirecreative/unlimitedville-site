@@ -4002,7 +4002,7 @@ function Footer() {
         <div className="flex justify-between items-center mt-3.5">
           <p className="text-xs text-zinc-700">&copy; 2026 Unlimitedville. All rights reserved.</p>
           <div className="flex gap-3.5">
-            <a href="https://unlimitedville.com/privacy" target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-500">Privacy</a>
+            <a href="#" onClick={e=>{e.preventDefault();navigate("privacy");}} className="text-xs text-zinc-500">Privacy</a>
             <a href="#" onClick={e=>{e.preventDefault();navigate("terms");}} className="text-xs text-zinc-500">Terms</a>
           </div>
         </div>
@@ -4016,6 +4016,7 @@ function Footer() {
    TERMS OF SERVICE PAGE
    ═══════════════════════════════════════ */
 function TermsPage() {
+  const { navigate } = useApp();
   useSEO("Terms of Service | Unlimitedville", "Unlimitedville terms of service, membership agreement, cancellation policy, and data usage guidelines.", "terms");
   return (
     <div className="min-h-screen bg-uv-dark pt-[100px] pb-16">
@@ -4041,7 +4042,7 @@ function TermsPage() {
 
             <div>
               <h2 className="text-xl font-bold text-white mb-3">One-Time Membership Fee</h2>
-              <p>Upon becoming a member, you are responsible for paying a One-Time Membership Fee for each subscription. This covers the setup, administration and support of each subscription. This fee is only charged once and can be applied to a device upgrade or transference between plans.</p>
+              <p>Upon becoming a member, you are responsible for paying a One-Time Membership Fee (also referred to as a "Membership Fee," "Activation Fee," or "Signup Fee") for each subscription. This covers the setup, administration and support of each subscription. This fee is only charged once and can be applied to a device upgrade or transference between plans.</p>
             </div>
 
             <div>
@@ -4082,7 +4083,7 @@ function TermsPage() {
                 <p className="font-semibold text-zinc-200">SMS Messaging Consent Requirements:</p>
                 <p>By submitting your phone number, you consent to receiving SMS messages from Unlimitedville. Message and data rates may apply. Message frequency varies based on your account activity, service alerts, and support needs. You may reply STOP at any time to opt out of messages. You may reply HELP for more information. Your personal information, including your mobile number, will not be shared with third parties for marketing or promotional purposes. SMS opt-in information and consent will not be sold or provided to third parties for their own marketing use.</p>
                 <p>SMS messaging may be used for: order confirmations, account notices, support communication, network coverage alerts, and optional marketing content (only if explicitly opted in).</p>
-                <p>For complete details, please review our full Privacy Policy located at: <a href="https://unlimitedville.com/privacy" target="_blank" rel="noopener noreferrer" className="text-uv-green-text font-semibold">unlimitedville.com/privacy</a></p>
+                <p>For complete details, please review our full <a href="#" onClick={e=>{e.stopPropagation();e.preventDefault();navigate("privacy");}} className="text-uv-green-text font-semibold">Privacy Policy</a>.</p>
               </div>
             </div>
 
@@ -4118,7 +4119,127 @@ function TermsPage() {
 
             <div>
               <h2 className="text-xl font-bold text-white mb-3">Data Usage</h2>
-              <p>All of our plans (except for Unlimitedville LITE) include unlimited high-speed data for normal internet usage. Surfing/downloading illegal content as well as data abuse is prohibited. Data abusers are those who purposefully push limits or conduct known illegal activity such as torrenting. Members who consistently use over 800+ GBs for consecutive months, in some limited cases could be asked to split your usage between two Unlimitedville memberships, as that is typically considered outside of normal household internet usage. Limiting excessive data use allows us to continue providing great service to all members.</p>
+              <p>All of our plans (except for Unlimitedville LITE) include unlimited high-speed data for normal internet usage. Surfing/downloading illegal content as well as data abuse is prohibited. Data abusers are those who purposefully push limits or conduct known illegal activity such as torrenting. Members who consistently use over 1.2 TB for consecutive months, in some limited cases could be asked to split your usage between two Unlimitedville memberships, as that is typically considered outside of normal household internet usage. Limiting excessive data use allows us to continue providing great service to all members.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   PRIVACY POLICY PAGE
+   ═══════════════════════════════════════ */
+function PrivacyPage() {
+  useSEO("Privacy Policy | Unlimitedville", "Unlimitedville privacy policy covering data collection, SMS messaging consent, and how we protect your information.", "privacy");
+  return (
+    <div className="min-h-screen bg-uv-dark pt-[100px] pb-16">
+      <div className="section-inner py-0 px-5">
+        <div className="max-w-[800px] mx-auto">
+          <h1 className="text-3xl font-black text-white tracking-tight mb-2">Privacy Policy</h1>
+          <p className="text-sm text-zinc-500 mb-8">Updated November 18, 2025</p>
+
+          <div className="text-[15px] text-zinc-300 leading-relaxed" style={{display:"flex", flexDirection:"column", gap:"24px"}}>
+            <p>Unlimitedville ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you interact with our website, services, or SMS messaging program.</p>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">Information We Collect</h2>
+              <div style={{display:"flex", flexDirection:"column", gap:"12px"}}>
+                <p>We may collect personal information that you provide directly to us, including your name, email address, phone number, billing details, and service-related information.</p>
+                <p>We may also collect technical data automatically, such as IP address, browser type, device identifiers, and browsing behavior.</p>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">How We Use Your Information</h2>
+              <p className="mb-3">We use your information to:</p>
+              <div style={{display:"flex", flexDirection:"column", gap:"8px", paddingLeft:"8px"}}>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Provide and manage your Unlimitedville service</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Process orders, payments, and membership updates</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Communicate service-related updates</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Send customer support responses</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Send SMS messages when you opt in</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Improve and maintain our website and service experience</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Comply with legal, regulatory, or security requirements</p>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">SMS Messaging Policy</h2>
+              <div style={{display:"flex", flexDirection:"column", gap:"12px"}}>
+                <p>By submitting your phone number through our website, checkout, support forms, or service portals, you consent to receiving SMS messages from Unlimitedville. These messages may include:</p>
+                <div style={{display:"flex", flexDirection:"column", gap:"8px", paddingLeft:"8px"}}>
+                  <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Service updates</p>
+                  <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Account notifications</p>
+                  <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Support responses</p>
+                  <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Optional marketing or promotional messages (only when explicitly opted in)</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-5 rounded-uv-md" style={{background:"rgba(255,255,255,0.03)", border:`1px solid ${T.darkBorder}`}}>
+              <h3 className="text-base font-bold text-white mb-3">Required Disclosures</h3>
+              <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+                <p>By clicking SUBMIT or otherwise providing your phone number, you consent to receive SMS messages from Unlimitedville.</p>
+                <p>Message and data rates may apply.</p>
+                <p>Message frequency varies and may include recurring messages.</p>
+                <p>You may reply STOP to opt out of future messaging.</p>
+                <p>You may reply HELP for assistance.</p>
+                <p>Your mobile information will not be shared with third parties or affiliates for marketing or promotional purposes.</p>
+                <p>The above exclusions do not apply to data sharing required for servicing your account or delivering SMS messages (e.g., our SMS messaging provider).</p>
+                <p className="font-semibold text-zinc-200">Your text messaging opt-in data and consent will not be shared with any third party for marketing purposes.</p>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">How We Share Information</h2>
+              <div style={{display:"flex", flexDirection:"column", gap:"12px"}}>
+                <p>We do not sell or share your personal information with third parties for their marketing purposes.</p>
+                <p className="mb-1">We may share information with:</p>
+                <div style={{display:"flex", flexDirection:"column", gap:"8px", paddingLeft:"8px"}}>
+                  <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Service providers that help operate our website, billing system, CRM, or SMS platform</p>
+                  <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Carriers or vendors needed to deliver your service</p>
+                  <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Legal authorities, if required by law</p>
+                </div>
+                <p>All vendors are required to maintain strict confidentiality and security.</p>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">Your Choices</h2>
+              <div style={{display:"flex", flexDirection:"column", gap:"8px", paddingLeft:"8px"}}>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Opt out of SMS messaging at any time</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Update your personal information</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Request deletion of account information (subject to service obligations)</p>
+                <p className="flex items-start gap-2"><span className="text-uv-green-text mt-[2px]">--</span> Disable cookies or analytics tracking in your browser</p>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">Data Security</h2>
+              <p>We use administrative, technical, and physical safeguards to protect your information. While we take reasonable precautions, no transmission of data over the Internet is ever 100% secure.</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">Links to Other Websites</h2>
+              <p>Our website may contain links to third-party websites. We are not responsible for their privacy policies or content.</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">Changes to This Policy</h2>
+              <p>We may update this Privacy Policy periodically. Changes will be posted on this page with an updated "Last Updated" date.</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">Contact Us</h2>
+              <div style={{display:"flex", flexDirection:"column", gap:"8px"}}>
+                <p>If you have questions about this Privacy Policy or how your information is used, please contact us at:</p>
+                <p className="font-semibold text-white">Unlimitedville Support</p>
+                <p>Email: <a href="mailto:support@unlimitedville.com" className="text-uv-green-text font-semibold">support@unlimitedville.com</a></p>
+                <p>Website: <a href="https://unlimitedville.com" className="text-uv-green-text font-semibold">unlimitedville.com</a></p>
+                <p>Phone: <a href="tel:+18884222907" className="text-uv-green-text font-semibold">888-422-2907</a></p>
+              </div>
             </div>
           </div>
         </div>
@@ -4479,6 +4600,7 @@ function App() {
       case "starlink-compare": return <VsStarlinkPage />;
       case "coverage": return <CoveragePage />;
       case "terms": return <TermsPage />;
+      case "privacy": return <PrivacyPage />;
       default:
         /* Blog post routing -- blog/slug */
         if (page.startsWith("blog/")) {
